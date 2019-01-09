@@ -4,7 +4,6 @@
   "type": "project",
   "license": "GPL-2.0-or-later",
   "config": {
-    "vendor-dir": "packages/juimage/vendor",
     "optimize-autoloader": true,
     "use-include-path": false,
     "prepend-autoloader": true,
@@ -23,14 +22,19 @@
       "role": "Developer"
     }
   ],
+  "autoload": {
+    "classmap": [
+      "classes/phpthumb"
+    ]
+  },
   "suggest": {
     "ext-gd": "PHP GD library",
     "ext-imagick": "PHP ImageMagick"
   },
   "require": {
+    "roave/security-advisories": "dev-master",
     "php": ">=5.5.0",
     "ext-mbstring": "*",
-    "james-heinrich/phpthumb": "*",
     "rosell-dk/webp-convert": "^1.3"
   }
 }
