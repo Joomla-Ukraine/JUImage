@@ -154,7 +154,11 @@ class Image
 
 		if( $attr[ 'webp' ] === true )
 		{
-			$this->createWebPThumb($this->path . '/' . $outpute, [ 'q' => $attr[ 'q' ] ]);
+			$this->createWebPThumb($this->path . '/' . $outpute, [
+				'q'         => isset($attr[ 'q' ]) ? $attr[ 'q' ] : 'auto',
+				'webp_q'    => isset($attr[ 'webp_q' ]) ? $attr[ 'webp_q' ] : 'auto',
+				'webp_maxq' => isset($attr[ 'webp_maxq' ]) ? $attr[ 'webp_maxq' ] : '85',
+			]);
 
 			$outpute = (object) [
 				'img'  => $outpute,
@@ -177,12 +181,15 @@ class Image
 	{
 		if( !file_exists($destination = $source . '.webp') )
 		{
-			return WebPConvert::convert($source, $destination, [
-				'quality'     => isset($options[ 'q' ]) ? $options[ 'q' ] - 5 : 80,
-				'max-quality' => isset($options[ 'q' ]) ? $options[ 'q' ] + 10 : 90,
-				'metadata'    => 'none',
-				'converters'  => [ 'imagick', 'gd' ]
-			]);
+			$webp_maxq    = [ 'max-quality' => ($options[ 'webp_maxq' ] > 90) ? 90 : ($options[ 'webp_maxq' ] + 10) ];
+			$webp_options = [
+				'quality'    => $options[ 'q' ],
+				'metadata'   => 'none',
+				'converters' => [ 'imagick', 'gd' ]
+			];
+			$params       = array_merge($webp_maxq, $webp_options);
+
+			return WebPConvert::convert($source, $destination, $params);
 		}
 
 		return false;
