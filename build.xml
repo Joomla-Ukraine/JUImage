@@ -1,10 +1,10 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.0"/>
+    <property name="VERSION" value="3.1"/>
     <property name="JOOMLA" value="3.9.1"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
-    <property name="filename" value="lib_juimage_${VERSION}.zip"/>
+    <property name="filename" value="lib_juimage_v${VERSION}.zip"/>
 
     <tstamp>
         <format property="DATE" pattern="%d.%m.%Y"/>

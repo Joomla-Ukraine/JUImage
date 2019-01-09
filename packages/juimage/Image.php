@@ -25,14 +25,17 @@ class Image
 {
 	protected $path;
 
+	protected $img_blank;
+
 	/**
 	 * Image constructor.
 	 *
 	 * @param bool|mixed|string $path
 	 */
-	public function __construct($path = JPATH_BASE)
+	public function __construct($path = JPATH_BASE, $img_blank = 'libraries/julib/')
 	{
-		$this->path = $path;
+		$this->path      = $path;
+		$this->img_blank = $img_blank;
 	}
 
 	/**
@@ -121,7 +124,7 @@ class Image
 		if( $_error === true )
 		{
 			$error_image = implode($error_image);
-			$url         = $error_image === '' ? $this->path . '/libraries/julib/noimage.png' : $error_image;
+			$url         = $error_image === '' ? $this->path . '/' . $this->img_blank . 'noimage.png' : $error_image;
 		}
 
 		$wh        = implode('x', $wh);
@@ -235,7 +238,7 @@ class Image
 				}
 			}
 
-			$phpThumb->setSourceFilename($this->path . '/libraries/julib/blank.png');
+			$phpThumb->setSourceFilename($this->path . '/' . $this->img_blank . 'blank.png');
 			$phpThumb->setParameter('fltr', 'clr|' . implode($cover));
 		}
 		else
