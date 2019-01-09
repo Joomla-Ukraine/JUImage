@@ -39,6 +39,8 @@
         <delete file="${temp}/juimage.xml"/>
         <copy file="${temp}/temp/juimage.xml" todir="${temp}"/>
 
+        <delete file="${temp}/juimage/composer.json"/>
+        <delete file="${temp}/juimage/composer.lock"/>
         <delete file="${temp}/juimage/vendor/composer/installed.json"/>
         <delete file="${temp}/juimage/vendor/composer/LICENSE"/>
         <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/build"/>
