@@ -12,6 +12,7 @@
     <packager>Joomla! Ukraine</packager>
     <packagerurl>https://joomla-ua.org</packagerurl>
     <files folder="juimage">
+        <folder>classes</folder>
         <folder>vendor</folder>
         <file>Image.php</file>
         <file>noimage.png</file>
