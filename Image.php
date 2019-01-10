@@ -146,7 +146,7 @@ class Image
 
 		$target = $subfolder . '/' . strtolower(substr($imgurl, 0, 150)) . '-' . md5($url . implode('.', $md5)) . $fext;
 
-		$this->makeDir($dir = $this->path . '/' . $subfolder);
+		$this->makeDir($this->path . '/' . $subfolder);
 
 		if( file_exists($this->path . '/' . $target) )
 		{
