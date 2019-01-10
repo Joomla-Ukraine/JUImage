@@ -15,10 +15,10 @@
   ],
   "autoload": {
     "psr-4": {
-      "JUImage\\": ""
+      "JUImage\\": "src/"
     },
     "classmap": [
-      "classes/phpthumb"
+      "src/classes/phpthumb"
     ]
   },
   "config": {
