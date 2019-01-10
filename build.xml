@@ -1,6 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.1"/>
+    <property name="VERSION" value="3.2"/>
     <property name="JOOMLA" value="3.9.1"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
@@ -17,17 +17,27 @@
 
     <target name="temp">
 
-        <copy todir="${temp}">
-            <fileset dir="packages">
+        <copy todir="${temp}/juimage/vendor">
+            <fileset dir="vendor">
                 <include name="**"/>
             </fileset>
         </copy>
+
+        <copy todir="${temp}/juimage/classes">
+            <fileset dir="classes">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <copy file="Image.php" todir="${temp}/juimage"/>
+        <copy file="blank.png" todir="${temp}/juimage"/>
+        <copy file="noimage.png" todir="${temp}/juimage"/>
 
     </target>
 
     <target name="replace">
 
-        <copy file="packages/juimage.xml" todir="${temp}/temp">
+        <copy file="juimage.xml" todir="${temp}/temp">
             <filterchain>
                 <replacetokens>
                     <token key="version" value="${VERSION}"/>
@@ -39,8 +49,6 @@
         <delete file="${temp}/juimage.xml"/>
         <copy file="${temp}/temp/juimage.xml" todir="${temp}"/>
 
-        <delete file="${temp}/juimage/composer.json"/>
-        <delete file="${temp}/juimage/composer.lock"/>
         <delete file="${temp}/juimage/vendor/composer/installed.json"/>
         <delete file="${temp}/juimage/vendor/composer/LICENSE"/>
         <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/build"/>
@@ -53,7 +61,6 @@
         <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/phpunit.xml.dist"/>
         <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/README.md"/>
         <delete dir="${temp}/temp"/>
-
 
     </target>
 
