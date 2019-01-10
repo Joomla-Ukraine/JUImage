@@ -1,0 +1,44 @@
+{
+  "name": "joomla-ua/juimage",
+  "description": "JUImage - library for render thumbs.",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "config": {
+    "optimize-autoloader": true,
+    "use-include-path": false,
+    "prepend-autoloader": true,
+    "prefer-dist": true,
+    "no-dev": true,
+    "sort-packages": true,
+    "archive-format": "zip",
+    "platform": {
+      "php": "5.5"
+    }
+  },
+  "authors": [
+    {
+      "name": "Denys Nosov",
+      "email": "denys@joomla-ua.org",
+      "homepage": "https://joomla-ua.org",
+      "role": "Project Author"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "JUImage\\": ""
+    },
+    "classmap": [
+      "classes/phpthumb"
+    ]
+  },
+  "suggest": {
+    "ext-gd": "PHP GD library",
+    "ext-imagick": "PHP ImageMagick"
+  },
+  "require": {
+    "roave/security-advisories": "dev-master",
+    "php": ">=5.5.0",
+    "ext-mbstring": "*",
+    "rosell-dk/webp-convert": "^1.3"
+  }
+}
