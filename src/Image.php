@@ -12,8 +12,6 @@
 
 namespace JUImage;
 
-include_once __DIR__ . '/vendor/autoload.php';
-
 use WebPConvert\WebPConvert;
 
 /**
