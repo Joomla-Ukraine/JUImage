@@ -1,6 +1,8 @@
 # JUImage
 JUImage - library for render thumbs.
 
+Create thumbs for Joomla! extension or stand-alone use.
+
 ## Demo (All thumbs)
 
 * [Bad Android](https://bad-android.com)
@@ -25,14 +27,12 @@ $juImg = new JUImage\Image();
 
 $image = 'images/sampledata/fruitshop/apple.jpg'
   
-$options = [
-  	'w'     => '300',
-  	'h'     => '100',
-  	'q'     => '77',
-  	'cache' => 'img'
-];
-  
-$thumb = $juImg->render($image, $options);
+$thumb = $juImg->render($image, [
+	'w'     => '300',
+	'h'     => '100',
+	'q'     => '77',
+	'cache' => 'img'
+]);
 
 echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
 ```
@@ -47,14 +47,12 @@ $juImg     = new JUImage\Image( $root_path );
 
 $image = 'images/sampledata/fruitshop/apple.jpg'
   
-$options = [
-  	'w'     => '300',
-  	'h'     => '100',
-  	'q'     => '77',
-  	'cache' => 'img'
-];
-  
-$thumb = $juImg->render($image, $options);
+$thumb = $juImg->render($image, [
+	'w'     => '300',
+	'h'     => '100',
+	'q'     => '77',
+	'cache' => 'img'
+]);
 
 echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
 ```
@@ -64,12 +62,12 @@ echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
 Add option to this array:
 
 ```
-$options = [
+[
   	'w'     => '300',
   	'h'     => '100',
   	'q'     => '77',
   	'cache' => 'img'
-];
+]
 ```
 
 ### WebP support
@@ -81,9 +79,11 @@ require_once(JPATH_SITE . '/libraries/juimage/Image.php');
 
 $juImg = new JUImage\Image();
 
-$imgsource = $juImg->render('apple-china.jpg', [
-	'w'         => '800',
-	'h'         => '420',
+$image = 'images/sampledata/fruitshop/apple.jpg'
+
+$thumb = $juImg->render($image, [
+	'w'     	=> '300',
+	'h'     	=> '100',
 	'q'         => '95',
 	'webp'      => true,
 	'webp_q'    => '80',
@@ -92,8 +92,8 @@ $imgsource = $juImg->render('apple-china.jpg', [
 ?>
 
 <picture>
-	<source srcset="<?php echo $imgsource->webp; ?>" type="image/webp">
-	<img src="<?php echo $imgsource->img; ?>" alt="-">
+	<source srcset="<?php echo $thumb->webp; ?>" type="image/webp">
+	<img src="<?php echo $thumb->img; ?>" alt="Apple" width="300" height="100">
 </picture>
 ```
 
@@ -101,8 +101,8 @@ Display as:
 
 ```
 <picture>
-	<source srcset="img/apple-china.jpg.webp" type="image/webp">
-	<img src="img/apple-china.jpg" alt="-">
+	<source srcset="img/apple.jpg.webp" type="image/webp">
+	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
 </picture>
 ```
 
@@ -148,6 +148,11 @@ Display as:
 ## License
 
 GNU General Public License version 3 or later; see [LICENSE.md](LICENSE.md)
+
+##Software used 
+
+JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich) and [webp-convert
+](https://github.com/rosell-dk/webp-convert) (Bjørn Rosell).
 
 ## Sponsors
 
