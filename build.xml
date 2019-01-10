@@ -1,6 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.2.1"/>
+    <property name="VERSION" value="3.2.2"/>
     <property name="JOOMLA" value="3.9.1"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
@@ -23,13 +23,13 @@
             </fileset>
         </copy>
 
-        <copy todir="${temp}/juimage/classes">
-            <fileset dir="classes">
+        <copy todir="${temp}/juimage/src/classes">
+            <fileset dir="src/classes">
                 <include name="**"/>
             </fileset>
         </copy>
 
-        <copy file="Image.php" todir="${temp}/juimage"/>
+        <copy file="src/Image.php" todir="${temp}/juimage/src"/>
         <copy file="blank.png" todir="${temp}/juimage"/>
         <copy file="noimage.png" todir="${temp}/juimage"/>
 
