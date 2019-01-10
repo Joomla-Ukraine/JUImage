@@ -44,7 +44,6 @@
     "ext-exif": "*",
     "ext-curl": "*",
     "ext-zlib": "*",
-    "roave/security-advisories": "dev-master",
     "rosell-dk/webp-convert": "^1.3"
   }
 }
