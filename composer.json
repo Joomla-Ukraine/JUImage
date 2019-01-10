@@ -1,20 +1,10 @@
 {
   "name": "joomla-ua/juimage",
   "description": "JUImage - library for render thumbs.",
+  "keywords": ["thumbnails", "image-processing", "image", "resize image", "webp", "thumb", "thumbs"],
+  "homepage": "https://joomla-ua.org",
   "type": "project",
   "license": "GPL-2.0-or-later",
-  "config": {
-    "optimize-autoloader": true,
-    "use-include-path": false,
-    "prepend-autoloader": true,
-    "prefer-dist": true,
-    "no-dev": true,
-    "sort-packages": true,
-    "archive-format": "zip",
-    "platform": {
-      "php": "5.5"
-    }
-  },
   "authors": [
     {
       "name": "Denys Nosov",
@@ -31,14 +21,30 @@
       "classes/phpthumb"
     ]
   },
+  "config": {
+    "optimize-autoloader": true,
+    "use-include-path": false,
+    "prepend-autoloader": true,
+    "prefer-dist": true,
+    "no-dev": true,
+    "sort-packages": true,
+    "archive-format": "zip",
+    "platform": {
+      "php": "5.5"
+    }
+  },
   "suggest": {
     "ext-gd": "PHP GD library",
     "ext-imagick": "PHP ImageMagick"
   },
   "require": {
-    "roave/security-advisories": "dev-master",
     "php": ">=5.5.0",
     "ext-mbstring": "*",
+    "ext-gd": "*",
+    "ext-exif": "*",
+    "ext-curl": "*",
+    "ext-zlib": "*",
+    "roave/security-advisories": "dev-master",
     "rosell-dk/webp-convert": "^1.3"
   }
 }
