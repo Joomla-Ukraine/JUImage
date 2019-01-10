@@ -15,13 +15,51 @@ Create thumbs for Joomla! extension or stand-alone use.
 * [JUMultiThumb](https://github.com/Joomla-Ukraine/JUMultiThumb)
 * JURSSPublisher
 
-## Code Example
-### Joomla! Integration
+## Usage
 
-Install library from Joomla! Extension Manager. Code for use in your extension.
+### Stand-alone
+
+#### Composer Install
+
+`composer require joomla-ua/juimage`
+
+You can then later update Guzzle using composer:
+
+`composer update`
+
+#### Code example
+
+After installing, you need to require Composer's autoloader:
 
 ```
-require_once(JPATH_SITE . '/libraries/juimage/Image.php');
+require_once('vendor/autoload.php');
+
+$root_path = $_SERVER['DOCUMENT_ROOT'];
+
+$juImg     = new JUImage\Image( $root_path );
+
+$image = 'images/sampledata/fruitshop/apple.jpg'
+  
+$thumb = $juImg->render($image, [
+	'w'     => '300',
+	'h'     => '100',
+	'q'     => '77',
+	'cache' => 'img'
+]);
+
+echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
+```
+
+### Joomla! Integration
+
+#### Install
+Install extention library (lib_juimage_v3.x.x.zip) using Joomla! Extension Manager. 
+
+#### Code example
+Code for use in your extension.
+
+```
+require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
 
@@ -37,26 +75,6 @@ $thumb = $juImg->render($image, [
 echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
 ```
 	 
-### Stand-alone usage
-
-```
-require_once(JPATH_SITE . '/libraries/juimage/Image.php');
-
-$root_path = $_SERVER['DOCUMENT_ROOT'];
-$juImg     = new JUImage\Image( $root_path );
-
-$image = 'images/sampledata/fruitshop/apple.jpg'
-  
-$thumb = $juImg->render($image, [
-	'w'     => '300',
-	'h'     => '100',
-	'q'     => '77',
-	'cache' => 'img'
-]);
-
-echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
-```
-
 ## Options
 
 Add option to this array:
@@ -75,7 +93,7 @@ Add option to this array:
 ```
 <?php
 
-require_once(JPATH_SITE . '/libraries/juimage/Image.php');
+require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
 
