@@ -3,4 +3,4 @@ dist/
 scripts.txt
 composer.lock
 composer.phar
-/packages/juimage/vendor/
+/vendor/
