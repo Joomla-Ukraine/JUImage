@@ -38,7 +38,7 @@ $root_path = $_SERVER['DOCUMENT_ROOT'];
 
 $juImg     = new JUImage\Image( $root_path );
 
-$image = 'images/sampledata/fruitshop/apple.jpg'
+$image = 'images/sampledata/fruitshop/apple.jpg';
   
 $thumb = $juImg->render($image, [
 	'w'     => '300',
