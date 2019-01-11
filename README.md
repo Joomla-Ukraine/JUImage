@@ -59,12 +59,29 @@ Install extention library (lib_juimage_v3.x.x.zip) using Joomla! Extension Manag
 Code for use in your extension.
 
 ```
+JLoader::register('JUImage',  JPATH_LIBRARIES . '/juimage/JUImage.php');
+
+$juImg = new JUImage();
+
+$image = 'images/sampledata/fruitshop/apple.jpg';
+$thumb = $juImg->render($image, [
+	'w'     => '300',
+	'h'     => '100',
+	'q'     => '77',
+	'cache' => 'img'
+]);
+
+echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
+```
+
+or
+
+```
 require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
 
 $image = 'images/sampledata/fruitshop/apple.jpg';
-  
 $thumb = $juImg->render($image, [
 	'w'     => '300',
 	'h'     => '100',
