@@ -12,6 +12,7 @@
 
 namespace JUImage;
 
+use FastImageSize\FastImageSize;
 use WebPConvert\WebPConvert;
 
 /**
@@ -173,6 +174,23 @@ class Image
 	}
 
 	/**
+	 * @param $img_path
+	 *
+	 * @return object
+	 *
+	 * @since 3.0
+	 */
+	public function size($img_path)
+	{
+		$size = (new FastImageSize)->getImageSize($img_path);
+
+		return (object) [
+			'width'  => $size[ 'width' ],
+			'height' => $size[ 'height' ]
+		];
+	}
+
+	/**
 	 * @param       $source
 	 * @param array $options
 	 *
@@ -180,7 +198,7 @@ class Image
 	 *
 	 * @since 3.0
 	 */
-	public function createWebPThumb($source, array $options = [])
+	private function createWebPThumb($source, array $options = [])
 	{
 		if( !file_exists($destination = $source . '.webp') )
 		{
@@ -208,7 +226,7 @@ class Image
 	 *
 	 * @since 3.0
 	 */
-	public function createThumb($url, $img_cache, $target, array $attr = [])
+	private function createThumb($url, $img_cache, $target, array $attr = [])
 	{
 		$phpThumb = new \phpthumb();
 
@@ -296,7 +314,7 @@ class Image
 	 *
 	 * @since 3.0
 	 */
-	public function makeDir($dir, $mode = 0777)
+	private function makeDir($dir, $mode = 0777)
 	{
 		if( @mkdir($dir, $mode) || is_dir($dir) )
 		{
