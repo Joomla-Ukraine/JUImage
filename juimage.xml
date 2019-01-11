@@ -15,6 +15,7 @@
     <files folder="juimage">
         <folder>src</folder>
         <folder>vendor</folder>
+        <file>JUImage.php</file>
         <file>noimage.png</file>
         <file>blank.png</file>
     </files>
