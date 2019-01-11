@@ -1,18 +1,33 @@
 {
   "name": "joomla-ua/juimage",
   "description": "JUImage - library for render thumbs.",
-  "keywords": ["thumbnails", "image-processing", "image", "resize image", "webp", "thumb", "thumbs"],
+  "keywords": [
+    "thumbnails",
+    "image-processing",
+    "image",
+    "resize image",
+    "webp",
+    "thumb",
+    "thumbs"
+  ],
   "homepage": "https://joomla-ua.org",
-  "type": "project",
-  "license": "GPL-2.0-or-later",
+  "type": "library",
+  "license": "GPL-2.0+",
   "authors": [
     {
       "name": "Denys Nosov",
       "email": "denys@joomla-ua.org",
       "homepage": "https://joomla-ua.org",
-      "role": "Project Author"
+      "role": "Developer"
     }
   ],
+  "support": {
+    "email": "denys@joomla-ua.org",
+    "issues": "https://github.com/Joomla-Ukraine/JUImage/issues",
+    "forum": "https://github.com/Joomla-Ukraine/JUImage/issues",
+    "source": "https://github.com/Joomla-Ukraine/JUImage",
+    "docs": "https://github.com/Joomla-Ukraine/JUImage/blob/master/README.md"
+  },
   "autoload": {
     "psr-4": {
       "JUImage\\": "src/"
@@ -21,6 +36,7 @@
       "src/classes/phpthumb"
     ]
   },
+  "minimum-stability": "stable",
   "config": {
     "optimize-autoloader": true,
     "use-include-path": false,
@@ -33,6 +49,7 @@
       "php": "5.5"
     }
   },
+  "prefer-stable": true,
   "suggest": {
     "ext-gd": "PHP GD library",
     "ext-imagick": "PHP ImageMagick"
