@@ -1,6 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.4"/>
+    <property name="VERSION" value="3.4.1"/>
     <property name="JOOMLA" value="3.9.1"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
@@ -30,6 +30,7 @@
         </copy>
 
         <copy file="src/Image.php" todir="${temp}/juimage/src"/>
+        <copy file="joomla/JUImage.php" todir="${temp}/juimage"/>
         <copy file="script.php" todir="${temp}"/>
         <copy file="blank.png" todir="${temp}/juimage"/>
         <copy file="noimage.png" todir="${temp}/juimage"/>
