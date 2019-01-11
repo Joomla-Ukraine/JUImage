@@ -12,7 +12,7 @@
   ],
   "homepage": "https://joomla-ua.org",
   "type": "library",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Denys Nosov",
@@ -56,11 +56,12 @@
   },
   "require": {
     "php": ">=5.5.0",
-    "ext-mbstring": "*",
-    "ext-gd": "*",
-    "ext-exif": "*",
     "ext-curl": "*",
+    "ext-exif": "*",
+    "ext-gd": "*",
+    "ext-mbstring": "*",
     "ext-zlib": "*",
+    "marc1706/fast-image-size": "1.*",
     "rosell-dk/webp-convert": "^1.3"
   }
 }
