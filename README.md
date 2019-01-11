@@ -97,10 +97,6 @@ echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
 ```
 <?php
 
-require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
-
-$juImg = new JUImage\Image();
-
 $image = 'images/sampledata/fruitshop/apple.jpg';
 
 $thumb = $juImg->render($image, [
@@ -182,7 +178,7 @@ Add option to this array:
 
 GNU General Public License version 3 or later; see [LICENSE.md](LICENSE.md)
 
-##Software used 
+## Software used 
 
 JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich) and [webp-convert
 ](https://github.com/rosell-dk/webp-convert) (Bjørn Rosell).
