@@ -92,19 +92,6 @@ $thumb = $juImg->render($image, [
 echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
 ```
 	 
-## Options
-
-Add option to this array:
-
-```
-[
-  	'w'     => '300',
-  	'h'     => '100',
-  	'q'     => '77',
-  	'cache' => 'img'
-]
-```
-
 ### WebP support
 
 ```
@@ -147,7 +134,18 @@ Display as:
 | webp_q | An integer between 0-100 | auto | Only relevant, when quality is set to "auto". |
 | webp_maxq | An integer between 0-100 | 85 | Only relevant, when quality is set to "auto". |
 
-## Parameters
+## Options
+
+Add option to this array:
+
+```
+[
+  	'w'     => '300',
+  	'h'     => '100',
+  	'q'     => '77',
+  	'cache' => 'img'
+]
+```
 
 | Command | Description |
 | --- | --- |
