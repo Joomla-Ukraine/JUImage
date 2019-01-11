@@ -8,7 +8,10 @@
     "resize image",
     "webp",
     "thumb",
-    "thumbs"
+    "thumbs",
+    "size",
+    "getimagesize",
+    "imagesize"
   ],
   "homepage": "https://joomla-ua.org",
   "type": "library",
