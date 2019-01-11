@@ -69,8 +69,7 @@ class JUImageInstallerScript
 		];
 
 		$folders = [
-			$path . 'classes',
-			$path . 'vendor'
+			$path . 'classes'
 		];
 
 		foreach( $files AS $file )
