@@ -63,7 +63,7 @@ require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
 
-$image = 'images/sampledata/fruitshop/apple.jpg'
+$image = 'images/sampledata/fruitshop/apple.jpg';
   
 $thumb = $juImg->render($image, [
 	'w'     => '300',
@@ -97,7 +97,7 @@ require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
 
-$image = 'images/sampledata/fruitshop/apple.jpg'
+$image = 'images/sampledata/fruitshop/apple.jpg';
 
 $thumb = $juImg->render($image, [
 	'w'     	=> '300',
