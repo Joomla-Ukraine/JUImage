@@ -11,10 +11,10 @@
     <version>@version@</version>
     <packager>Joomla! Ukraine</packager>
     <packagerurl>https://joomla-ua.org</packagerurl>
+    <scriptfile>script.php</scriptfile>
     <files folder="juimage">
-        <folder>classes</folder>
+        <folder>src</folder>
         <folder>vendor</folder>
-        <file>Image.php</file>
         <file>noimage.png</file>
         <file>blank.png</file>
     </files>
