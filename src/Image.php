@@ -4,7 +4,7 @@
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2016-2019 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
  * @since          3.0
@@ -71,53 +71,53 @@ class Image
 				}
 			}
 
-			$imgfile  = pathinfo($url);
-			$img_name = $imgfile[ 'filename' ];
-			$imgurl   = strtolower($img_name);
-			$imgurl   = preg_replace('#[[:punct:]]#', '', $imgurl);
-			$imgurl   = preg_replace('#[а-яёєїіА-ЯЁЄЇІ]#iu', '', $imgurl);
-			$imgurl   = str_replace([ ' +', ' ' ], [ '_', '' ], $imgurl);
+			$img_file = pathinfo($url);
+			$img_name = $img_file[ 'filename' ];
+			$img_url  = strtolower($img_name);
+			$img_url  = preg_replace('#[[:punct:]]#', '', $img_url);
+			$img_url  = preg_replace('#[а-яёєїіА-ЯЁЄЇІ]#iu', '', $img_url);
+			$img_url  = str_replace([ ' +', ' ' ], [ '_', '' ], $img_url);
 		}
 		else
 		{
 			$_error   = false;
 			$img_name = implode($attr);
-			$imgurl   = 'cover';
+			$img_url  = 'cover';
 		}
 
-		$fext        = [];
-		$wh          = [];
+		$file_ext    = [];
+		$img_size    = [];
 		$img_cache   = [];
 		$error_image = [];
 
 		if( !empty($attr) && is_array($attr) )
 		{
-			foreach( $attr as $whk => $whv )
+			foreach( $attr as $key => $value )
 			{
-				if( $whk === 'f' )
+				if( $key === 'f' )
 				{
-					$fext[] = $whv;
+					$file_ext[] = $value;
 				}
 
-				if( $whk === 'w' || $whk === 'h' )
+				if( $key === 'w' || $key === 'h' )
 				{
-					$wh[] = $whv;
+					$img_size[] = $value;
 				}
 
-				if( $whk === 'cache' )
+				if( $key === 'cache' )
 				{
-					$img_cache[] = $whv;
+					$img_cache[] = $value;
 				}
 
-				if( $whk === 'error_image' )
+				if( $key === 'error_image' )
 				{
-					$error_image[] = $whv;
+					$error_image[] = $value;
 				}
 			}
 		}
 
-		$fext      = implode($fext);
-		$fext      = '.' . ($fext === '' ? 'jpg' : $fext);
+		$file_ext  = implode($file_ext);
+		$file_ext  = '.' . ($file_ext === '' ? 'jpg' : $file_ext);
 		$img_cache = implode($img_cache);
 		$img_cache = $img_cache === '' ? 'cache' : $img_cache;
 
@@ -127,9 +127,9 @@ class Image
 			$url         = $error_image === '' ? $this->path . '/' . $this->img_blank . 'noimage.png' : $error_image;
 		}
 
-		$wh        = implode('x', $wh);
-		$wh        = ($wh === '' ? '0' : $wh);
-		$subfolder = $img_cache . '/' . $wh . '/' . strtolower(substr(md5($img_name), -1));
+		$img_size  = implode('x', $img_size);
+		$img_size  = ($img_size === '' ? '0' : $img_size);
+		$subfolder = $img_cache . '/' . $img_size . '/' . strtolower(substr(md5($img_name), -1));
 
 		$md5 = [];
 		if( !empty($attr) && is_array($attr) )
@@ -142,7 +142,7 @@ class Image
 			}
 		}
 
-		$target = $subfolder . '/' . strtolower(substr($imgurl, 0, 150)) . '-' . md5($url . implode('.', $md5)) . $fext;
+		$target = $subfolder . '/' . strtolower(substr($img_url, 0, 150)) . '-' . md5($url . implode('.', $md5)) . $file_ext;
 
 		$this->makeDir($this->path . '/' . $subfolder);
 
@@ -155,7 +155,7 @@ class Image
 			$outpute = $this->createThumb($url, $img_cache, $target, $attr);
 		}
 
-		if( $attr[ 'webp' ] === true )
+		if( isset($attr[ 'webp' ]) === true )
 		{
 			$this->createWebPThumb($this->path . '/' . $outpute, [
 				'q'         => isset($attr[ 'q' ]) ? $attr[ 'q' ] : 'auto',
@@ -213,10 +213,13 @@ class Image
 		$phpThumb = new \phpthumb();
 
 		$phpThumb->resetObject();
+
 		$phpThumb->setParameter('config_max_source_pixels', '0');
 		$phpThumb->setParameter('config_temp_directory', $this->path . '/' . $img_cache . '/');
 		$phpThumb->setParameter('config_cache_directory', $this->path . '/' . $img_cache . '/');
+
 		$phpThumb->setCacheDirectory();
+
 		$phpThumb->setParameter('config_cache_maxfiles', '0');
 		$phpThumb->setParameter('config_cache_maxsize', '0');
 		$phpThumb->setParameter('config_cache_maxage', '0');
@@ -297,12 +300,11 @@ class Image
 	{
 		if( @mkdir($dir, $mode) || is_dir($dir) )
 		{
-			$indexfile    = $dir . '/index.html';
-			$indexcontent = '<!DOCTYPE html><title></title>';
-
-			if( !file_exists($indexfile) )
+			if( !file_exists($indexfile = $dir . '/index.html') )
 			{
-				$file = fopen($indexfile, 'wb');
+				$indexcontent = '<!DOCTYPE html><title></title>';
+				$file         = fopen($indexfile, 'wb');
+
 				fwrite($file, $indexcontent);
 				fclose($file);
 			}
