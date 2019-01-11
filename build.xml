@@ -1,7 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.4.1"/>
-    <property name="JOOMLA" value="3.9.1"/>
+    <property name="VERSION" value="3.5"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
     <property name="filename" value="lib_juimage_v${VERSION}.zip"/>
@@ -62,6 +61,10 @@
         <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/LICENSE"/>
         <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/phpunit.xml.dist"/>
         <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/README.md"/>
+        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/composer.json"/>
+        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/composer.lock"/>
+        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/LICENSE"/>
+        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/LICENSE"/>
         <delete dir="${temp}/temp"/>
 
     </target>
