@@ -35,12 +35,9 @@ After installing, you need to require Composer's autoloader:
 require_once('vendor/autoload.php');
 
 $root_path = $_SERVER['DOCUMENT_ROOT'];
-
 $juImg     = new JUImage\Image( $root_path );
 
-$image = 'images/sampledata/fruitshop/apple.jpg';
-  
-$thumb = $juImg->render($image, [
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     => '300',
 	'h'     => '100',
 	'q'     => '77',
@@ -63,8 +60,7 @@ JLoader::register('JUImage',  JPATH_LIBRARIES . '/juimage/JUImage.php');
 
 $juImg = new JUImage();
 
-$image = 'images/sampledata/fruitshop/apple.jpg';
-$thumb = $juImg->render($image, [
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     => '300',
 	'h'     => '100',
 	'q'     => '77',
@@ -81,8 +77,7 @@ require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
 
-$image = 'images/sampledata/fruitshop/apple.jpg';
-$thumb = $juImg->render($image, [
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     => '300',
 	'h'     => '100',
 	'q'     => '77',
@@ -97,9 +92,7 @@ echo '<img src="'. $thumb .'" alt="Apple" width="300" height="100">';
 ```
 <?php
 
-$image = 'images/sampledata/fruitshop/apple.jpg';
-
-$thumb = $juImg->render($image, [
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     	=> '300',
 	'h'     	=> '100',
 	'q'         => '95',
