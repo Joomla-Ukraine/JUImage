@@ -71,7 +71,7 @@ $thumb = $juImg->render($image, [
 	'cache' => 'img'
 ]);
 
-echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
+echo '<img src="'. $thumb .'" alt="Apple" width="300" height="100">';
 ```
 
 or
@@ -89,7 +89,7 @@ $thumb = $juImg->render($image, [
 	'cache' => 'img'
 ]);
 
-echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
+echo '<img src="'. $thumb .'" alt="Apple" width="300" height="100">';
 ```
 	 
 ### WebP support
@@ -129,6 +129,21 @@ Display as:
 | webp | Boolean | false | If `true` add support WebP image. For this option use tag `<picture>`, see in example. |
 | webp_q | An integer between 0-100 | auto | Only relevant, when quality is set to "auto". |
 | webp_maxq | An integer between 0-100 | 85 | Only relevant, when quality is set to "auto". |
+
+### Image size support
+
+```
+<?php
+
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
+	'w' => '300'
+]);
+
+// Image size for thumb
+$size = $juImg->size($thumb);
+	
+echo '<img src="'. $thumb .'" alt="Apple" width="'. $size->width .'" height="'. $size->height .'">';	
+```
 
 ## Options
 
@@ -180,8 +195,8 @@ GNU General Public License version 3 or later; see [LICENSE.md](LICENSE.md)
 
 ## Software used 
 
-JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich) and [webp-convert
-](https://github.com/rosell-dk/webp-convert) (Bjørn Rosell).
+JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich), [webp-convert
+](https://github.com/rosell-dk/webp-convert) (Bjørn Rosell) and [fast-image-size library](https://github.com/marc1706/fast-image-size) (Marc Alexander).
 
 ## Sponsors
 
