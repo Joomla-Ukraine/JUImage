@@ -123,6 +123,24 @@ Display as:
 | webp_q | An integer between 0-100 | auto | Only relevant, when quality is set to "auto". |
 | webp_maxq | An integer between 0-100 | 85 | Only relevant, when quality is set to "auto". |
 
+### YouTube and Vimeo support
+
+Youtube:
+```
+$thumb = $juImg->render('https://www.youtube.com/watch?v=xxxxxxxxxxx', [
+	'w'     => '300',
+	'h'     => '100',
+]);
+```
+
+Vimeo:
+```
+$thumb = $juImg->render('https://vimeo.com/xxxxxxxxx', [
+	'w'     => '300',
+	'h'     => '100',
+]);
+```
+
 ### Image size support
 
 ```
