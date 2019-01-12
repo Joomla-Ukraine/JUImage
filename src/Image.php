@@ -57,7 +57,9 @@ class Image
 			$_error = false;
 			if( strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0 )
 			{
+				$url     = $this->createVideoThumb($url);
 				$headers = @get_headers($url);
+
 				if( strpos($headers[ 0 ], '200') === false )
 				{
 					$_error = true;
@@ -188,6 +190,84 @@ class Image
 			'width'  => $size[ 'width' ],
 			'height' => $size[ 'height' ]
 		];
+	}
+
+	/**
+	 * @param $url
+	 *
+	 * @return bool|string
+	 *
+	 * @since 3.0
+	 */
+	public function createVideoThumb($url)
+	{
+		$urls = parse_url($url);
+		$yid  = '';
+		$vid  = '';
+
+		if( $urls[ 'host' ] === 'vimeo.com' )
+		{
+			$vid = ltrim($urls[ 'path' ], '/');
+		}
+		elseif( $urls[ 'host' ] === 'youtu.be' )
+		{
+			$yid = ltrim($urls[ 'path' ], '/');
+		}
+		elseif( strpos($urls[ 'path' ], 'embed') == 1 )
+		{
+			$yid = end(explode('/', $urls[ 'path' ]));
+		}
+		elseif( strpos($url, '/') === false )
+		{
+			$yid = $url;
+		}
+		else
+		{
+			parse_str($urls[ 'query' ], $output);
+
+			$yid     = $output[ 'v' ];
+			$feature = '';
+
+			if( !empty($feature) )
+			{
+				$yid = end(explode('v=', $urls[ 'query' ]));
+				$arr = explode('&', $yid);
+				$yid = $arr[ 0 ];
+			}
+		}
+
+		if( $yid )
+		{
+			$yt_path = 'https://img.youtube.com/vi/' . $yid;
+			if( $this->http($yt_path . '/maxresdefault.jpg') == '200' )
+			{
+				return $yt_path . '/maxresdefault.jpg';
+			}
+
+			if( $this->http($yt_path . '/hqdefault.jpg') == '200' )
+			{
+				return $yt_path . '/hqdefault.jpg';
+			}
+
+			if( $this->http($yt_path . '/mqdefault.jpg') == '200' )
+			{
+				return $yt_path . '/mqdefault.jpg';
+			}
+
+			return $yt_path . '/default.jpg';
+		}
+
+		if( $vid )
+		{
+			$vimeo_object = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $vid . '.json'));
+
+			if( !empty($vimeo_object) )
+			{
+				return $vimeo_object[ 0 ]->thumbnail_large;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -336,5 +416,50 @@ class Image
 		}
 
 		return @mkdir($dir, $mode);
+	}
+
+	/**
+	 * @param $url
+	 *
+	 * @return bool|string
+	 *
+	 * @since 3.0
+	 */
+	private function http($url)
+	{
+		if( function_exists('curl_version') )
+		{
+			$header = $this->cURL($url);
+			$head   = substr($header, 9, 3);
+		}
+		else
+		{
+			$header = get_headers($url);
+			$head   = substr($header[ 0 ], 9, 3);
+		}
+
+		return $head;
+	}
+
+	/**
+	 * @param $url
+	 *
+	 * @return bool|string
+	 *
+	 * @since 3.0
+	 */
+	private function cURL($url)
+	{
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+		return curl_exec($ch);
 	}
 }
