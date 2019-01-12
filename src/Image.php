@@ -199,7 +199,7 @@ class Image
 	 *
 	 * @since 3.0
 	 */
-	public function createVideoThumb($url)
+	private function createVideoThumb($url)
 	{
 		$urls = parse_url($url);
 		$yid  = '';
