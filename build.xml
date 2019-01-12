@@ -1,6 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.5"/>
+    <property name="VERSION" value="3.5.1"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
     <property name="filename" value="lib_juimage_v${VERSION}.zip"/>
