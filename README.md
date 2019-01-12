@@ -23,7 +23,7 @@ Create thumbs for Joomla! extension or stand-alone use.
 
 `composer require joomla-ua/juimage`
 
-You can then later update Guzzle using composer:
+You can then later update using composer:
 
 `composer update`
 
