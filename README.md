@@ -34,8 +34,10 @@ After installing, you need to require Composer's autoloader:
 ```
 require_once('vendor/autoload.php');
 
-$root_path = $_SERVER['DOCUMENT_ROOT'];
-$juImg     = new JUImage\Image( $root_path );
+$config['root_path'] = $_SERVER[ 'DOCUMENT_ROOT'];
+$config['img_blank'] = 'images/logos';
+
+$juImg = new JUImage\Image($config);
 
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     => '300',
@@ -44,8 +46,13 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'cache' => 'img'
 ]);
 
-echo '<img src=". $thumb ."' alt="Apple" width="300" height="100">';
+echo '<img src="' . $thumb . '" alt="Apple" width="300" height="100">';
 ```
+
+| Parameters | Description |
+| --- | --- |
+| `$root_path` | Root path for your site. Default define `JPATH_BASE` |
+| `$img_blank` | Path to default image. For example if image not found display default image `noimage.png` |
 
 ### Joomla! Integration
 
