@@ -28,13 +28,12 @@ class JUImage extends Image
 	/**
 	 * JUImage constructor.
 	 *
-	 * @param        $path
-	 * @param string $img_blank
+	 * @param array $config
 	 *
 	 * @since  3.0
 	 */
-	public function __construct($path = JPATH_BASE, $img_blank = 'libraries/juimage/')
+	public function __construct(array $config = [])
 	{
-		parent::__construct($path, $img_blank);
+		parent::__construct($config);
 	}
 }
