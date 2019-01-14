@@ -22,20 +22,17 @@ use WebPConvert\WebPConvert;
  */
 class Image
 {
-	protected $path;
-
-	protected $img_blank;
+	protected $config;
 
 	/**
 	 * Image constructor.
 	 *
-	 * @param        $path
-	 * @param string $img_blank
+	 * @param array $config
 	 */
-	public function __construct($path = JPATH_BASE, $img_blank = 'libraries/juimage/')
+	public function __construct(array $config = [])
 	{
-		$this->path      = $path;
-		$this->img_blank = $img_blank;
+		$this->path      = isset($config['root_path']) ? $config['root_path'] : JPATH_BASE;
+		$this->img_blank = isset($config['img_blank']) ? $config['img_blank'] : 'libraries/juimage/';
 	}
 
 	/**
