@@ -31,8 +31,8 @@ class Image
 	 */
 	public function __construct(array $config = [])
 	{
-		$this->path      = isset($config['root_path']) ? $config['root_path'] : JPATH_BASE;
-		$this->img_blank = isset($config['img_blank']) ? $config['img_blank'] : 'libraries/juimage/';
+		$this->path      = isset($config[ 'root_path' ]) ? $config[ 'root_path' ] : JPATH_BASE;
+		$this->img_blank = isset($config[ 'img_blank' ]) ? $config[ 'img_blank' ] : 'libraries/juimage/';
 	}
 
 	/**
@@ -45,19 +45,19 @@ class Image
 	 */
 	public function render($url, array $attr = [])
 	{
-		if( $url !== 'cover' )
+		if($url !== 'cover')
 		{
 			$url = trim($url, '/');
 			$url = trim($url);
 			$url = rawurldecode($url);
 
 			$_error = false;
-			if( strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0 )
+			if(strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0)
 			{
 				$url     = $this->createVideoThumb($url);
 				$headers = @get_headers($url);
 
-				if( strpos($headers[ 0 ], '200') === false )
+				if(strpos($headers[ 0 ], '200') === false)
 				{
 					$_error = true;
 				}
@@ -65,7 +65,7 @@ class Image
 			else
 			{
 				$url = $this->path . '/' . $url;
-				if( !file_exists($url) )
+				if(!file_exists($url))
 				{
 					$_error = true;
 				}
@@ -90,26 +90,26 @@ class Image
 		$img_cache   = [];
 		$error_image = [];
 
-		if( !empty($attr) && is_array($attr) )
+		if(!empty($attr) && is_array($attr))
 		{
-			foreach( $attr as $key => $value )
+			foreach($attr as $key => $value)
 			{
-				if( $key === 'f' )
+				if($key === 'f')
 				{
 					$file_ext[] = $value;
 				}
 
-				if( $key === 'w' || $key === 'h' )
+				if($key === 'w' || $key === 'h')
 				{
 					$img_size[] = $value;
 				}
 
-				if( $key === 'cache' )
+				if($key === 'cache')
 				{
 					$img_cache[] = $value;
 				}
 
-				if( $key === 'error_image' )
+				if($key === 'error_image')
 				{
 					$error_image[] = $value;
 				}
@@ -121,7 +121,7 @@ class Image
 		$img_cache = implode($img_cache);
 		$img_cache = $img_cache === '' ? 'cache' : $img_cache;
 
-		if( $_error === true )
+		if($_error === true)
 		{
 			$error_image = implode($error_image);
 			$url         = $error_image === '' ? $this->path . '/' . $this->img_blank . 'noimage.png' : $error_image;
@@ -132,9 +132,9 @@ class Image
 		$subfolder = $img_cache . '/' . $img_size . '/' . strtolower(substr(md5($img_name), -1));
 
 		$md5 = [];
-		if( !empty($attr) && is_array($attr) )
+		if(!empty($attr) && is_array($attr))
 		{
-			foreach( $attr as $k => $v )
+			foreach($attr as $k => $v)
 			{
 				$f     = explode('_', $k);
 				$k     = $f[ 0 ];
@@ -146,30 +146,35 @@ class Image
 
 		$this->makeDir($this->path . '/' . $subfolder);
 
-		if( file_exists($this->path . '/' . $target) )
+		if(file_exists($this->path . '/' . $target))
 		{
-			$outpute = $target;
+			$output = $target;
 		}
 		else
 		{
-			$outpute = $this->createThumb($url, $img_cache, $target, $attr);
+			$output = $this->createThumb($url, $img_cache, $target, $attr);
 		}
 
-		if( isset($attr[ 'webp' ]) === true )
+		if(isset($attr[ 'webp' ]) === true)
 		{
-			$this->createWebPThumb($this->path . '/' . $outpute, [
+			$this->createWebPThumb($this->path . '/' . $output, [
 				'q'         => isset($attr[ 'q' ]) ? $attr[ 'q' ] : 'auto',
 				'webp_q'    => isset($attr[ 'webp_q' ]) ? $attr[ 'webp_q' ] : 'auto',
 				'webp_maxq' => isset($attr[ 'webp_maxq' ]) ? $attr[ 'webp_maxq' ] : '85',
 			]);
 
-			$outpute = (object) [
-				'img'  => $outpute,
-				'webp' => $outpute . '.webp'
+			$output = (object) [
+				'img'  => $output,
+				'webp' => $output . '.webp'
 			];
 		}
 
-		return $outpute;
+		return $output;
+	}
+
+	public function html($url, array $attr = [])
+	{
+
 	}
 
 	/**
@@ -202,19 +207,19 @@ class Image
 		$yid  = '';
 		$vid  = '';
 
-		if( $urls[ 'host' ] === 'vimeo.com' )
+		if($urls[ 'host' ] === 'vimeo.com')
 		{
 			$vid = ltrim($urls[ 'path' ], '/');
 		}
-		elseif( $urls[ 'host' ] === 'youtu.be' )
+		elseif($urls[ 'host' ] === 'youtu.be')
 		{
 			$yid = ltrim($urls[ 'path' ], '/');
 		}
-		elseif( strpos($urls[ 'path' ], 'embed') == 1 )
+		elseif(strpos($urls[ 'path' ], 'embed') == 1)
 		{
 			$yid = end(explode('/', $urls[ 'path' ]));
 		}
-		elseif( strpos($url, '/') === false )
+		elseif(strpos($url, '/') === false)
 		{
 			$yid = $url;
 		}
@@ -225,7 +230,7 @@ class Image
 			$yid     = $output[ 'v' ];
 			$feature = '';
 
-			if( !empty($feature) )
+			if(!empty($feature))
 			{
 				$yid = end(explode('v=', $urls[ 'query' ]));
 				$arr = explode('&', $yid);
@@ -233,20 +238,20 @@ class Image
 			}
 		}
 
-		if( $yid )
+		if($yid)
 		{
 			$yt_path = 'https://img.youtube.com/vi/' . $yid;
-			if( $this->http($yt_path . '/maxresdefault.jpg') == '200' )
+			if($this->http($yt_path . '/maxresdefault.jpg') == '200')
 			{
 				return $yt_path . '/maxresdefault.jpg';
 			}
 
-			if( $this->http($yt_path . '/hqdefault.jpg') == '200' )
+			if($this->http($yt_path . '/hqdefault.jpg') == '200')
 			{
 				return $yt_path . '/hqdefault.jpg';
 			}
 
-			if( $this->http($yt_path . '/mqdefault.jpg') == '200' )
+			if($this->http($yt_path . '/mqdefault.jpg') == '200')
 			{
 				return $yt_path . '/mqdefault.jpg';
 			}
@@ -254,11 +259,11 @@ class Image
 			return $yt_path . '/default.jpg';
 		}
 
-		if( $vid )
+		if($vid)
 		{
 			$vimeo_object = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $vid . '.json'));
 
-			if( !empty($vimeo_object) )
+			if(!empty($vimeo_object))
 			{
 				return $vimeo_object[ 0 ]->thumbnail_large;
 			}
@@ -277,7 +282,7 @@ class Image
 	 */
 	private function createWebPThumb($source, array $options = [])
 	{
-		if( !file_exists($destination = $source . '.webp') )
+		if(!file_exists($destination = $source . '.webp'))
 		{
 			$webp_maxq    = [ 'max-quality' => ($options[ 'webp_maxq' ] > 90) ? 90 : ($options[ 'webp_maxq' ] + 10) ];
 			$webp_options = [
@@ -322,14 +327,14 @@ class Image
 		$phpThumb->setParameter('config_error_textcolor', '770000');
 		$phpThumb->setParameter('config_nohotlink_enabled', false);
 
-		if( $url === 'cover' )
+		if($url === 'cover')
 		{
 			$cover = [];
-			if( !empty($attr) && is_array($attr) )
+			if(!empty($attr) && is_array($attr))
 			{
-				foreach( $attr as $whk => $whv )
+				foreach($attr as $whk => $whv)
 				{
-					if( $whk === 'cover' )
+					if($whk === 'cover')
 					{
 						$cover[] = $whv;
 					}
@@ -348,9 +353,9 @@ class Image
 		$phpThumb->setParameter('aoe', '1');
 		$phpThumb->setParameter('f', 'jpg');
 
-		if( is_array($attr) )
+		if(is_array($attr))
 		{
-			foreach( $attr as $k => $v )
+			foreach($attr as $k => $v)
 			{
 				$f = explode('_', $k);
 				$k = $f[ 0 ];
@@ -360,7 +365,7 @@ class Image
 		}
 
 		$imagemagick = '';
-		if( 0 === stripos(PHP_OS, 'WIN') )
+		if(0 === stripos(PHP_OS, 'WIN'))
 		{
 			$imagemagick = 'C:/ImageMagick/convert.exe';
 		}
@@ -369,18 +374,18 @@ class Image
 		$phpThumb->setParameter('config_prefer_imagemagick', true);
 		$phpThumb->setParameter('config_imagemagick_use_thumbnail', true);
 
-		$outpute = '';
-		if( $phpThumb->GenerateThumbnail() )
+		$output = '';
+		if($phpThumb->GenerateThumbnail())
 		{
-			if( $phpThumb->RenderToFile($this->path . '/' . $target) )
+			if($phpThumb->RenderToFile($this->path . '/' . $target))
 			{
-				$outpute = $target;
+				$output = $target;
 			}
 
 			$phpThumb->purgeTempFiles();
 		}
 
-		return $outpute;
+		return $output;
 	}
 
 	/**
@@ -393,9 +398,9 @@ class Image
 	 */
 	private function makeDir($dir, $mode = 0777)
 	{
-		if( @mkdir($dir, $mode) || is_dir($dir) )
+		if(@mkdir($dir, $mode) || is_dir($dir))
 		{
-			if( !file_exists($indexfile = $dir . '/index.html') )
+			if(!file_exists($indexfile = $dir . '/index.html'))
 			{
 				$indexcontent = '<!DOCTYPE html><title></title>';
 				$file         = fopen($indexfile, 'wb');
@@ -407,7 +412,7 @@ class Image
 			return true;
 		}
 
-		if( !$this->makeDir(dirname($dir)) )
+		if(!$this->makeDir(dirname($dir)))
 		{
 			return false;
 		}
@@ -424,7 +429,7 @@ class Image
 	 */
 	private function http($url)
 	{
-		if( function_exists('curl_version') )
+		if(function_exists('curl_version'))
 		{
 			$header = $this->cURL($url);
 			$head   = substr($header, 9, 3);
