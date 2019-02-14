@@ -129,20 +129,20 @@ class Image
 
 		$img_size  = implode('x', $img_size);
 		$img_size  = ($img_size === '' ? '0' : $img_size);
-		$subfolder = $img_cache . '/' . $img_size . '/' . strtolower(substr(md5($img_name), -1));
+		$subfolder = $img_cache . '/' . $img_size . '/' . strtolower(substr(hash('crc32b', $img_name), -1));
 
-		$md5 = [];
+		$uri_attr = [];
 		if(!empty($attr) && is_array($attr))
 		{
 			foreach($attr as $k => $v)
 			{
-				$f     = explode('_', $k);
-				$k     = $f[ 0 ];
-				$md5[] = $k . $v;
+				$f          = explode('_', $k);
+				$k          = $f[ 0 ];
+				$uri_attr[] = $k . $v;
 			}
 		}
 
-		$target = $subfolder . '/' . strtolower(substr($img_url, 0, 150)) . '-' . md5($url . implode('.', $md5)) . $file_ext;
+		$target = $subfolder . '/' . strtolower(substr($img_url, 0, 150)) . '-' . hash('crc32b', $url . implode('.', $uri_attr)) . $file_ext;
 
 		$this->makeDir($this->path . '/' . $subfolder);
 
@@ -172,10 +172,27 @@ class Image
 		return $output;
 	}
 
-	public function html($url, array $attr = [])
-	{
-
-	}
+	// @ToDo: add render html tags
+	//	public function html($url, $output = 'img', array $attribs = [], array $options = [])
+	//	{
+	//		if($output === 'img')
+	//		{
+	//			$thumb = $this->render($url, $options);
+	//			$size  = $this->size($thumb);
+	//
+	//			$attr = [];
+	//			foreach($attribs as $attrib => $v)
+	//			{
+	//				$attr[] = $v . '="' . $attrib . '"';
+	//			}
+	//
+	//			$attr = implode(' ', $attr);
+	//
+	//			return '<img src="' . $thumb . '"' . ($attr ? ' ' . $attr . ' ' : '') . 'width="' . $size->width . '" height="' . $size->height . '">';
+	//		}
+	//
+	//		return true;
+	//	}
 
 	/**
 	 * @param $img_path
@@ -217,7 +234,8 @@ class Image
 		}
 		elseif(strpos($urls[ 'path' ], 'embed') == 1)
 		{
-			$yid = end(explode('/', $urls[ 'path' ]));
+			$cut_embed = explode('/', $urls[ 'path' ]);
+			$yid       = end($cut_embed);
 		}
 		elseif(strpos($url, '/') === false)
 		{
@@ -232,15 +250,17 @@ class Image
 
 			if(!empty($feature))
 			{
-				$yid = end(explode('v=', $urls[ 'query' ]));
-				$arr = explode('&', $yid);
-				$yid = $arr[ 0 ];
+				$cut_feature = explode('v=', $urls[ 'query' ]);
+				$yid         = end($cut_feature);
+				$arr         = explode('&', $yid);
+				$yid         = $arr[ 0 ];
 			}
 		}
 
 		if($yid)
 		{
 			$yt_path = 'https://img.youtube.com/vi/' . $yid;
+			
 			if($this->http($yt_path . '/maxresdefault.jpg') == '200')
 			{
 				return $yt_path . '/maxresdefault.jpg';

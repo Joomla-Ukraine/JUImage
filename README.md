@@ -187,7 +187,7 @@ Add option to this array:
 |  hl | max height for landscape images|
 |  ws | max width for square images|
 |  hs | max height for square images|
-|   f | output image format ("jpeg", "png", or "gif")|
+|   f | output image format ("jpeg", "png", "gif" or "webp")|
 |   q | JPEG compression (1=worst, 95=best, 75=default)|
 |  sx | left side of source rectangle (default \| 0) (values 0 < sx < 1 represent percentage)|
 |  sy | top side of source rectangle (default \| 0) (values 0 < sy < 1 represent percentage)|
