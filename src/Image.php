@@ -224,13 +224,13 @@ class Image
 		$yid  = '';
 		$vid  = '';
 
-		if($urls[ 'host' ] === 'vimeo.com')
-		{
-			$vid = ltrim($urls[ 'path' ], '/');
-		}
-		elseif($urls[ 'host' ] === 'youtu.be')
+		if($urls[ 'host' ] === 'youtu.be')
 		{
 			$yid = ltrim($urls[ 'path' ], '/');
+		}
+		elseif($urls[ 'host' ] === 'vimeo.com')
+		{
+			$vid = ltrim($urls[ 'path' ], '/');
 		}
 		elseif(strpos($urls[ 'path' ], 'embed') == 1)
 		{
@@ -247,7 +247,6 @@ class Image
 
 			$yid     = $output[ 'v' ];
 			$feature = '';
-
 			if(!empty($feature))
 			{
 				$cut_feature = explode('v=', $urls[ 'query' ]);
@@ -259,33 +258,33 @@ class Image
 
 		if($yid)
 		{
-			$yt_path = 'https://img.youtube.com/vi/' . $yid;
-			
-			if($this->http($yt_path . '/maxresdefault.jpg') == '200')
+			$yt_path = 'https://img.youtube.com/vi/' . $yid . '/';
+
+			if($this->http($yt_path . 'maxresdefault.jpg') == 200)
 			{
-				return $yt_path . '/maxresdefault.jpg';
+				return $yt_path . 'maxresdefault.jpg';
 			}
 
-			if($this->http($yt_path . '/hqdefault.jpg') == '200')
+			if($this->http($yt_path . 'hqdefault.jpg') == 200)
 			{
-				return $yt_path . '/hqdefault.jpg';
+				return $yt_path . 'hqdefault.jpg';
 			}
 
-			if($this->http($yt_path . '/mqdefault.jpg') == '200')
+			if($this->http($yt_path . 'mqdefault.jpg') == 200)
 			{
-				return $yt_path . '/mqdefault.jpg';
+				return $yt_path . 'mqdefault.jpg';
 			}
 
-			return $yt_path . '/default.jpg';
+			return $yt_path . 'default.jpg';
 		}
 
 		if($vid)
 		{
-			$vimeo_object = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $vid . '.json'));
+			$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $vid . '.json'));
 
-			if(!empty($vimeo_object))
+			if(!empty($vimeo))
 			{
-				return $vimeo_object[ 0 ]->thumbnail_large;
+				return $vimeo[ 0 ]->thumbnail_large;
 			}
 		}
 
@@ -304,13 +303,17 @@ class Image
 	{
 		if(!file_exists($destination = $source . '.webp'))
 		{
-			$webp_maxq    = [ 'max-quality' => ($options[ 'webp_maxq' ] > 90) ? 90 : ($options[ 'webp_maxq' ] + 10) ];
+			$webp_maxq = [
+				'max-quality' => ($options[ 'webp_maxq' ] > 90) ? 90 : ($options[ 'webp_maxq' ] + 10)
+			];
+
 			$webp_options = [
 				'quality'    => $options[ 'q' ],
 				'metadata'   => 'none',
 				'converters' => [ 'imagick', 'gd' ]
 			];
-			$params       = array_merge($webp_maxq, $webp_options);
+
+			$params = array_merge($webp_maxq, $webp_options);
 
 			return WebPConvert::convert($source, $destination, $params);
 		}
@@ -420,14 +423,7 @@ class Image
 	{
 		if(@mkdir($dir, $mode) || is_dir($dir))
 		{
-			if(!file_exists($indexfile = $dir . '/index.html'))
-			{
-				$indexcontent = '<!DOCTYPE html><title></title>';
-				$file         = fopen($indexfile, 'wb');
-
-				fwrite($file, $indexcontent);
-				fclose($file);
-			}
+			$this->makeIndexFile($dir);
 
 			return true;
 		}
@@ -438,6 +434,28 @@ class Image
 		}
 
 		return @mkdir($dir, $mode);
+	}
+
+	/**
+	 * @param $dir
+	 *
+	 * @return bool
+	 *
+	 * @since 3.0
+	 */
+	private function makeIndexFile($dir)
+	{
+		if(!file_exists($indexfile = $dir . '/index.html'))
+		{
+			$file = fopen($indexfile, 'wb');
+
+			fwrite($file, '<!DOCTYPE html><title></title>');
+			fclose($file);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -452,15 +470,13 @@ class Image
 		if(function_exists('curl_version'))
 		{
 			$header = $this->cURL($url);
-			$head   = substr($header, 9, 3);
-		}
-		else
-		{
-			$header = get_headers($url);
-			$head   = substr($header[ 0 ], 9, 3);
+
+			return substr($header, 9, 3);
 		}
 
-		return $head;
+		$header = get_headers($url);
+
+		return substr($header[ 0 ], 9, 3);
 	}
 
 	/**
@@ -480,7 +496,7 @@ class Image
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
 		return curl_exec($ch);
 	}

@@ -4,3 +4,4 @@ scripts.txt
 composer.lock
 composer.phar
 /vendor/
+/phing-latest.phar
