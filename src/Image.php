@@ -55,7 +55,7 @@ class Image
 			if(strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0)
 			{
 				$url     = $this->createVideoThumb($url);
-				$headers = @get_headers($url);
+				$headers = get_headers($url);
 
 				if(strpos($headers[ 0 ], '200') === false)
 				{
@@ -171,28 +171,6 @@ class Image
 
 		return $output;
 	}
-
-	// @ToDo: add render html tags
-	//	public function html($url, $output = 'img', array $attribs = [], array $options = [])
-	//	{
-	//		if($output === 'img')
-	//		{
-	//			$thumb = $this->render($url, $options);
-	//			$size  = $this->size($thumb);
-	//
-	//			$attr = [];
-	//			foreach($attribs as $attrib => $v)
-	//			{
-	//				$attr[] = $v . '="' . $attrib . '"';
-	//			}
-	//
-	//			$attr = implode(' ', $attr);
-	//
-	//			return '<img src="' . $thumb . '"' . ($attr ? ' ' . $attr . ' ' : '') . 'width="' . $size->width . '" height="' . $size->height . '">';
-	//		}
-	//
-	//		return true;
-	//	}
 
 	/**
 	 * @param $img_path
@@ -496,7 +474,7 @@ class Image
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 
 		return curl_exec($ch);
 	}
