@@ -13,6 +13,7 @@
 namespace JUImage;
 
 use FastImageSize\FastImageSize;
+use phpthumb;
 use WebPConvert\WebPConvert;
 
 /**
@@ -248,11 +249,6 @@ class Image
 				return $yt_path . 'hqdefault.jpg';
 			}
 
-			if($this->http($yt_path . 'mqdefault.jpg') == 200)
-			{
-				return $yt_path . 'mqdefault.jpg';
-			}
-
 			return $yt_path . 'default.jpg';
 		}
 
@@ -311,7 +307,7 @@ class Image
 	 */
 	private function createThumb($url, $img_cache, $target, array $attr = [])
 	{
-		$phpThumb = new \phpthumb();
+		$phpThumb = new phpthumb();
 
 		$phpThumb->resetObject();
 
