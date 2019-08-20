@@ -55,7 +55,7 @@ class Image
 			$url = rawurldecode($url);
 
 			$_error = false;
-			if(strpos($url, 'http://') === false || strpos($url, 'https://') === false)
+			if(strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0)
 			{
 				if($this->createVideoThumb($url, true))
 				{
