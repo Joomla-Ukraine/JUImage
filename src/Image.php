@@ -24,6 +24,8 @@ use WebPConvert\WebPConvert;
 class Image
 {
 	protected $config;
+	private $path;
+	private $img_blank;
 
 	/**
 	 * Image constructor.
@@ -53,11 +55,14 @@ class Image
 			$url = rawurldecode($url);
 
 			$_error = false;
-			if(strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0)
+			if(strpos($url, 'http://') === false || strpos($url, 'https://') === false)
 			{
-				$url     = $this->createVideoThumb($url);
-				$headers = get_headers($url);
+				if($this->createVideoThumb($url, true))
+				{
+					$url = $this->createVideoThumb($url);
+				}
 
+				$headers = get_headers($url);
 				if(strpos($headers[ 0 ], '200') === false)
 				{
 					$_error = true;
@@ -191,18 +196,25 @@ class Image
 	}
 
 	/**
-	 * @param $url
+	 * @param      $url
+	 *
+	 * @param bool $video_detect
 	 *
 	 * @return bool|string
 	 *
 	 * @since 3.0
 	 */
-	private function createVideoThumb($url)
+	private function createVideoThumb($url, $video_detect = false)
 	{
 		$urls = parse_url($url);
-		$yid  = '';
-		$vid  = '';
 
+		if($video_detect === true)
+		{
+			return $urls[ 'host' ] === 'youtu.be' || $urls[ 'host' ] === 'youtube.com' || $urls[ 'host' ] === 'www.youtube.com' || $urls[ 'host' ] === 'vimeo.com';
+		}
+
+		$yid = '';
+		$vid = '';
 		if($urls[ 'host' ] === 'youtu.be')
 		{
 			$yid = ltrim($urls[ 'path' ], '/');
@@ -310,13 +322,10 @@ class Image
 		$phpThumb = new phpthumb();
 
 		$phpThumb->resetObject();
-
 		$phpThumb->setParameter('config_max_source_pixels', '0');
 		$phpThumb->setParameter('config_temp_directory', $this->path . '/' . $img_cache . '/');
 		$phpThumb->setParameter('config_cache_directory', $this->path . '/' . $img_cache . '/');
-
 		$phpThumb->setCacheDirectory();
-
 		$phpThumb->setParameter('config_cache_maxfiles', '0');
 		$phpThumb->setParameter('config_cache_maxsize', '0');
 		$phpThumb->setParameter('config_cache_maxage', '0');
@@ -390,12 +399,11 @@ class Image
 	 * @param int $mode
 	 *
 	 * @return bool
-	 *
 	 * @since 3.0
 	 */
 	private function makeDir($dir, $mode = 0777)
 	{
-		if(@mkdir($dir, $mode) || is_dir($dir))
+		if(@mkdir($dir, $mode, true) || is_dir($dir))
 		{
 			$this->makeIndexFile($dir);
 
@@ -407,7 +415,7 @@ class Image
 			return false;
 		}
 
-		return @mkdir($dir, $mode);
+		return @mkdir($dir, $mode, true);
 	}
 
 	/**
