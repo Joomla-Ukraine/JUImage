@@ -405,8 +405,6 @@ class Image
 	{
 		if(@mkdir($dir, $mode, true) || is_dir($dir))
 		{
-			$this->makeIndexFile($dir);
-
 			return true;
 		}
 
@@ -419,28 +417,6 @@ class Image
 	}
 
 	/**
-	 * @param $dir
-	 *
-	 * @return bool
-	 *
-	 * @since 3.0
-	 */
-	private function makeIndexFile($dir)
-	{
-		if(!file_exists($indexfile = $dir . '/index.html'))
-		{
-			$file = fopen($indexfile, 'wb');
-
-			fwrite($file, '<!DOCTYPE html><title></title>');
-			fclose($file);
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * @param $url
 	 *
 	 * @return bool|string
@@ -449,37 +425,8 @@ class Image
 	 */
 	private function http($url)
 	{
-		if(function_exists('curl_version'))
-		{
-			$header = $this->cURL($url);
-
-			return substr($header, 9, 3);
-		}
-
 		$header = get_headers($url);
 
 		return substr($header[ 0 ], 9, 3);
-	}
-
-	/**
-	 * @param $url
-	 *
-	 * @return bool|string
-	 *
-	 * @since 3.0
-	 */
-	private function cURL($url)
-	{
-		$ch = curl_init();
-
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_NOBODY, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-
-		return curl_exec($ch);
 	}
 }
