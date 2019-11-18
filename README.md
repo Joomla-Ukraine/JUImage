@@ -5,9 +5,10 @@ Create thumbs for Joomla! extension or stand-alone use.
 
 ## Demo (All thumbs)
 
-* [Bad Android](https://bad-android.com)
-* [Високий замок](https://wz.lviv.ua)
+* [Sci314.com](https://sci314.com)
 * [Львівська міська рада](http://city-adm.lviv.ua)
+* [Високий замок](https://wz.lviv.ua)
+* [Bad Android](https://bad-android.com)
 
 ## Use in Joomla! Extension
 
@@ -49,10 +50,10 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 echo '<img src="' . $thumb . '" alt="Apple" width="300" height="100">';
 ```
 
-| Parameters | Description |
+| Global options | Description |
 | --- | --- |
 | `$root_path` | Root path for your site. Default define `JPATH_BASE` |
-| `$img_blank` | Path to default image. For example if image not found display default image `noimage.png` |
+| `$img_blank` | Path to default image. For example if image not found display default image `noimage.png`. Use also option `error_image` if image not found or broken ([go to Option](#options))  |
 
 ### Joomla! Integration
 
@@ -179,6 +180,7 @@ Add option to this array:
 | Command | Description |
 | --- | --- |
 | cache | folder for thumbnails|
+| error_image | path to default image if image not found or broken|
 |   w | max width of output thumbnail in pixels|
 |   h | max height of output thumbnail in pixels|
 |  wp | max width for portrait images|
