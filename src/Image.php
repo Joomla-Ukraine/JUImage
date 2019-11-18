@@ -35,7 +35,7 @@ class Image
 	public function __construct(array $config = [])
 	{
 		$this->path      = isset($config[ 'root_path' ]) ? $config[ 'root_path' ] : JPATH_BASE;
-		$this->img_blank = isset($config[ 'img_blank' ]) ? $config[ 'img_blank' ] : 'libraries/juimage/';
+		$this->img_blank = isset($config[ 'img_blank' ]) ? $config[ 'img_blank' ] : 'libraries/juimage/noimage.png';
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Image
 		if($_error === true)
 		{
 			$error_image = implode($error_image);
-			$url         = $error_image === '' ? $this->path . '/' . $this->img_blank . 'noimage.png' : $error_image;
+			$url         = $error_image === '' ? $this->path . '/' . $this->img_blank : $error_image;
 		}
 
 		$img_size  = implode('x', $img_size);

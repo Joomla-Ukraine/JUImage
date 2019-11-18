@@ -69,7 +69,8 @@ class JUImageInstallerScript
 		];
 
 		$folders = [
-			$path . 'classes'
+			$path . 'classes',
+			$path . 'vendor/rosell-dk/webp-convert/src/Converters/Binaries'
 		];
 
 		foreach( $files AS $file )
