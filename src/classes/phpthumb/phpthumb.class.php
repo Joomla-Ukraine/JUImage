@@ -12,10 +12,10 @@
 if (!class_exists('phpthumb_functions'))
 {
 	ob_start();
-	if (!include_once __DIR__ .'/phpthumb.functions.php' )
+	if(!include_once __DIR__ . '/phpthumb.functions.php')
 	{
 		ob_end_flush();
-		die('failed to include_once("'. __DIR__ .'/phpthumb.functions.php")');
+		die('failed to include_once("' . __DIR__ . '/phpthumb.functions.php")');
 	}
 	ob_end_clean();
 }
@@ -219,7 +219,7 @@ class phpthumb {
 	public $issafemode       = null;
 	public $php_memory_limit = null;
 
-	public $phpthumb_version = '1.7.15-201902101903';
+	public $phpthumb_version = '1.7.15-202002130926';
 
 	//////////////////////////////////////////////////////////////////////
 
@@ -608,7 +608,7 @@ class phpthumb {
 		// render thumbnail to this file only, do not cache, do not output to browser
 		//$renderfilename = $this->ResolveFilenameToAbsolute(dirname($filename)).DIRECTORY_SEPARATOR.basename($filename);
 		$renderfilename = $filename;
-		if (($filename{0} != '/') && ($filename{0} != '\\') && ($filename{1} != ':')) {
+		if (($filename[0] != '/') && ($filename[0] != '\\') && ($filename[1] != ':')) {
 			$renderfilename = $this->ResolveFilenameToAbsolute($renderfilename);
 		}
 		if (!@is_writable(dirname($renderfilename))) {
@@ -1298,7 +1298,7 @@ class phpthumb {
 			//$AbsoluteFilename = $filename;
 			return $filename;
 
-		} elseif ($this->iswindows && isset($filename{1}) && ($filename{1} == ':')) {
+		} elseif ($this->iswindows && isset($filename[1]) && ($filename[1] == ':')) {
 
 			// absolute pathname (Windows)
 			$AbsoluteFilename = $filename;
@@ -1308,14 +1308,14 @@ class phpthumb {
 			// absolute pathname (Windows)
 			$AbsoluteFilename = $filename;
 
-		} elseif ($filename{0} == '/') {
+		} elseif ($filename[0] == '/') {
 
 			if (@is_readable($filename) && !@is_readable($this->config_document_root.$filename)) {
 
 				// absolute filename (*nix)
 				$AbsoluteFilename = $filename;
 
-			} elseif (isset($filename{1}) && ($filename{1} == '~')) {
+			} elseif (isset($filename[1]) && ($filename[1] == '~')) {
 
 				// /~user/path
 				if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray($filename)) {
@@ -1475,7 +1475,7 @@ class phpthumb {
 				$which_convert = $this->ImageMagickWhichConvert();
 				$IMversion     = $this->ImageMagickVersion();
 
-				if ($which_convert && ($which_convert{0} == '/') && $this->file_exists_ignoreopenbasedir($which_convert)) {
+				if ($which_convert && ($which_convert[0] == '/') && $this->file_exists_ignoreopenbasedir($which_convert)) {
 
 					// `which convert` *should* return the path if "convert" exist, or nothing if it doesn't
 					// other things *may* get returned, like "sh: convert: not found" or "no convert in /usr/local/bin /usr/sbin /usr/bin /usr/ccs/bin"
