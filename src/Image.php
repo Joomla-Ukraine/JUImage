@@ -4,7 +4,7 @@
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2016-2019 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2016-2020 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
  * @since          3.0
@@ -24,7 +24,9 @@ use WebPConvert\WebPConvert;
 class Image
 {
 	protected $config;
+
 	private $path;
+
 	private $img_blank;
 
 	/**
@@ -127,15 +129,24 @@ class Image
 		$img_cache = implode($img_cache);
 		$img_cache = $img_cache === '' ? 'cache' : $img_cache;
 
+		// Error Image
 		if($_error === true)
 		{
 			$error_image = implode($error_image);
 			$url         = $error_image === '' ? $this->path . '/' . $this->img_blank : $error_image;
 		}
 
-		$img_size  = implode('x', $img_size);
-		$img_size  = ($img_size === '' ? '0' : $img_size);
-		$subfolder = $img_cache . '/' . $img_size . '/' . strtolower(substr(hash('crc32b', $img_name), -1));
+		// Image Size
+		$img_size = implode('x', $img_size);
+		$img_size = ($img_size === '' ? '0' : $img_size);
+
+		// Image Name
+		$img_name = hash('crc32b', $img_name);
+		$img_name = substr($img_name, -1);
+		$img_name = strtolower($img_name);
+
+		// Path to Folder
+		$subfolder = $img_cache . '/' . $img_size . '/' . $img_name;
 
 		$uri_attr = [];
 		if(!empty($attr) && is_array($attr))
@@ -148,7 +159,14 @@ class Image
 			}
 		}
 
-		$target = $subfolder . '/' . strtolower(substr($img_url, 0, 150)) . '-' . hash('crc32b', $url . implode('.', $uri_attr)) . $file_ext;
+		// Set Image name
+		$img_url = substr($img_url, 0, 150);
+		$img_url = strtolower($img_url);
+		$img_url .= '-' . hash('crc32b', $url . implode('.', $uri_attr));
+		$img_url .= $file_ext;
+
+		// Image Path for target
+		$target = $subfolder . '/' . $img_url;
 
 		$this->makeDir($this->path . '/' . $subfolder);
 
