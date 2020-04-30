@@ -1,6 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.6.11"/>
+    <property name="VERSION" value="3.7.1"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
     <property name="filename" value="lib_juimage_v${VERSION}.zip"/>
@@ -52,7 +52,7 @@
 
         <delete file="${temp}/juimage/vendor/composer/installed.json"/>
         <delete file="${temp}/juimage/vendor/composer/LICENSE"/>
-        <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/src/Converters/Binaries"/>
+        <!--<delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/src/Converters/Binaries"/>-->
         <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/build"/>
         <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/build-scripts"/>
         <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/docs"/>
