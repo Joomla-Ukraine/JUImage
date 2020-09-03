@@ -1,13 +1,13 @@
 <?php
 /**
- * @package        JUImage
+ * @since          3.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
  * @copyright (C)  2016-2020 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
- * @since          3.0
+ * @package        JUImage
  */
 
 namespace JUImage;
@@ -45,7 +45,7 @@ class Image
 	 * @param array $attr
 	 *
 	 * @return object|string
-	 *
+	 * @return object|string
 	 * @since 3.0
 	 */
 	public function render($url, array $attr = [])
@@ -65,6 +65,7 @@ class Image
 				}
 
 				$headers = get_headers($url);
+
 				if(strpos($headers[ 0 ], '200') === false)
 				{
 					$_error = true;
@@ -219,7 +220,7 @@ class Image
 	 * @param bool $video_detect
 	 *
 	 * @return bool|string
-	 *
+	 * @return bool|string
 	 * @since 3.0
 	 */
 	private function createVideoThumb($url, $video_detect = false)
@@ -231,65 +232,86 @@ class Image
 			return $urls[ 'host' ] === 'youtu.be' || $urls[ 'host' ] === 'youtube.com' || $urls[ 'host' ] === 'www.youtube.com' || $urls[ 'host' ] === 'vimeo.com';
 		}
 
-		$yid = '';
-		$vid = '';
 		if($urls[ 'host' ] === 'youtu.be')
 		{
-			$yid = ltrim($urls[ 'path' ], '/');
-		}
-		elseif($urls[ 'host' ] === 'vimeo.com')
-		{
-			$vid = ltrim($urls[ 'path' ], '/');
-		}
-		elseif(strpos($urls[ 'path' ], 'embed') == 1)
-		{
-			$cut_embed = explode('/', $urls[ 'path' ]);
-			$yid       = end($cut_embed);
-		}
-		elseif(strpos($url, '/') === false)
-		{
-			$yid = $url;
-		}
-		else
-		{
-			parse_str($urls[ 'query' ], $output);
+			$id = ltrim($urls[ 'path' ], '/');
 
-			$yid     = $output[ 'v' ];
-			$feature = '';
-			if(!empty($feature))
+			if(strpos($urls[ 'path' ], 'embed') == 1)
 			{
-				$cut_feature = explode('v=', $urls[ 'query' ]);
-				$yid         = end($cut_feature);
-				$arr         = explode('&', $yid);
-				$yid         = $arr[ 0 ];
+				$cut_embed = explode('/', $urls[ 'path' ]);
+				$yid       = end($cut_embed);
+			}
+			elseif(strpos($url, '/') === false)
+			{
+				$yid = $url;
+			}
+			else
+			{
+				parse_str($urls[ 'query' ], $output);
+
+				$yid     = $output[ 'v' ];
+				$feature = '';
+				if(!empty($feature))
+				{
+					$cut_feature = explode('v=', $urls[ 'query' ]);
+					$yid         = end($cut_feature);
+					$arr         = explode('&', $yid);
+					$yid         = $arr[ 0 ];
+				}
+			}
+
+			if($yid)
+			{
+				return $this->youtube($id);
 			}
 		}
 
-		if($yid)
+		if(($urls[ 'host' ] === 'vimeo.com') && $id = ltrim($urls[ 'path' ], '/'))
 		{
-			$yt_path = 'https://img.youtube.com/vi/' . $yid . '/';
-
-			if($this->http($yt_path . 'maxresdefault.jpg') == 200)
-			{
-				return $yt_path . 'maxresdefault.jpg';
-			}
-
-			if($this->http($yt_path . 'hqdefault.jpg') == 200)
-			{
-				return $yt_path . 'hqdefault.jpg';
-			}
-
-			return $yt_path . 'default.jpg';
+			return $this->vimeo($id);
 		}
 
-		if($vid)
-		{
-			$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $vid . '.json'));
+		return false;
+	}
 
-			if(!empty($vimeo))
-			{
-				return $vimeo[ 0 ]->thumbnail_large;
-			}
+	/**
+	 * @param $id
+	 *
+	 * @return string
+	 *
+	 * @since 3.0
+	 */
+	private function youtube($id)
+	{
+		$yt_path = 'https://img.youtube.com/vi/' . $yid . '/';
+
+		if($this->http($yt_path . 'maxresdefault.jpg') == 200)
+		{
+			return $yt_path . 'maxresdefault.jpg';
+		}
+
+		if($this->http($yt_path . 'hqdefault.jpg') == 200)
+		{
+			return $yt_path . 'hqdefault.jpg';
+		}
+
+		return $yt_path . 'default.jpg';
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return false
+	 *
+	 * @since 3.0
+	 */
+	private function vimeo($id)
+	{
+		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'));
+
+		if(!empty($vimeo))
+		{
+			return $vimeo[ 0 ]->thumbnail_large;
 		}
 
 		return false;
@@ -421,7 +443,7 @@ class Image
 	 */
 	private function makeDir($dir, $mode = 0777)
 	{
-		if(@mkdir($dir, $mode, true) || is_dir($dir))
+		if(mkdir($dir, $mode, true) || is_dir($dir))
 		{
 			return true;
 		}
@@ -431,7 +453,7 @@ class Image
 			return false;
 		}
 
-		return @mkdir($dir, $mode, true);
+		return mkdir($dir, $mode, true);
 	}
 
 	/**
