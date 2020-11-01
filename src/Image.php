@@ -169,14 +169,14 @@ class Image
 		// Image Path for target
 		$target = $subfolder . '/' . $img_url;
 
-		$this->makeDir($this->path . '/' . $subfolder);
-
 		if(file_exists($this->path . '/' . $target))
 		{
 			$output = $target;
 		}
 		else
 		{
+			$this->makeDir($this->path . '/' . $subfolder);
+
 			$output = $this->createThumb($url, $img_cache, $target, $attr);
 		}
 
