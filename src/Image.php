@@ -175,7 +175,11 @@ class Image
 		}
 		else
 		{
-			$this->makeDir($this->path . '/' . $subfolder);
+			$path = $this->path . '/' . $subfolder;
+			if(!file_exists($path))
+			{
+				$this->makeDir($path);
+			}
 
 			$output = $this->createThumb($url, $img_cache, $target, $attr);
 		}
