@@ -220,7 +220,7 @@ class phpthumb {
 	public $issafemode       = null;
 	public $php_memory_limit = null;
 
-	public $phpthumb_version = '1.7.16-202008101454';
+	public $phpthumb_version = '1.7.16-202012161640';
 
 	//////////////////////////////////////////////////////////////////////
 
@@ -451,7 +451,7 @@ class phpthumb {
 
 	// public:
 	public function RenderOutput() {
-		if (!$this->useRawIMoutput && !is_resource($this->gdimg_output)) {
+		if (!$this->useRawIMoutput && !(is_resource($this->gdimg_output) || (is_object($this->gdimg_source) && $this->gdimg_source instanceOf \GdImage))) {
 			$this->DebugMessage('RenderOutput() failed because !is_resource($this->gdimg_output)', __FILE__, __LINE__);
 			return false;
 		}
@@ -643,7 +643,7 @@ class phpthumb {
 	public function OutputThumbnail() {
 		$this->purgeTempFiles();
 
-		if (!$this->useRawIMoutput && !is_resource($this->gdimg_output)) {
+		if (!$this->useRawIMoutput && !(is_resource($this->gdimg_output) || (is_object($this->gdimg_source) && $this->gdimg_source instanceOf \GdImage))) {
 			$this->DebugMessage('OutputThumbnail() failed because !is_resource($this->gdimg_output)', __FILE__, __LINE__);
 			return false;
 		}
@@ -919,7 +919,7 @@ class phpthumb {
 	//////////////////////////////////////////////////////////////////////
 
 	public function ResolveSource() {
-		if (is_resource($this->gdimg_source)) {
+		if (is_resource($this->gdimg_source) || (is_object($this->gdimg_source) && $this->gdimg_source instanceOf \GdImage)) {
 			$this->DebugMessage('ResolveSource() exiting because is_resource($this->gdimg_source)', __FILE__, __LINE__);
 			return true;
 		}
@@ -1259,29 +1259,36 @@ class phpthumb {
 
 		// http://stackoverflow.com/questions/21421569
 		$newfilename = preg_replace('#[\\/]+#', DIRECTORY_SEPARATOR, $filename);
-		if (!preg_match('#^'.DIRECTORY_SEPARATOR.'#', $newfilename)) {
+
+		if (phpthumb_functions::is_windows()) {
+			$isAlreadyAbsoluteFilename = preg_match('#^[A-Z]\\:#i', $newfilename);  // C:\path\filename.ext
+		} else {
+			$isAlreadyAbsoluteFilename = ($newfilename[0] == DIRECTORY_SEPARATOR);  // /path/filename.ext
+		}
+		if (!$isAlreadyAbsoluteFilename) {
+			// not already an absolute filename, prepend current directory
 			$newfilename =  __DIR__ .DIRECTORY_SEPARATOR.$newfilename;
 		}
 		do {
 			$beforeloop = $newfilename;
 
 			// Replace all sequences of more than one / with a single one [[ If you're working on a system that treats // at the start of a path as special, make sure you replace multiple / characters at the start with two of them. This is the only place where POSIX allows (but does not mandate) special handling for multiples, in all other cases, multiple / characters are equivalent to a single one.]]
-			$newfilename = preg_replace('#'.DIRECTORY_SEPARATOR.'+#', DIRECTORY_SEPARATOR, $newfilename);
+			$newfilename = preg_replace('#'.preg_quote(DIRECTORY_SEPARATOR).'+#', DIRECTORY_SEPARATOR, $newfilename);
 
 			// Replace all occurrences of /./ with /
-			$newfilename = preg_replace('#'.DIRECTORY_SEPARATOR.'\\.'.DIRECTORY_SEPARATOR.'#', DIRECTORY_SEPARATOR, $newfilename);
+			$newfilename = preg_replace('#'.preg_quote(DIRECTORY_SEPARATOR).'\\.'.preg_quote(DIRECTORY_SEPARATOR).'#', DIRECTORY_SEPARATOR, $newfilename);
 
 			// Remove ./ if at the start
-			$newfilename = preg_replace('#^\\.'.DIRECTORY_SEPARATOR.'#', '', $newfilename);
+			$newfilename = preg_replace('#^\\.'.preg_quote(DIRECTORY_SEPARATOR).'#', '', $newfilename);
 
 			// Remove /. if at the end
-			$newfilename = preg_replace('#'.DIRECTORY_SEPARATOR.'\\.$#', '', $newfilename);
+			$newfilename = preg_replace('#'.preg_quote(DIRECTORY_SEPARATOR).'\\.$#', '', $newfilename);
 
 			// Replace /anything/../ with /
-			$newfilename = preg_replace('#'.DIRECTORY_SEPARATOR.'[^'.DIRECTORY_SEPARATOR.']+'.DIRECTORY_SEPARATOR.'\\.\\.'.DIRECTORY_SEPARATOR.'#', DIRECTORY_SEPARATOR, $newfilename);
+			$newfilename = preg_replace('#'.preg_quote(DIRECTORY_SEPARATOR).'[^'.preg_quote(DIRECTORY_SEPARATOR).']+'.preg_quote(DIRECTORY_SEPARATOR).'\\.\\.'.preg_quote(DIRECTORY_SEPARATOR).'#', DIRECTORY_SEPARATOR, $newfilename);
 
 			// Remove /anything/.. if at the end
-			$newfilename = preg_replace('#'.DIRECTORY_SEPARATOR.'[^'.DIRECTORY_SEPARATOR.']+'.DIRECTORY_SEPARATOR.'\\.\\.$#', '', $newfilename);
+			$newfilename = preg_replace('#'.preg_quote(DIRECTORY_SEPARATOR).'[^'.preg_quote(DIRECTORY_SEPARATOR).']+'.preg_quote(DIRECTORY_SEPARATOR).'\\.\\.$#', '', $newfilename);
 
 		} while ($newfilename != $beforeloop);
 		return $newfilename;
@@ -3039,7 +3046,7 @@ if (false) {
 								}
 								$phpthumbFilters->WatermarkOverlay($this->gdimg_output, $img_watermark, $alignment, $opacity, $margin['x'], $margin['y']);
 								imagedestroy($img_watermark);
-								if (isset($img_watermark2) && is_resource($img_watermark2)) {
+								if (isset($img_watermark2) && (is_resource($img_watermark2) || (is_object($img_watermark2) && $img_watermark2 instanceOf \GdImage))) {
 									imagedestroy($img_watermark2);
 								}
 							} else {
@@ -3407,9 +3414,9 @@ if (false) {
 		if (null === $this->getimagesizeinfo) {
 			if ($this->sourceFilename) {
 				if ($this->getimagesizeinfo = @getimagesize($this->sourceFilename)) {
-					$this->source_width  = $this->getimagesizeinfo[0];
-					$this->source_height = $this->getimagesizeinfo[1];
-					$this->DebugMessage('getimagesize('.$this->sourceFilename.') says image is '.$this->source_width.'x'.$this->source_height, __FILE__, __LINE__);
+				$this->source_width  = $this->getimagesizeinfo[0];
+				$this->source_height = $this->getimagesizeinfo[1];
+				$this->DebugMessage('getimagesize('.$this->sourceFilename.') says image is '.$this->source_width.'x'.$this->source_height, __FILE__, __LINE__);
 				} else {
 					$this->DebugMessage('getimagesize('.$this->sourceFilename.') failed', __FILE__, __LINE__);
 				}
@@ -3420,7 +3427,7 @@ if (false) {
 			$this->DebugMessage('skipping getimagesize() because !is_null($this->getimagesizeinfo)', __FILE__, __LINE__);
 		}
 
-		if (is_resource($this->gdimg_source)) {
+		if (is_resource($this->gdimg_source) || (is_object($this->gdimg_source) && $this->gdimg_source instanceOf \GdImage)) {
 
 			$this->source_width  = imagesx($this->gdimg_source);
 			$this->source_height = imagesy($this->gdimg_source);
@@ -3452,8 +3459,8 @@ if (false) {
 		}
 
 		if (isset($this->getimagesizeinfo[1])) {
-			$this->source_width  = $this->getimagesizeinfo[0];
-			$this->source_height = $this->getimagesizeinfo[1];
+		$this->source_width  = $this->getimagesizeinfo[0];
+		$this->source_height = $this->getimagesizeinfo[1];
 		}
 
 		$this->SetOrientationDependantWidthHeight();
@@ -3765,7 +3772,7 @@ if (false) {
 	}
 
 	public function SourceImageToGD() {
-		if (is_resource($this->gdimg_source)) {
+		if (is_resource($this->gdimg_source) || (is_object($this->gdimg_source) && $this->gdimg_source instanceOf \GdImage)) {
 			$this->source_width  = imagesx($this->gdimg_source);
 			$this->source_height = imagesy($this->gdimg_source);
 			$this->DebugMessage('skipping SourceImageToGD() because $this->gdimg_source is already a resource ('.$this->source_width.'x'.$this->source_height.')', __FILE__, __LINE__);

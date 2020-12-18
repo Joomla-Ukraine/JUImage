@@ -100,7 +100,7 @@ class JUImageInstallerScript
 	 */
 	public function unlinkRecursive($dir, $deleteRootToo)
 	{
-		if( !$dh = @opendir($dir) )
+		if( !$dh = opendir($dir) )
 		{
 			return;
 		}
@@ -112,7 +112,7 @@ class JUImageInstallerScript
 				continue;
 			}
 
-			if( !@unlink($dir . '/' . $obj) )
+			if( !unlink($dir . '/' . $obj) )
 			{
 				$this->unlinkRecursive($dir . '/' . $obj, true);
 			}
@@ -122,7 +122,7 @@ class JUImageInstallerScript
 
 		if( $deleteRootToo )
 		{
-			@rmdir($dir);
+			rmdir($dir);
 		}
 	}
 }
