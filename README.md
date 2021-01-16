@@ -8,7 +8,6 @@ Create thumbs for Joomla! extension or stand-alone use.
 * [Sci314.com](https://sci314.com)
 * [Львівська міська рада](http://city-adm.lviv.ua)
 * [Високий замок](https://wz.lviv.ua)
-* [Bad Android](https://bad-android.com)
 
 ## Use in Joomla! Extension
 
@@ -32,10 +31,10 @@ You can then later update using composer:
 
 After installing, you need to require Composer's autoloader:
 
-```
+```php
 require_once('vendor/autoload.php');
 
-$config['root_path'] = $_SERVER[ 'DOCUMENT_ROOT'];
+$config['root_path'] = __DIR__;
 $config['img_blank'] = 'images/logos';
 
 $juImg = new JUImage\Image($config);
@@ -63,7 +62,7 @@ Install extention library (lib_juimage_v3.x.x.zip) using Joomla! Extension Manag
 #### Code example
 Code for use in your extension.
 
-```
+```php
 JLoader::register('JUImage',  JPATH_LIBRARIES . '/juimage/JUImage.php');
 
 $juImg = new JUImage();
@@ -75,12 +74,12 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'cache' => 'img'
 ]);
 
-echo '<img src="'. $thumb .'" alt="Apple" width="300" height="100">';
+echo '<img src="'. $thumb .'" alt="Apple" width="300">';
 ```
 
 or
 
-```
+```php
 require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
@@ -92,21 +91,19 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'cache' => 'img'
 ]);
 
-echo '<img src="'. $thumb .'" alt="Apple" width="300" height="100">';
+echo '<img src="'. $thumb .'" alt="Apple" width="300">';
 ```
 	 
 ### WebP support
 
-```
+```php
 <?php
 
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     	=> '300',
 	'h'     	=> '100',
 	'q'         => '95',
-	'webp'      => true,
-	'webp_q'    => '80',
-	'webp_maxq' => '85',
+	'webp'      => true
 ]);
 ?>
 
@@ -118,7 +115,7 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 
 Display as:
 
-```
+```html
 <picture>
 	<source srcset="img/apple.jpg.webp" type="image/webp">
 	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
@@ -128,13 +125,11 @@ Display as:
 | WebP command | Type | Default | Description
 | --- | --- | --- | --- |
 | webp | Boolean | false | If `true` add support WebP image. For this option use tag `<picture>`, see in example. |
-| webp_q | An integer between 0-100 | auto | Only relevant, when quality is set to "auto". |
-| webp_maxq | An integer between 0-100 | 85 | Only relevant, when quality is set to "auto". |
 
 ### YouTube and Vimeo support
 
 Youtube:
-```
+```php
 $thumb = $juImg->render('https://www.youtube.com/watch?v=xxxxxxxxxxx', [
 	'w'     => '300',
 	'h'     => '100',
@@ -142,7 +137,7 @@ $thumb = $juImg->render('https://www.youtube.com/watch?v=xxxxxxxxxxx', [
 ```
 
 Vimeo:
-```
+```php
 $thumb = $juImg->render('https://vimeo.com/xxxxxxxxx', [
 	'w'     => '300',
 	'h'     => '100',
@@ -151,7 +146,7 @@ $thumb = $juImg->render('https://vimeo.com/xxxxxxxxx', [
 
 ### Image size support
 
-```
+```php
 <?php
 
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
@@ -168,7 +163,7 @@ echo '<img src="'. $thumb .'" alt="Apple" width="'. $size->width .'" height="'. 
 
 Add option to this array:
 
-```
+```bash
 [
   	'w'     => '300',
   	'h'     => '100',
