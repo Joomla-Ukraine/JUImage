@@ -1,10 +1,10 @@
 <?php
 /**
- * @since          3.0
+ * @since          4.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2016-2020 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2016-2021 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
  * @package        JUImage
@@ -14,17 +14,14 @@ namespace JUImage;
 
 use FastImageSize\FastImageSize;
 use phpthumb;
-use WebPConvert\WebPConvert;
 
 /**
  * JUImage library for render thumbs
  *
- * @since  3.0
+ * @since  4.0
  */
 class Image
 {
-	protected $config;
-
 	private $path;
 
 	private $img_blank;
@@ -33,6 +30,8 @@ class Image
 	 * Image constructor.
 	 *
 	 * @param array $config
+	 *
+	 * @since 4.0
 	 */
 	public function __construct(array $config = [])
 	{
@@ -46,9 +45,52 @@ class Image
 	 *
 	 * @return object|string
 	 * @return object|string
-	 * @since 3.0
+	 *
+	 * @since 4.0
 	 */
 	public function render($url, array $attr = [])
+	{
+		$img = $this->thumb($url, $attr);
+
+		if(isset($attr[ 'webp' ]) === true)
+		{
+			$output = $this->thumb($url, array_merge($attr, [ 'f' => 'webp' ]));
+
+			return (object) [
+				'img'  => $img,
+				'webp' => $output
+			];
+		}
+
+		return $img;
+	}
+
+	/**
+	 * @param $img_path
+	 *
+	 * @return object
+	 *
+	 * @since 4.0
+	 */
+	public function size($img_path)
+	{
+		$size = (new FastImageSize)->getImageSize($img_path);
+
+		return (object) [
+			'width'  => $size[ 'width' ],
+			'height' => $size[ 'height' ]
+		];
+	}
+
+	/**
+	 * @param       $url
+	 * @param array $attr
+	 *
+	 * @return object|string
+	 * @return object|string
+	 * @since 4.0
+	 */
+	private function thumb($url, array $attr = [])
 	{
 		if($url !== 'cover')
 		{
@@ -65,7 +107,6 @@ class Image
 				}
 
 				$headers = get_headers($url);
-
 				if(strpos($headers[ 0 ], '200') === false)
 				{
 					$_error = true;
@@ -80,8 +121,7 @@ class Image
 				}
 			}
 
-			$img_file = pathinfo($url);
-			$img_name = $img_file[ 'filename' ];
+			$img_name = pathinfo($url)[ 'filename' ];
 			$img_url  = strtolower($img_name);
 			$img_url  = preg_replace('#[[:punct:]]#', '', $img_url);
 			$img_url  = preg_replace('#[а-яёєїіА-ЯЁЄЇІ]#iu', '', $img_url);
@@ -98,7 +138,6 @@ class Image
 		$img_size    = [];
 		$img_cache   = [];
 		$error_image = [];
-
 		if(!empty($attr) && is_array($attr))
 		{
 			foreach($attr as $key => $value)
@@ -168,7 +207,6 @@ class Image
 
 		// Image Path for target
 		$target = $subfolder . '/' . $img_url;
-
 		if(file_exists($this->path . '/' . $target))
 		{
 			$output = $target;
@@ -176,7 +214,7 @@ class Image
 		else
 		{
 			$path = $this->path . '/' . $subfolder;
-			if(!file_exists($path))
+			if(!is_dir($path))
 			{
 				$this->makeDir($path);
 			}
@@ -184,171 +222,7 @@ class Image
 			$output = $this->createThumb($url, $img_cache, $target, $attr);
 		}
 
-		if(isset($attr[ 'webp' ]) === true)
-		{
-			$this->createWebPThumb($this->path . '/' . $output, [
-				'q'         => isset($attr[ 'q' ]) ? $attr[ 'q' ] : 'auto',
-				'webp_q'    => isset($attr[ 'webp_q' ]) ? $attr[ 'webp_q' ] : 'auto',
-				'webp_maxq' => isset($attr[ 'webp_maxq' ]) ? $attr[ 'webp_maxq' ] : '85',
-			]);
-
-			$output = (object) [
-				'img'  => $output,
-				'webp' => $output . '.webp'
-			];
-		}
-
 		return $output;
-	}
-
-	/**
-	 * @param $img_path
-	 *
-	 * @return object
-	 *
-	 * @since 3.0
-	 */
-	public function size($img_path)
-	{
-		$size = (new FastImageSize)->getImageSize($img_path);
-
-		return (object) [
-			'width'  => $size[ 'width' ],
-			'height' => $size[ 'height' ]
-		];
-	}
-
-	/**
-	 * @param      $url
-	 *
-	 * @param bool $video_detect
-	 *
-	 * @return bool|string
-	 * @return bool|string
-	 * @since 3.0
-	 */
-	private function createVideoThumb($url, $video_detect = false)
-	{
-		$urls = parse_url($url);
-
-		if($video_detect === true)
-		{
-			return $urls[ 'host' ] === 'youtu.be' || $urls[ 'host' ] === 'youtube.com' || $urls[ 'host' ] === 'www.youtube.com' || $urls[ 'host' ] === 'vimeo.com';
-		}
-
-		if($urls[ 'host' ] === 'youtu.be')
-		{
-			$id = ltrim($urls[ 'path' ], '/');
-
-			if(strpos($urls[ 'path' ], 'embed') == 1)
-			{
-				$cut_embed = explode('/', $urls[ 'path' ]);
-				$yid       = end($cut_embed);
-			}
-			elseif(strpos($url, '/') === false)
-			{
-				$yid = $url;
-			}
-			else
-			{
-				parse_str($urls[ 'query' ], $output);
-
-				$yid     = $output[ 'v' ];
-				$feature = '';
-				if(!empty($feature))
-				{
-					$cut_feature = explode('v=', $urls[ 'query' ]);
-					$yid         = end($cut_feature);
-					$arr         = explode('&', $yid);
-					$yid         = $arr[ 0 ];
-				}
-			}
-
-			if($yid)
-			{
-				return $this->youtube($id);
-			}
-		}
-
-		if(($urls[ 'host' ] === 'vimeo.com') && $id = ltrim($urls[ 'path' ], '/'))
-		{
-			return $this->vimeo($id);
-		}
-
-		return false;
-	}
-
-	/**
-	 * @param $id
-	 *
-	 * @return string
-	 *
-	 * @since 3.0
-	 */
-	private function youtube($id)
-	{
-		$yt_path = 'https://img.youtube.com/vi/' . $yid . '/';
-
-		if($this->http($yt_path . 'maxresdefault.jpg') == 200)
-		{
-			return $yt_path . 'maxresdefault.jpg';
-		}
-
-		if($this->http($yt_path . 'hqdefault.jpg') == 200)
-		{
-			return $yt_path . 'hqdefault.jpg';
-		}
-
-		return $yt_path . 'default.jpg';
-	}
-
-	/**
-	 * @param $id
-	 *
-	 * @return false
-	 *
-	 * @since 3.0
-	 */
-	private function vimeo($id)
-	{
-		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'));
-
-		if(!empty($vimeo))
-		{
-			return $vimeo[ 0 ]->thumbnail_large;
-		}
-
-		return false;
-	}
-
-	/**
-	 * @param       $source
-	 * @param array $options
-	 *
-	 * @return bool
-	 *
-	 * @since 3.0
-	 */
-	private function createWebPThumb($source, array $options = [])
-	{
-		if(!file_exists($destination = $source . '.webp'))
-		{
-			$webp_maxq = [
-				'max-quality' => ($options[ 'webp_maxq' ] > 90) ? 90 : ($options[ 'webp_maxq' ] + 10)
-			];
-
-			$webp_options = [
-				'quality'    => $options[ 'q' ],
-				'metadata'   => 'none',
-				'converters' => [ 'imagick', 'gd' ]
-			];
-
-			$params = array_merge($webp_maxq, $webp_options);
-
-			return WebPConvert::convert($source, $destination, $params);
-		}
-
-		return false;
 	}
 
 	/**
@@ -359,7 +233,7 @@ class Image
 	 *
 	 * @return string
 	 *
-	 * @since 3.0
+	 * @since 4.0
 	 */
 	private function createThumb($url, $img_cache, $target, array $attr = [])
 	{
@@ -439,11 +313,113 @@ class Image
 	}
 
 	/**
+	 * @param      $url
+	 *
+	 * @param bool $video_detect
+	 *
+	 * @return bool|string
+	 * @return bool|string
+	 * @since 4.0
+	 */
+	private function createVideoThumb($url, $video_detect = false)
+	{
+		$urls = parse_url($url);
+
+		if($video_detect === true)
+		{
+			return $urls[ 'host' ] === 'youtu.be' || $urls[ 'host' ] === 'youtube.com' || $urls[ 'host' ] === 'www.youtube.com' || $urls[ 'host' ] === 'vimeo.com';
+		}
+
+		if($urls[ 'host' ] === 'youtu.be')
+		{
+			$id = ltrim($urls[ 'path' ], '/');
+
+			if(strpos($urls[ 'path' ], 'embed') == 1)
+			{
+				$cut_embed = explode('/', $urls[ 'path' ]);
+				$yid       = end($cut_embed);
+			}
+			elseif(strpos($url, '/') === false)
+			{
+				$yid = $url;
+			}
+			else
+			{
+				parse_str($urls[ 'query' ], $output);
+
+				$yid     = $output[ 'v' ];
+				$feature = '';
+				if(!empty($feature))
+				{
+					$cut_feature = explode('v=', $urls[ 'query' ]);
+					$yid         = end($cut_feature);
+					$arr         = explode('&', $yid);
+					$yid         = $arr[ 0 ];
+				}
+			}
+
+			if($yid)
+			{
+				return $this->youtube($id);
+			}
+		}
+
+		if(($urls[ 'host' ] === 'vimeo.com') && $id = ltrim($urls[ 'path' ], '/'))
+		{
+			return $this->vimeo($id);
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function youtube($id)
+	{
+		$yt_path = 'https://img.youtube.com/vi/' . $id . '/';
+
+		if($this->http($yt_path . 'maxresdefault.jpg') == 200)
+		{
+			return $yt_path . 'maxresdefault.jpg';
+		}
+
+		if($this->http($yt_path . 'hqdefault.jpg') == 200)
+		{
+			return $yt_path . 'hqdefault.jpg';
+		}
+
+		return $yt_path . 'default.jpg';
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return false
+	 *
+	 * @since 4.0
+	 */
+	private function vimeo($id)
+	{
+		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'));
+		if(!empty($vimeo))
+		{
+			return $vimeo[ 0 ]->thumbnail_large;
+		}
+
+		return false;
+	}
+
+	/**
 	 * @param     $dir
 	 * @param int $mode
 	 *
 	 * @return bool
-	 * @since 3.0
+	 * @since 4.0
 	 */
 	private function makeDir($dir, $mode = 0777)
 	{
@@ -465,7 +441,7 @@ class Image
 	 *
 	 * @return bool|string
 	 *
-	 * @since 3.0
+	 * @since 4.0
 	 */
 	private function http($url)
 	{
