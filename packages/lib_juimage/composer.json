@@ -60,7 +60,7 @@
     "sort-packages": true,
     "archive-format": "zip",
     "platform": {
-      "php": "5.5"
+      "php": "5.6"
     }
   },
   "prefer-stable": true,
@@ -69,7 +69,7 @@
     "ext-imagick": "PHP ImageMagick"
   },
   "require": {
-    "php": ">=5.5.0",
+    "php": ">=5.6.0",
     "ext-curl": "*",
     "ext-exif": "*",
     "ext-gd": "*",
@@ -77,6 +77,6 @@
     "ext-mbstring": "*",
     "ext-zlib": "*",
     "marc1706/fast-image-size": "1.*",
-    "rosell-dk/webp-convert": "^1.3"
+    "visavi/cleanup": "^v1.5.2"
   }
 }
