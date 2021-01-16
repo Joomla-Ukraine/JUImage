@@ -1,89 +1,122 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="3.7.5"/>
+    <property name="VERSION" value="4.0"/>
+    <property name="build" value="build"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
     <property name="filename" value="lib_juimage_v${VERSION}.zip"/>
+
+    <property name="MIN_JOOMLA_VERSION" value="3.9"/>
 
     <tstamp>
         <format property="DATE" pattern="%d.%m.%Y"/>
     </tstamp>
 
+    <property name="filename" value="pkg_juimage_v${VERSION}.zip"/>
+
     <target name="init" depends="clean">
+        <mkdir dir="${build}"/>
         <mkdir dir="${temp}"/>
         <mkdir dir="${dist}"/>
     </target>
 
     <target name="temp">
 
-        <copy todir="${temp}/juimage/vendor">
-            <fileset dir="vendor">
+        <copy todir="${temp}">
+            <fileset dir="packages">
                 <include name="**"/>
             </fileset>
         </copy>
-
-        <copy todir="${temp}/juimage/src/classes">
-            <fileset dir="src/classes">
-                <include name="**"/>
-            </fileset>
-        </copy>
-
-        <copy file="src/Image.php" todir="${temp}/juimage/src"/>
-        <copy file="joomla/JUImage.php" todir="${temp}/juimage"/>
-        <copy file="joomla/script.php" todir="${temp}"/>
-        <copy file="blank.png" todir="${temp}/juimage"/>
-        <copy file="noimage.png" todir="${temp}/juimage"/>
 
     </target>
 
     <target name="replace">
 
-        <copy file="joomla/juimage.xml" todir="${temp}/temp">
+        <copy file="pkg_juimage.xml" todir="${build}">
             <filterchain>
                 <replacetokens>
                     <token key="version" value="${VERSION}"/>
+                    <token key="minjversion" value="${MIN_JOOMLA_VERSION}"/>
                     <token key="date" value="${DATE}"/>
                 </replacetokens>
             </filterchain>
         </copy>
 
-        <delete file="${temp}/juimage.xml"/>
-        <copy file="${temp}/temp/juimage.xml" todir="${temp}"/>
+        <!---->
 
-        <delete file="${temp}/juimage/vendor/composer/installed.json"/>
-        <delete file="${temp}/juimage/vendor/composer/LICENSE"/>
-        <!--<delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/src/Converters/Binaries"/>-->
-        <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/build"/>
-        <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/build-scripts"/>
-        <delete dir="${temp}/juimage/vendor/rosell-dk/webp-convert/docs"/>
-        <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/.php_cs.dist"/>
-        <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/BACKERS.md"/>
-        <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/composer.json"/>
-        <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/LICENSE"/>
-        <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/phpunit.xml.dist"/>
-        <delete file="${temp}/juimage/vendor/rosell-dk/webp-convert/README.md"/>
-        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/composer.json"/>
-        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/composer.lock"/>
-        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/LICENSE"/>
-        <delete file="${temp}/juimage/vendor/marc1706/fast-image-size/LICENSE"/>
-        <delete dir="${temp}/temp"/>
+        <copy file="packages/lib_juimage/juimage.xml" todir="${temp}/temp/lib_juimage">
+            <filterchain>
+                <replacetokens>
+                    <token key="version" value="${VERSION}"/>
+                    <token key="minjversion" value="${MIN_JOOMLA_VERSION}"/>
+                    <token key="date" value="${DATE}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <delete file="${temp}/lib_juimage/juimage.xml"/>
+        <delete file="${temp}/lib_juimage/composer.json"/>
+        <delete file="${temp}/lib_juimage/composer.lock"/>
+        <delete file="${temp}/lib_juimage/LICENSE.md"/>
+        <delete file="${temp}/lib_juimage/scripts.txt"/>
+        <delete file="${temp}/lib_juimage/vendor/composer/installed.json"/>
+        <delete file="${temp}/lib_juimage/vendor/composer/LICENSE"/>
+
+        <copy file="${temp}/temp/lib_juimage/juimage.xml" todir="${temp}/lib_juimage"/>
+
+        <!---->
+
+        <copy file="packages/plg_system_juimage/juimage.xml"
+              todir="${temp}/temp/plg_system_juimage/">
+            <filterchain>
+                <replacetokens>
+                    <token key="version" value="${VERSION}"/>
+                    <token key="minjversion" value="${MIN_JOOMLA_VERSION}"/>
+                    <token key="date" value="${DATE}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <delete file="${temp}/plg_system_juimage/juimage.xml"/>
+        <copy file="${temp}/temp/plg_system_juimage/juimage.xml" todir="${temp}/plg_system_juimage"/>
 
     </target>
 
-    <target name="dist" depends="init, temp, replace">
+    <target name="pack-plugins">
+
+        <mkdir dir="${build}/packages"/>
+
+        <zip destfile="${build}/packages/lib_juimage.zip" description="lib_juimage">
+            <fileset dir="${temp}/lib_juimage"/>
+        </zip>
+
+        <zip destfile="${build}/packages/plg_system_juimage.zip" description="plg_system_juimage">
+            <fileset dir="${temp}/plg_system_juimage"/>
+        </zip>
+
+        <copy file="pkg_juimage.xml" todir="${build}"/>
+
+        <copy file="script.php" todir="${build}"/>
+
+    </target>
+
+    <target name="dist" depends="init, temp, replace, pack-plugins">
+
         <zip destfile="${dist}/${filename}">
-            <fileset dir="${temp}/">
+            <fileset dir="${build}/">
                 <include name="**/**"/>
             </fileset>
         </zip>
 
         <echo msg="Removing old files..."/>
+        <delete dir="${build}"/>
         <delete dir="${temp}"/>
 
     </target>
 
     <target name="clean" description="clean up">
 
+        <delete dir="${build}"/>
         <delete dir="${temp}"/>
 
     </target>
