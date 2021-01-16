@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="library" version="3.8" method="upgrade">
+<extension type="library" version="@minjversion@" method="upgrade">
     <name>JUImage</name>
     <libraryname>juimage</libraryname>
     <creationDate>@date@</creationDate>
@@ -7,7 +7,7 @@
     <authorEmail>denys@joomla-ua.org</authorEmail>
     <authorUrl>https://joomla-ua.org</authorUrl>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <copyright>(C) 2006-2019 Joomla! Ukraine. All rights reserved.</copyright>
+    <copyright>(C) 2006-2021 Joomla! Ukraine. All rights reserved.</copyright>
     <version>@version@</version>
     <packager>Joomla! Ukraine</packager>
     <packagerurl>https://joomla-ua.org</packagerurl>
