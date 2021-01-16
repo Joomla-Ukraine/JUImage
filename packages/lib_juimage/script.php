@@ -7,7 +7,7 @@
  * @copyright (C)  2016-2021 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
- * @since          3.0
+ * @since          4.0
  */
 
 /**
@@ -15,7 +15,7 @@
  *
  * @package  JUImage
  *
- * @since    3.0
+ * @since    4.0
  */
 class JUImageInstallerScript
 {
@@ -25,7 +25,7 @@ class JUImageInstallerScript
 	 *
 	 * @return void
 	 *
-	 * @since 3.0
+	 * @since 4.0
 	 */
 	public function preflight($type, $parent)
 	{
@@ -36,7 +36,7 @@ class JUImageInstallerScript
 	 * @param $parent
 	 *
 	 *
-	 * @since    3.0
+	 * @since    4.0
 	 */
 	public function uninstall($parent)
 	{
@@ -47,7 +47,7 @@ class JUImageInstallerScript
 	 * @param $parent
 	 *
 	 *
-	 * @since    3.0
+	 * @since    4.0
 	 */
 	public function update($parent)
 	{
@@ -57,7 +57,7 @@ class JUImageInstallerScript
 	/**
 	 * @return bool
 	 *
-	 * @since    3.0
+	 * @since    4.0
 	 */
 	public function postflight()
 	{
@@ -96,7 +96,7 @@ class JUImageInstallerScript
 	 * @param $dir
 	 * @param $deleteRootToo
 	 *
-	 * @since    3.0
+	 * @since    4.0
 	 */
 	public function unlinkRecursive($dir, $deleteRootToo)
 	{

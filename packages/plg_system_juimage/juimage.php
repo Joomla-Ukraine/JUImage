@@ -7,7 +7,7 @@
  * @copyright (C)  2011-2021 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
- * @since          3.0
+ * @since          4.0
  */
 
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -19,12 +19,12 @@ defined('_JEXEC') or die;
  *
  * @package  JUImage plugin
  *
- * @since 3.0
+ * @since 4.0
  */
 class plgSystemJUImage extends CMSPlugin
 {
 	/**
-	 * @since 3.0
+	 * @since 4.0
 	 */
 	public function onAfterInitialise()
 	{

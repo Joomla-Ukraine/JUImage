@@ -7,7 +7,7 @@
  * @copyright (C)  2011-2021 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
- * @since          3.0
+ * @since          4.0
  */
 
 include_once __DIR__ . '/vendor/autoload.php';
@@ -17,7 +17,7 @@ use JUImage\Image;
 /**
  * JUImage Class for JLoader::register
  *
- * @since  3.0
+ * @since  4.0
  */
 class JUImage extends Image
 {
@@ -30,7 +30,7 @@ class JUImage extends Image
 	 *
 	 * @param array $config
 	 *
-	 * @since  3.0
+	 * @since  4.0
 	 */
 	public function __construct(array $config = [])
 	{
