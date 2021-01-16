@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="@minjversion@" group="system" method="upgrade">
+	<name>System - JUImage</name>
+	<author>Denys Nosov</author>
+	<creationDate>@date@</creationDate>
+    <authorEmail>denys@joomla-ua.org</authorEmail>
+    <authorUrl>https://joomla-ua.org</authorUrl>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <copyright>(C) 2019-2021 Joomla! Ukraine. All rights reserved.</copyright>
+	<version>@version@</version>
+	<description>Register JUImage library.</description>
+	<files>
+		<filename plugin="juimage">juimage.php</filename>
+	</files>
+</extension>
