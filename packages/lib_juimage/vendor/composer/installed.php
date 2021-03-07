@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '85f4aedbfeb5f42003ce95d90deba27337385e26',
+    'reference' => 'ae15a7fc92ee622c5676592b203f09716ff319c1',
     'name' => 'joomla-ua/juimage',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '85f4aedbfeb5f42003ce95d90deba27337385e26',
+      'reference' => 'ae15a7fc92ee622c5676592b203f09716ff319c1',
     ),
     'marc1706/fast-image-size' => 
     array (
