@@ -251,6 +251,22 @@ class Image
 		$phpThumb->setParameter('config_error_textcolor', '770000');
 		$phpThumb->setParameter('config_nohotlink_enabled', false);
 
+		$imagemagick = true;
+		if(isset($attr[ 'imagemagick' ]))
+		{
+			$imagemagick = $attr[ 'imagemagick' ];
+		}
+
+		$imagemagick_path = '';
+		if(0 === stripos(PHP_OS, 'WIN'))
+		{
+			$imagemagick_path = 'C:/ImageMagick/convert.exe';
+		}
+
+		$phpThumb->setParameter('config_imagemagick_path', $imagemagick_path);
+		$phpThumb->setParameter('config_prefer_imagemagick', $imagemagick);
+		$phpThumb->setParameter('config_imagemagick_use_thumbnail', $imagemagick);
+
 		if($url === 'cover')
 		{
 			$cover = [];
@@ -287,16 +303,6 @@ class Image
 				$phpThumb->setParameter($k, $v);
 			}
 		}
-
-		$imagemagick = '';
-		if(0 === stripos(PHP_OS, 'WIN'))
-		{
-			$imagemagick = 'C:/ImageMagick/convert.exe';
-		}
-
-		$phpThumb->setParameter('config_imagemagick_path', $imagemagick);
-		$phpThumb->setParameter('config_prefer_imagemagick', true);
-		$phpThumb->setParameter('config_imagemagick_use_thumbnail', true);
 
 		$output = '';
 		if($phpThumb->GenerateThumbnail())
@@ -449,4 +455,23 @@ class Image
 
 		return substr($header[ 0 ], 9, 3);
 	}
+
+	/*private function isWebImageMagicSupport()
+	{
+		exec('convert -list delegate 2>&1', $output, $returnCode);
+		foreach ($output as $line) {
+			if (preg_match('#webp\\s*=#i', $line)) {
+				return true;
+			}
+		}
+
+		exec('convert -list configure 2>&1', $output, $returnCode);
+		foreach ($output as $line) {
+			if (preg_match('#DELEGATE.*webp#i', $line)) {
+				return true;
+			}
+		}
+
+		return false;
+	}*/
 }
