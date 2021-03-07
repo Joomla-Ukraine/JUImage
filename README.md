@@ -121,6 +121,20 @@ Display as:
 	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
 </picture>
 ```
+Use GD2 lib for webp thumbs:
+
+```php
+<?php
+
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
+	'w'           => '300',
+	'h'           => '100',
+	'q'           => '95',
+	'webp'        => true,
+	'imagemagick' => false
+]);
+?>
+```
 
 | WebP command | Type | Default | Description
 | --- | --- | --- | --- |
