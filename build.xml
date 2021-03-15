@@ -1,6 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="4.1"/>
+    <property name="VERSION" value="4.2"/>
     <property name="build" value="build"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>

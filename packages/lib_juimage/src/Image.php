@@ -297,6 +297,11 @@ class Image
 		{
 			foreach($attr as $k => $v)
 			{
+				if($k === 'imagemagick')
+				{
+					continue;
+				}
+
 				$f = explode('_', $k);
 				$k = $f[ 0 ];
 
@@ -455,23 +460,4 @@ class Image
 
 		return substr($header[ 0 ], 9, 3);
 	}
-
-	/*private function isWebImageMagicSupport()
-	{
-		exec('convert -list delegate 2>&1', $output, $returnCode);
-		foreach ($output as $line) {
-			if (preg_match('#webp\\s*=#i', $line)) {
-				return true;
-			}
-		}
-
-		exec('convert -list configure 2>&1', $output, $returnCode);
-		foreach ($output as $line) {
-			if (preg_match('#DELEGATE.*webp#i', $line)) {
-				return true;
-			}
-		}
-
-		return false;
-	}*/
 }

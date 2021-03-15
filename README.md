@@ -224,8 +224,7 @@ GNU General Public License version 3 or later; see [LICENSE.md](LICENSE.md)
 
 ## Software used 
 
-JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich), [webp-convert
-](https://github.com/rosell-dk/webp-convert) (Bjørn Rosell) and [fast-image-size library](https://github.com/marc1706/fast-image-size) (Marc Alexander).
+JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich), and [fast-image-size library](https://github.com/marc1706/fast-image-size) (Marc Alexander).
 
 ## Sponsors
 
