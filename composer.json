@@ -60,7 +60,7 @@
     "sort-packages": true,
     "archive-format": "zip",
     "platform": {
-      "php": "5.6"
+      "php": "7.0"
     }
   },
   "prefer-stable": true,
@@ -69,7 +69,7 @@
     "ext-imagick": "PHP ImageMagick"
   },
   "require": {
-    "php": ">=5.6.0",
+    "php": ">=7.0",
     "ext-curl": "*",
     "ext-exif": "*",
     "ext-gd": "*",
