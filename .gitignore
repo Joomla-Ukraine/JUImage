@@ -1,4 +1,4 @@
 /.idea/
 /dist/
-/packages/lib_juimage/scripts.txt
-packages/lib_juimage/vendor/bin
+/scripts.txt
+vendor/bin

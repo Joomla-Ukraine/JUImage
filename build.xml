@@ -1,6 +1,6 @@
 <project name="juimage" default="dist" basedir=".">
 
-    <property name="VERSION" value="4.2"/>
+    <property name="VERSION" value="4.3"/>
     <property name="build" value="build"/>
     <property name="temp" value="temp"/>
     <property name="dist" value="dist"/>
@@ -54,14 +54,6 @@
             </filterchain>
         </copy>
 
-        <delete file="${temp}/lib_juimage/juimage.xml"/>
-        <delete file="${temp}/lib_juimage/composer.json"/>
-        <delete file="${temp}/lib_juimage/composer.lock"/>
-        <delete file="${temp}/lib_juimage/LICENSE.md"/>
-        <delete file="${temp}/lib_juimage/scripts.txt"/>
-        <delete file="${temp}/lib_juimage/vendor/composer/installed.json"/>
-        <delete file="${temp}/lib_juimage/vendor/composer/LICENSE"/>
-
         <copy file="${temp}/temp/lib_juimage/juimage.xml" todir="${temp}/lib_juimage"/>
 
         <!---->
@@ -85,6 +77,22 @@
     <target name="pack-plugins">
 
         <mkdir dir="${build}/packages"/>
+
+        <copy todir="${temp}/lib_juimage/src">
+            <fileset dir="src">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <copy todir="${temp}/lib_juimage/vendor">
+            <fileset dir="vendor">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <copy file="blank.png" todir="${temp}/lib_juimage" />
+        <copy file="JUImage.php" todir="${temp}/lib_juimage" />
+        <copy file="noimage.png" todir="${temp}/lib_juimage" />
 
         <zip destfile="${build}/packages/lib_juimage.zip" description="lib_juimage">
             <fileset dir="${temp}/lib_juimage"/>
