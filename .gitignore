@@ -2,3 +2,4 @@
 /dist/
 /scripts.txt
 vendor/bin
+composer.lock
