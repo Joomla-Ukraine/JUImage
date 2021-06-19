@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ab3bedd533a5c1df8e9553f3f5ababb",
+    "content-hash": "bfb4668fadee3598dacce3f6e0a1734f",
     "packages": [
         {
             "name": "marc1706/fast-image-size",
@@ -120,7 +120,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6.0",
+        "php": ">=7.0",
         "ext-curl": "*",
         "ext-exif": "*",
         "ext-gd": "*",
@@ -130,7 +130,7 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "5.6"
+        "php": "7.0"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

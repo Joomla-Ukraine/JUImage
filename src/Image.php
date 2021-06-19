@@ -54,11 +54,9 @@ class Image
 
 		if(isset($attr[ 'webp' ]) === true)
 		{
-			$output = $this->thumb($url, array_merge($attr, [ 'f' => 'webp' ]));
-
 			return (object) [
 				'img'  => $img,
-				'webp' => $output
+				'webp' => $this->thumb($url, array_merge($attr, [ 'f' => 'webp' ]))
 			];
 		}
 
@@ -87,11 +85,14 @@ class Image
 	 * @param array $attr
 	 *
 	 * @return object|string
-	 * @return object|string
 	 * @since 4.0
 	 */
 	private function thumb($url, array $attr = [])
 	{
+		$_error   = false;
+		$img_name = implode($attr);
+		$img_url  = 'cover';
+
 		if($url !== 'cover')
 		{
 			$url = trim($url, '/');
@@ -126,12 +127,6 @@ class Image
 			$img_url  = preg_replace('#[[:punct:]]#', '', $img_url);
 			$img_url  = preg_replace('#[а-яёєїіА-ЯЁЄЇІ]#iu', '', $img_url);
 			$img_url  = str_replace([ ' +', ' ' ], [ '_', '' ], $img_url);
-		}
-		else
-		{
-			$_error   = false;
-			$img_name = implode($attr);
-			$img_url  = 'cover';
 		}
 
 		$file_ext    = [];
@@ -209,7 +204,7 @@ class Image
 		$target = $subfolder . '/' . $img_url;
 		if(file_exists($this->path . '/' . $target))
 		{
-			$output = $target;
+			return $target;
 		}
 		else
 		{
@@ -219,10 +214,8 @@ class Image
 				$this->makeDir($path);
 			}
 
-			$output = $this->createThumb($url, $img_cache, $target, $attr);
+			return $this->createThumb($url, $img_cache, $target, $attr);
 		}
-
-		return $output;
 	}
 
 	/**
@@ -332,7 +325,7 @@ class Image
 	 * @return bool|string
 	 * @since 4.0
 	 */
-	private function createVideoThumb($url, $video_detect = false)
+	private function createVideoThumb($url, bool $video_detect = false)
 	{
 		$urls = parse_url($url);
 
@@ -344,7 +337,6 @@ class Image
 		if($urls[ 'host' ] === 'youtu.be')
 		{
 			$id = ltrim($urls[ 'path' ], '/');
-
 			if(strpos($urls[ 'path' ], 'embed') == 1)
 			{
 				$cut_embed = explode('/', $urls[ 'path' ]);
@@ -427,14 +419,13 @@ class Image
 
 	/**
 	 * @param     $dir
-	 * @param int $mode
 	 *
 	 * @return bool
 	 * @since 4.0
 	 */
-	private function makeDir($dir, $mode = 0777)
+	private function makeDir($dir)
 	{
-		if(mkdir($dir, $mode, true) || is_dir($dir))
+		if(mkdir($dir, 0777, true) || is_dir($dir))
 		{
 			return true;
 		}
@@ -444,7 +435,7 @@ class Image
 			return false;
 		}
 
-		return mkdir($dir, $mode, true);
+		return mkdir($dir, 0777, true);
 	}
 
 	/**
