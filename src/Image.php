@@ -325,7 +325,7 @@ class Image
 	 * @return bool|string
 	 * @since 4.0
 	 */
-	private function createVideoThumb($url, bool $video_detect = false)
+	private function createVideoThumb($url, $video_detect = false)
 	{
 		$urls = parse_url($url);
 

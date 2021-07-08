@@ -63,54 +63,6 @@
                 "source": "https://github.com/marc1706/fast-image-size/tree/v1.1.6"
             },
             "install-path": "../marc1706/fast-image-size"
-        },
-        {
-            "name": "visavi/cleanup",
-            "version": "v1.5.2",
-            "version_normalized": "1.5.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/visavi/cleanup.git",
-                "reference": "fc13c6376fabe61522d4a3cfeab90e8555c1fbd2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/visavi/cleanup/zipball/fc13c6376fabe61522d4a3cfeab90e8555c1fbd2",
-                "reference": "fc13c6376fabe61522d4a3cfeab90e8555c1fbd2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "time": "2019-12-08T16:59:14+00:00",
-            "bin": [
-                "cleanup"
-            ],
-            "type": "library",
-            "installation-source": "dist",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Grigorev",
-                    "email": "admin@visavi.net",
-                    "homepage": "http://visavi.net"
-                }
-            ],
-            "description": "Cleaning vendor directory",
-            "homepage": "http://visavi.net",
-            "keywords": [
-                "clean",
-                "composer",
-                "vendor"
-            ],
-            "support": {
-                "issues": "https://github.com/visavi/cleanup/issues",
-                "source": "https://github.com/visavi/cleanup/tree/master"
-            },
-            "install-path": "../visavi/cleanup"
         }
     ],
     "dev": false,

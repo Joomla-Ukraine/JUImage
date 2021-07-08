@@ -68,6 +68,16 @@
     "ext-gd": "PHP GD library",
     "ext-imagick": "PHP ImageMagick"
   },
+  "archive": {
+    "exclude": [
+      "/packages",
+      "/vendor",
+      "/pkg_juimage.xml",
+      "/noimage.png",
+      "/JUImage.php",
+      "/blank.png"
+    ]
+  },
   "require": {
     "php": ">=7.0",
     "ext-curl": "*",
@@ -76,7 +86,6 @@
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-zlib": "*",
-    "marc1706/fast-image-size": "1.*",
-    "visavi/cleanup": "^v1.5.2"
+    "marc1706/fast-image-size": "1.*"
   }
 }
