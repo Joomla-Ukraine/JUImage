@@ -68,16 +68,6 @@
     "ext-gd": "PHP GD library",
     "ext-imagick": "PHP ImageMagick"
   },
-  "archive": {
-    "exclude": [
-      "/packages",
-      "/vendor",
-      "/pkg_juimage.xml",
-      "/noimage.png",
-      "/JUImage.php",
-      "/blank.png"
-    ]
-  },
   "require": {
     "php": ">=7.0",
     "ext-curl": "*",
