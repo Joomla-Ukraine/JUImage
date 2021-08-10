@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '0585aad9f57ef34202d71464db84cfd2a8b2a51f',
         'name' => 'joomla-ua/juimage',
         'dev' => false,
     ),
     'versions' => array(
         'joomla-ua/juimage' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '0585aad9f57ef34202d71464db84cfd2a8b2a51f',
             'dev_requirement' => false,
         ),
         'marc1706/fast-image-size' => array(

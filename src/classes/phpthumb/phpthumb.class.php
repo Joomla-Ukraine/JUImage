@@ -220,7 +220,7 @@ class phpthumb {
 	public $issafemode       = null;
 	public $php_memory_limit = null;
 
-	public $phpthumb_version = '1.7.17-202102131808';
+	public $phpthumb_version = '1.7.17-202107271830';
 
 	//////////////////////////////////////////////////////////////////////
 
@@ -553,7 +553,7 @@ class phpthumb {
 					ob_end_clean();
 					return false;
 				}
-				imagewebp($this->gdimg_output);
+				imagewebp($this->gdimg_output, null, $this->thumbnailQuality);
 				$this->outputImageData = ob_get_contents();
 				break;
 
@@ -564,7 +564,7 @@ class phpthumb {
 					break;
 				}
 				$this->DebugMessage('GD does not have required built-in support for BMP output', __FILE__, __LINE__);
-				if (!@include_once __DIR__ . '/phpthumb.bmp.php') {
+				if (!@include_once __DIR__ .'/phpthumb.bmp.php' ) {
 					$this->DebugMessage('Error including "'. __DIR__ .'/phpthumb.bmp.php" which is required for BMP format output', __FILE__, __LINE__);
 					ob_end_clean();
 					return false;
@@ -575,7 +575,7 @@ class phpthumb {
 				break;
 
 			case 'ico':
-				if (!@include_once __DIR__ . '/phpthumb.ico.php') {
+				if (!@include_once __DIR__ .'/phpthumb.ico.php' ) {
 					$this->DebugMessage('Error including "'. __DIR__ .'/phpthumb.ico.php" which is required for ICO format output', __FILE__, __LINE__);
 					ob_end_clean();
 					return false;
@@ -669,14 +669,9 @@ class phpthumb {
 			$this->DebugMessage('imageinterlace($this->gdimg_output, '. (int) $this->config_output_interlace .')', __FILE__, __LINE__);
 			imageinterlace($this->gdimg_output, (int) $this->config_output_interlace);
 			switch ($this->thumbnailFormat) {
-				case 'jpeg':
-					header('Content-Type: '.phpthumb_functions::ImageTypeToMIMEtype($this->thumbnailFormat));
-					$ImageOutFunction = 'image'.$this->thumbnailFormat;
-					@$ImageOutFunction($this->gdimg_output, null, $this->thumbnailQuality);
-					break;
-
-				case 'png':
 				case 'gif':
+				case 'jpeg':
+				case 'png':
 				case 'webp':
 					$ImageOutFunction = 'image'.$this->thumbnailFormat;
 					if (!function_exists($ImageOutFunction)) {
@@ -684,7 +679,11 @@ class phpthumb {
 						return false;
 					}
 					header('Content-Type: '.phpthumb_functions::ImageTypeToMIMEtype($this->thumbnailFormat));
-					@$ImageOutFunction($this->gdimg_output);
+					if ($this->thumbnailFormat == 'gif') {
+						@$ImageOutFunction($this->gdimg_output);
+					} else {
+						@$ImageOutFunction($this->gdimg_output, null, $this->thumbnailQuality);
+					}
 					break;
 
 				case 'bmp':
@@ -693,7 +692,7 @@ class phpthumb {
 						imagebmp($this->gdimg_output);
 						break;
 					}
-					if (!@include_once __DIR__ . '/phpthumb.bmp.php') {
+					if (!@include_once __DIR__ .'/phpthumb.bmp.php' ) {
 						$this->DebugMessage('Error including "'. __DIR__ .'/phpthumb.bmp.php" which is required for BMP format output', __FILE__, __LINE__);
 						return false;
 					}
@@ -714,7 +713,7 @@ class phpthumb {
 					break;
 
 				case 'ico':
-					if (!@include_once __DIR__ . '/phpthumb.ico.php') {
+					if (!@include_once __DIR__ .'/phpthumb.ico.php' ) {
 						$this->DebugMessage('Error including "'. __DIR__ .'/phpthumb.ico.php" which is required for ICO format output', __FILE__, __LINE__);
 						return false;
 					}
@@ -966,10 +965,10 @@ class phpthumb {
 
 		$AvailableImageOutputFormats = array();
 		$AvailableImageOutputFormats[] = 'text';
-		if (@is_readable(__DIR__ . '/phpthumb.ico.php')) {
+		if (@is_readable( __DIR__ .'/phpthumb.ico.php')) {
 			$AvailableImageOutputFormats[] = 'ico';
 		}
-		if (@is_readable(__DIR__ . '/phpthumb.bmp.php')) {
+		if (@is_readable( __DIR__ .'/phpthumb.bmp.php')) {
 			$AvailableImageOutputFormats[] = 'bmp';
 		}
 
@@ -1907,8 +1906,8 @@ if (false) {
 
 							} else {
 
-								$this->w = (($this->aoe && $this->w) ? $this->w : ($this->w ? phpthumb_functions::nonempty_min($this->w, $getimagesize[0]) : ''));
-								$this->h = (($this->aoe && $this->h) ? $this->h : ($this->h ? phpthumb_functions::nonempty_min($this->h, $getimagesize[1]) : ''));
+								$this->w = (($this->aoe && $this->w) ? $this->w : ($this->w ? phpthumb_functions::nonempty_min($this->w, $getimagesize[0]) : null));
+								$this->h = (($this->aoe && $this->h) ? $this->h : ($this->h ? phpthumb_functions::nonempty_min($this->h, $getimagesize[1]) : null));
 								if ($this->w || $this->h) {
 									if ($IMuseExplicitImageOutputDimensions) {
 										if ($this->w && !$this->h) {
@@ -2396,7 +2395,7 @@ if (false) {
 				$this->DebugMessage('!function_exists(imagerotate)', __FILE__, __LINE__);
 				return false;
 			}
-			if (!include_once __DIR__ . '/phpthumb.filters.php') {
+			if (!include_once __DIR__ .'/phpthumb.filters.php' ) {
 				$this->DebugMessage('Error including "'. __DIR__ .'/phpthumb.filters.php" which is required for applying filters ('.implode(';', $this->fltr).')', __FILE__, __LINE__);
 				return false;
 			}
@@ -2594,7 +2593,7 @@ if (false) {
 			$this->config_nooffsitelink_watermark_src = $this->ResolveFilenameToAbsolute($this->config_nooffsitelink_watermark_src);
 			if (is_file($this->config_nooffsitelink_watermark_src)) {
 
-				if (!include_once __DIR__ . '/phpthumb.filters.php') {
+				if (!include_once __DIR__ .'/phpthumb.filters.php' ) {
 					$this->DebugMessage('Error including "'. __DIR__ .'/phpthumb.filters.php" which is required for applying watermark', __FILE__, __LINE__);
 					return false;
 				}
@@ -2734,7 +2733,7 @@ if (false) {
 
 	public function ApplyFilters() {
 		if ($this->fltr && is_array($this->fltr)) {
-			if (!include_once __DIR__ . '/phpthumb.filters.php') {
+			if (!include_once __DIR__ .'/phpthumb.filters.php' ) {
 				$this->DebugMessage('Error including "'. __DIR__ .'/phpthumb.filters.php" which is required for applying filters ('.implode(';', $this->fltr).')', __FILE__, __LINE__);
 				return false;
 			}
@@ -3113,7 +3112,7 @@ if (false) {
 						$threshold = ('' !== $threshold ? $threshold : 3);
 						if (phpthumb_functions::gd_version() >= 2.0) {
 							ob_start();
-							if (!@include_once __DIR__ . '/phpthumb.unsharp.php') {
+							if (!@include_once __DIR__ .'/phpthumb.unsharp.php' ) {
 								$include_error = ob_get_contents();
 								if ($include_error) {
 									$this->DebugMessage('include_once("'. __DIR__ .'/phpthumb.unsharp.php") generated message: "'.$include_error.'"', __FILE__, __LINE__);
@@ -3964,7 +3963,7 @@ if (false) {
 			switch (@$this->getimagesizeinfo[2]) {
 				case 6:
 					ob_start();
-					if (!@include_once __DIR__ . '/phpthumb.bmp.php') {
+					if (!@include_once __DIR__ .'/phpthumb.bmp.php' ) {
 						ob_end_clean();
 						return $this->ErrorImage('include_once('. __DIR__ .'/phpthumb.bmp.php) failed');
 					}
@@ -4128,7 +4127,7 @@ if (false) {
 		$DebugOutput[] = 'PHP_OS                      = '.PHP_OS;
 		$DebugOutput[] = '$_SERVER[SERVER_SOFTWARE]   = '.@$_SERVER['SERVER_SOFTWARE'];
 		$DebugOutput[] = '__FILE__                    = '.__FILE__;
-		$DebugOutput[] = 'realpath(.)                 = '.@realpath('');
+		$DebugOutput[] = 'realpath(.)                 = '.@realpath('.');
 		$DebugOutput[] = '$_SERVER[PHP_SELF]          = '.@$_SERVER['PHP_SELF'];
 		$DebugOutput[] = '$_SERVER[HOST_NAME]         = '.@$_SERVER['HOST_NAME'];
 		$DebugOutput[] = '$_SERVER[HTTP_REFERER]      = '.@$_SERVER['HTTP_REFERER'];
@@ -4407,7 +4406,7 @@ if (false) {
 
 					// Need to create from GIF file, but imagecreatefromgif does not exist
 					ob_start();
-					if (!@include_once __DIR__ . '/phpthumb.gif.php') {
+					if (!@include_once __DIR__ .'/phpthumb.gif.php' ) {
 						$ErrorMessage = 'Failed to include required file "'. __DIR__ .'/phpthumb.gif.php" in '.__FILE__.' on line '.__LINE__;
 						$this->DebugMessage($ErrorMessage, __FILE__, __LINE__);
 					}
