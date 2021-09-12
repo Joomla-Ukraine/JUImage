@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '0585aad9f57ef34202d71464db84cfd2a8b2a51f',
+        'reference' => 'eb6cbc281a5d13b578a6dfe13b4e3c375f823146',
         'name' => 'joomla-ua/juimage',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '0585aad9f57ef34202d71464db84cfd2a8b2a51f',
+            'reference' => 'eb6cbc281a5d13b578a6dfe13b4e3c375f823146',
             'dev_requirement' => false,
         ),
         'marc1706/fast-image-size' => array(
