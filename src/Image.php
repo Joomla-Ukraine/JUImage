@@ -23,7 +23,6 @@ use phpthumb;
 class Image
 {
 	private $path;
-
 	private $img_blank;
 
 	/**
@@ -84,7 +83,7 @@ class Image
 	 * @param       $url
 	 * @param array $attr
 	 *
-	 * @return object|string
+	 * @return string
 	 * @since 4.0
 	 */
 	private function thumb($url, array $attr = [])
@@ -350,9 +349,8 @@ class Image
 			{
 				parse_str($urls[ 'query' ], $output);
 
-				$yid     = $output[ 'v' ];
-				$feature = '';
-				if(!empty($feature))
+				$yid = $output[ 'v' ];
+				if(isset($feature))
 				{
 					$cut_feature = explode('v=', $urls[ 'query' ]);
 					$yid         = end($cut_feature);
