@@ -5,3 +5,4 @@
 /scripts.txt
 vendor/bin
 composer.lock
+/vendor/
