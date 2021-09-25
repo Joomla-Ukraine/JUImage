@@ -1,6 +1,6 @@
 <?php
 /**
- * @since          4.0
+ * @since          5.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
@@ -18,18 +18,18 @@ use phpthumb;
 /**
  * JUImage library for render thumbs
  *
- * @since  4.0
+ * @since  5.0
  */
 class Image
 {
 	/**
-	 * @since 4.0
+	 * @since 5.0
 	 * @var mixed|string
 	 */
 	private $path;
 
 	/**
-	 * @since 4.0
+	 * @since 5.0
 	 * @var mixed|string
 	 */
 	private $img_blank;
@@ -39,7 +39,7 @@ class Image
 	 *
 	 * @param array $config
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	public function __construct(array $config = [])
 	{
@@ -53,7 +53,7 @@ class Image
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	public function img(array $image, array $options)
 	{
@@ -160,7 +160,7 @@ class Image
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	public function picture(array $image, array $options)
 	{
@@ -254,7 +254,7 @@ class Image
 	 * @return object|string
 	 * @return object|string
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	public function render($url, array $attr = [])
 	{
@@ -276,7 +276,7 @@ class Image
 	 *
 	 * @return object
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	public function size($img_path)
 	{
@@ -293,7 +293,7 @@ class Image
 	 * @param array $attr
 	 *
 	 * @return string
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	private function thumb($url, array $attr = [])
 	{
@@ -432,7 +432,7 @@ class Image
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	private function createThumb($url, $img_cache, $target, array $attr = [])
 	{
@@ -529,7 +529,7 @@ class Image
 	 *
 	 * @return bool|string
 	 * @return bool|string
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	private function createVideoThumb($url, $video_detect = false)
 	{
@@ -586,7 +586,7 @@ class Image
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	private function youtube($id)
 	{
@@ -610,7 +610,7 @@ class Image
 	 *
 	 * @return false
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	private function vimeo($id)
 	{
@@ -627,7 +627,7 @@ class Image
 	 * @param     $dir
 	 *
 	 * @return bool
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	private function makeDir($dir)
 	{
@@ -649,7 +649,7 @@ class Image
 	 *
 	 * @return bool|string
 	 *
-	 * @since 4.0
+	 * @since 5.0
 	 */
 	private function http($url)
 	{
