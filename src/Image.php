@@ -1,6 +1,6 @@
 <?php
 /**
- * @since          5.0
+ * @since          4.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
@@ -18,7 +18,7 @@ use phpthumb;
 /**
  * JUImage library for render thumbs
  *
- * @since  5.0
+ * @since  4.0
  */
 class Image
 {
@@ -39,212 +39,12 @@ class Image
 	 *
 	 * @param array $config
 	 *
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	public function __construct(array $config = [])
 	{
 		$this->path      = isset($config[ 'root_path' ]) ? $config[ 'root_path' ] : JPATH_BASE;
 		$this->img_blank = isset($config[ 'img_blank' ]) ? $config[ 'img_blank' ] : 'libraries/juimage/noimage.png';
-	}
-
-	/**
-	 * @param array $image
-	 * @param array $options
-	 *
-	 * @return string
-	 *
-	 * @since 5.0
-	 */
-	public function img(array $image, array $options)
-	{
-		if(!empty($options[ 'webp' ]))
-		{
-			return 'Use webp option as <code>\'f\' => \'webp\'</code> or function <code>$juImg->picture()</code>';
-		}
-
-		if(empty($options[ 'w' ]) || empty($options[ 'h' ]))
-		{
-			return 'Set width and height to $options';
-		}
-
-		if(!empty($image[ 'img' ]))
-		{
-			$src    = $this->render($image[ 'img' ], $options);
-			$width  = ('width="' . $options[ 'w' ] . '"');
-			$height = ('height="' . $options[ 'h' ] . '"');
-			$srcset = '';
-			$sizes  = '';
-
-			// Use crop
-			if(!empty($options[ 'zc' ]) == 0)
-			{
-				$size   = (new FastImageSize)->getImageSize($src);
-				$width  = (!empty($size[ 'width' ]) ? 'width="' . $size[ 'width' ] . '"' : '');
-				$height = (!empty($size[ 'height' ]) ? 'height="' . $size[ 'height' ] . '"' : '');
-			}
-
-			// Images by density
-			if(!empty($image[ 'srcset' ][ 'density' ]))
-			{
-				$_srcset = [];
-				foreach($image[ 'srcset' ][ 'density' ] as $srcset)
-				{
-					$options[ 'w' ] *= (int) $srcset;
-					$options[ 'h' ] *= (int) $srcset;
-					$thumb          = $this->render($image[ 'img' ], $options);
-					$_srcset[]      = $thumb . ' ' . $srcset;
-				}
-
-				$srcset = 'srcset="' . implode(', ', $_srcset) . '"';
-			}
-
-			// Images by viewport
-			if(!empty($image[ 'srcset' ][ 'width' ]))
-			{
-				$i       = 0;
-				$_srcset = [];
-				foreach($image[ 'srcset' ][ 'width' ] as $key => $val)
-				{
-					$options[ 'w' ] = $val[ 'w' ];
-					$options[ 'h' ] = $val[ 'h' ];
-					$thumb          = $this->render($image[ 'img' ], $options);
-					$_srcset[]      = $thumb . ' ' . $key;
-
-					if($i == 0)
-					{
-						$src    = $thumb;
-						$width  = 'width="' . $val[ 'w' ] . '"';
-						$height = 'height="' . $val[ 'h' ] . '"';
-					}
-
-					$i++;
-				}
-
-				$srcset = 'srcset="' . implode(', ', $_srcset) . '"';
-			}
-
-			if(!empty($image[ 'srcset' ][ 'sizes' ]))
-			{
-				$sizes = 'sizes="' . $image[ 'srcset' ][ 'sizes' ] . '"';
-			}
-
-			$attributes = [
-				'src="' . $src . '"',
-				$srcset,
-				$sizes,
-				$width,
-				$height,
-			];
-
-			// Custom attributes
-			if(!empty($image[ 'attributes' ]))
-			{
-				$image_attributes = [];
-				foreach($image[ 'attributes' ] as $key => $val)
-				{
-					$image_attributes[] = $key . '="' . $val . '"';
-				}
-
-				$attributes = array_merge($attributes, $image_attributes);
-			}
-
-			return '<img ' . implode(' ', $attributes) . '>';
-		}
-
-		return 'Set path to image';
-	}
-
-	/**
-	 * @param array $image
-	 * @param array $options
-	 *
-	 * @return string
-	 *
-	 * @since 5.0
-	 */
-	public function picture(array $image, array $options)
-	{
-		if(!empty($image[ 'source' ]))
-		{
-			$i       = 0;
-			$_source = [];
-			foreach($image[ 'source' ] as $key => $val)
-			{
-				if($val[ 'w' ] && $val[ 'h' ])
-				{
-					$options[ 'w' ] = $val[ 'w' ];
-					$options[ 'h' ] = $val[ 'h' ];
-					$thumb          = $this->render($image[ 'img' ], $options);
-
-					$_width  = (!empty($val[ 'w' ]) ? 'width="' . $val[ 'w' ] . '"' : '');
-					$_height = (!empty($val[ 'h' ]) ? 'height="' . $val[ 'h' ] . '"' : '');
-
-					// Use crop
-					if(!empty($options[ 'zc' ]) == 0)
-					{
-						$size    = (new FastImageSize)->getImageSize($thumb);
-						$_width  = (!empty($size[ 'width' ]) ? $size[ 'width' ] : '');
-						$_height = (!empty($size[ 'height' ]) ? $size[ 'height' ] : '');
-					}
-
-					// WebP image support
-					if(!empty($options[ 'webp' ]))
-					{
-						$_source[] = '<source media="(' . $key . ')" srcset="' . $thumb->webp . '" ' . $_width . ' ' . $_height . '>';
-						$_source[] = '<source media="(' . $key . ')" srcset="' . $thumb->img . '" ' . $_width . ' ' . $_height . '>';
-
-					}
-					else
-					{
-						$_source[] = '<source media="(' . $key . ')" srcset="' . $thumb . '" ' . $_width . ' ' . $_height . '>';
-					}
-
-					if($i == 0)
-					{
-						$src = $thumb;
-						if(!empty($options[ 'webp' ]))
-						{
-							$src = $thumb->img;
-						}
-
-						$width  = $_width;
-						$height = $_height;
-					}
-				}
-
-				$i++;
-			}
-
-			$source = implode($_source);
-
-			$attributes = [
-				'src="' . $src . '"',
-				!empty($image[ 'width' ]) ? $width : '',
-				!empty($image[ 'width' ]) ? $height : '',
-			];
-
-			// Custom attributes
-			if(!empty($image[ 'attributes' ]))
-			{
-				$image_attributes = [];
-				foreach($image[ 'attributes' ] as $key => $val)
-				{
-					$image_attributes[] = $key . '="' . $val . '"';
-				}
-
-				$attributes = array_merge($attributes, $image_attributes);
-			}
-
-			$picture   = [];
-			$picture[] = '<picture>';
-			$picture[] = $source;
-			$picture[] = '<img ' . implode(' ', $attributes) . '>';
-			$picture[] = '</picture>';
-
-			return implode($picture);
-		}
-
-		return 'Set path to image';
 	}
 
 	/**
@@ -254,7 +54,7 @@ class Image
 	 * @return object|string
 	 * @return object|string
 	 *
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	public function render($url, array $attr = [])
 	{
@@ -276,7 +76,7 @@ class Image
 	 *
 	 * @return object
 	 *
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	public function size($img_path)
 	{
@@ -293,7 +93,7 @@ class Image
 	 * @param array $attr
 	 *
 	 * @return string
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	private function thumb($url, array $attr = [])
 	{
@@ -333,7 +133,7 @@ class Image
 			$img_name = pathinfo($url)[ 'filename' ];
 			$img_url  = strtolower($img_name);
 			$img_url  = preg_replace('#[[:punct:]]#', '', $img_url);
-			$img_url  = preg_replace('#[а-яёєїіА-ЯЁЄЇІ]#iu', '', $img_url);
+			$img_url  = preg_replace('#[а-яёєїіЁЄЇІ]#iu', '', $img_url);
 			$img_url  = str_replace([ ' +', ' ' ], [ '_', '' ], $img_url);
 		}
 
@@ -432,7 +232,7 @@ class Image
 	 *
 	 * @return string
 	 *
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	private function createThumb($url, $img_cache, $target, array $attr = [])
 	{
@@ -529,7 +329,7 @@ class Image
 	 *
 	 * @return bool|string
 	 * @return bool|string
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	private function createVideoThumb($url, $video_detect = false)
 	{
@@ -556,9 +356,8 @@ class Image
 			{
 				parse_str($urls[ 'query' ], $output);
 
-				$yid     = $output[ 'v' ];
-				$feature = '';
-				if(!empty($feature))
+				$yid = $output[ 'v' ];
+				if(isset($output[ 'feature' ]) || $output[ 'feature' ])
 				{
 					$cut_feature = explode('v=', $urls[ 'query' ]);
 					$yid         = end($cut_feature);
@@ -586,7 +385,7 @@ class Image
 	 *
 	 * @return string
 	 *
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	private function youtube($id)
 	{
@@ -610,7 +409,7 @@ class Image
 	 *
 	 * @return false
 	 *
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	private function vimeo($id)
 	{
@@ -627,7 +426,7 @@ class Image
 	 * @param     $dir
 	 *
 	 * @return bool
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	private function makeDir($dir)
 	{
@@ -649,7 +448,7 @@ class Image
 	 *
 	 * @return bool|string
 	 *
-	 * @since 5.0
+	 * @since 4.0
 	 */
 	private function http($url)
 	{

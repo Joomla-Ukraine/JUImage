@@ -1,29 +1,40 @@
-<project name="juimage" default="dist" basedir=".">
+<project name="juimage"
+         default="dist"
+         basedir=".">
 
-    <property name="VERSION" value="5.1"/>
-    <property name="build" value="build"/>
-    <property name="temp" value="temp"/>
-    <property name="dist" value="dist"/>
-    <property name="filename" value="pkg_juimage_v${VERSION}.zip"/>
-    <property name="MIN_JOOMLA_VERSION" value="3.9"/>
+    <property name="VERSION"
+              value="4.5" />
+    <property name="build"
+              value="build" />
+    <property name="temp"
+              value="temp" />
+    <property name="dist"
+              value="dist" />
+    <property name="filename"
+              value="pkg_juimage_v${VERSION}.zip" />
+    <property name="MIN_JOOMLA_VERSION"
+              value="3.9" />
 
     <tstamp>
-        <format property="DATE" pattern="%d.%m.%Y"/>
+        <format property="DATE"
+                pattern="%d.%m.%Y" />
     </tstamp>
 
-    <property name="filename" value="pkg_juimage_v${VERSION}.zip"/>
+    <property name="filename"
+              value="pkg_juimage_v${VERSION}.zip" />
 
-    <target name="init" depends="clean">
-        <mkdir dir="${build}"/>
-        <mkdir dir="${build}/packages"/>
-        <mkdir dir="${temp}"/>
-        <mkdir dir="${dist}"/>
+    <target name="init"
+            depends="clean">
+        <mkdir dir="${build}" />
+        <mkdir dir="${build}/packages" />
+        <mkdir dir="${temp}" />
+        <mkdir dir="${dist}" />
     </target>
 
     <target name="temp">
         <copy todir="${temp}">
             <fileset dir="packages">
-                <include name="**"/>
+                <include name="**" />
             </fileset>
         </copy>
         <copy todir="${temp}/lib_juimage/src">
@@ -36,67 +47,87 @@
                 <include name="**" />
             </fileset>
         </copy>
-        <copy file="blank.png" todir="${temp}/lib_juimage" />
-        <copy file="JUImage.php" todir="${temp}/lib_juimage" />
-        <copy file="noimage.png" todir="${temp}/lib_juimage" />
+        <copy file="blank.png"
+              todir="${temp}/lib_juimage" />
+        <copy file="JUImage.php"
+              todir="${temp}/lib_juimage" />
+        <copy file="noimage.png"
+              todir="${temp}/lib_juimage" />
     </target>
 
     <target name="replace">
-        <copy file="pkg_juimage.xml" todir="${build}">
+        <copy file="pkg_juimage.xml"
+              todir="${build}">
             <filterchain>
                 <replacetokens>
-                    <token key="version" value="${VERSION}"/>
-                    <token key="minjversion" value="${MIN_JOOMLA_VERSION}"/>
-                    <token key="date" value="${DATE}"/>
+                    <token key="version"
+                           value="${VERSION}" />
+                    <token key="minjversion"
+                           value="${MIN_JOOMLA_VERSION}" />
+                    <token key="date"
+                           value="${DATE}" />
                 </replacetokens>
             </filterchain>
         </copy>
-         <copy file="packages/lib_juimage/juimage.xml" todir="${temp}/lib_juimage">
+         <copy file="packages/lib_juimage/juimage.xml"
+               todir="${temp}/lib_juimage">
             <filterchain>
                 <replacetokens>
-                    <token key="version" value="${VERSION}"/>
-                    <token key="minjversion" value="${MIN_JOOMLA_VERSION}"/>
-                    <token key="date" value="${DATE}"/>
+                    <token key="version"
+                           value="${VERSION}" />
+                    <token key="minjversion"
+                           value="${MIN_JOOMLA_VERSION}" />
+                    <token key="date"
+                           value="${DATE}" />
                 </replacetokens>
             </filterchain>
         </copy>
-        <copy file="packages/plg_system_juimage/juimage.xml" todir="${temp}/plg_system_juimage/">
+        <copy file="packages/plg_system_juimage/juimage.xml"
+              todir="${temp}/plg_system_juimage/">
             <filterchain>
                 <replacetokens>
-                    <token key="version" value="${VERSION}"/>
-                    <token key="minjversion" value="${MIN_JOOMLA_VERSION}"/>
-                    <token key="date" value="${DATE}"/>
+                    <token key="version"
+                           value="${VERSION}" />
+                    <token key="minjversion"
+                           value="${MIN_JOOMLA_VERSION}" />
+                    <token key="date"
+                           value="${DATE}" />
                 </replacetokens>
             </filterchain>
         </copy>
     </target>
 
     <target name="pack-plugins">
-        <zip destfile="${build}/packages/lib_juimage.zip" description="lib_juimage">
-            <fileset dir="${temp}/lib_juimage"/>
+        <zip destfile="${build}/packages/lib_juimage.zip"
+             description="lib_juimage">
+            <fileset dir="${temp}/lib_juimage" />
         </zip>
-        <zip destfile="${build}/packages/plg_system_juimage.zip" description="plg_system_juimage">
-            <fileset dir="${temp}/plg_system_juimage"/>
+        <zip destfile="${build}/packages/plg_system_juimage.zip"
+             description="plg_system_juimage">
+            <fileset dir="${temp}/plg_system_juimage" />
         </zip>
-        <copy file="script.php" todir="${build}"/>
+        <copy file="script.php"
+              todir="${build}" />
     </target>
 
-    <target name="dist" depends="init, replace, temp, pack-plugins">
+    <target name="dist"
+            depends="init, replace, temp, pack-plugins">
         <zip destfile="${dist}/${filename}">
             <fileset dir="${build}/">
-                <include name="**/**"/>
+                <include name="**/**" />
             </fileset>
         </zip>
 
-        <echo msg="Removing old files..."/>
+        <echo msg="Removing old files..." />
 
-        <delete dir="${build}"/>
-        <delete dir="${temp}"/>
+        <delete dir="${build}" />
+        <delete dir="${temp}" />
     </target>
 
-    <target name="clean" description="clean up">
-        <delete dir="${build}"/>
-        <delete dir="${temp}"/>
+    <target name="clean"
+            description="clean up">
+        <delete dir="${build}" />
+        <delete dir="${temp}" />
     </target>
 
 </project>
