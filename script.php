@@ -1,13 +1,13 @@
 <?php
 /**
- * @package        JUImage
+ * @since          4.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2011-2021 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2011-2022 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
- * @since          4.0
+ * @package        JUImage
  */
 
 defined('_JEXEC') or die;
@@ -71,17 +71,17 @@ class Pkg_JUImageInstallerScript
 			$path . 'vendor/rosell-dk/webp-convert/src/Converters/Binaries'
 		];
 
-		foreach( $files AS $file )
+		foreach($files as $file)
 		{
-			if( file_exists($file) )
+			if(file_exists($file))
 			{
 				unlink($file);
 			}
 		}
 
-		foreach( $folders AS $folder )
+		foreach($folders as $folder)
 		{
-			if( is_dir($folder) )
+			if(is_dir($folder))
 			{
 				$this->unlinkRecursive($folder, 1);
 			}

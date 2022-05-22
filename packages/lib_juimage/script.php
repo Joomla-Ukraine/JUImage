@@ -1,21 +1,21 @@
 <?php
 /**
- * @package        JUImage
+ * @since          5.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2016-2021 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2016-2022 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
- * @since          5.0
+ * @package        JUImage
  */
 
 /**
  * Installation class to perform additional changes during install/uninstall/update
  *
+ * @since    5.0
  * @package  JUImage
  *
- * @since    5.0
  */
 class JUImageInstallerScript
 {
@@ -73,17 +73,17 @@ class JUImageInstallerScript
 			$path . 'vendor/rosell-dk/webp-convert/src/Converters/Binaries'
 		];
 
-		foreach( $files AS $file )
+		foreach($files as $file)
 		{
-			if( file_exists($file) )
+			if(file_exists($file))
 			{
 				unlink($file);
 			}
 		}
 
-		foreach( $folders AS $folder )
+		foreach($folders as $folder)
 		{
-			if( is_dir($folder) )
+			if(is_dir($folder))
 			{
 				$this->unlinkRecursive($folder, 1);
 			}
@@ -100,19 +100,19 @@ class JUImageInstallerScript
 	 */
 	public function unlinkRecursive($dir, $deleteRootToo)
 	{
-		if( !$dh = opendir($dir) )
+		if(!$dh = opendir($dir))
 		{
-			return;
+			return true;
 		}
 
-		while( false !== ($obj = readdir($dh)) )
+		while(false !== ($obj = readdir($dh)))
 		{
-			if( $obj === '.' || $obj === '..' )
+			if($obj === '.' || $obj === '..')
 			{
 				continue;
 			}
 
-			if( !unlink($dir . '/' . $obj) )
+			if(!unlink($dir . '/' . $obj))
 			{
 				$this->unlinkRecursive($dir . '/' . $obj, true);
 			}
@@ -120,9 +120,11 @@ class JUImageInstallerScript
 
 		closedir($dh);
 
-		if( $deleteRootToo )
+		if($deleteRootToo)
 		{
 			rmdir($dir);
 		}
+
+		return true;
 	}
 }

@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="@minjversion@" method="upgrade">
+<extension type="package"
+           version="@minjversion@"
+           method="upgrade">
     <name>JUImage</name>
     <packagename>juimage</packagename>
     <creationDate>@date@</creationDate>
     <packager>Joomla! Ukraine</packager>
-    <copyright>(C) 2016-2021 Denys Nosov, Joomla! Ukraine</copyright>
+    <copyright>(C) 2016-2022 Denys Nosov, Joomla! Ukraine</copyright>
     <packageremail>denys@joomla-ua.org</packageremail>
     <packagerurl>https://joomla-ua.org</packagerurl>
     <author>Denys Nosov, Joomla! Ukraine</author>
     <authorEmail>denys@joomla-ua.org</authorEmail>
     <authorUrl>https://joomla-ua.org</authorUrl>
     <version>@version@</version>
-    <description/>
+    <description />
     <scriptfile>script.php</scriptfile>
     <update>https://joomla-ua.org/update/lib/juimage.xml</update>
     <updateservers>
-        <server type="extension" priority="1" name="juimage">https://joomla-ua.org/update/lib/juimage.xml</server>
+        <server type="extension"
+                priority="1"
+                name="juimage">https://joomla-ua.org/update/lib/juimage.xml</server>
     </updateservers>
     <files folder="packages">
-        <file type="plugin" id="juimage" group="system">plg_system_juimage.zip</file>
-        <file type="library" id="juimage">lib_juimage.zip</file>
+        <file type="plugin"
+              id="juimage"
+              group="system">plg_system_juimage.zip</file>
+        <file type="library"
+              id="juimage">lib_juimage.zip</file>
     </files>
 </extension>

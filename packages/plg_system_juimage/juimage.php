@@ -1,13 +1,13 @@
 <?php
 /**
- * @package        JUImage
+ * @since          5.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2011-2021 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2011-2022 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
- * @since          5.0
+ * @package        JUImage
  */
 
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -17,9 +17,9 @@ defined('_JEXEC') or die;
 /**
  * JUImage plugin class.
  *
+ * @since    5.0
  * @package  JUImage plugin
  *
- * @since 5.0
  */
 class plgSystemJUImage extends CMSPlugin
 {

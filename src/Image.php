@@ -4,7 +4,7 @@
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2016-2021 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2016-2022 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
  * @package        JUImage
@@ -115,7 +115,7 @@ class Image
 					$url = $this->createVideoThumb($url);
 				}
 
-				$headers = get_headers($url);
+				$headers = get_headers($url, true);
 				if(strpos($headers[ 0 ], '200') === false)
 				{
 					$_error = true;
@@ -132,7 +132,7 @@ class Image
 
 			$img_name = pathinfo($url)[ 'filename' ];
 			$img_url  = strtolower($img_name);
-			$img_url  = preg_replace('#[[:punct:]]#', '', $img_url);
+			$img_url  = preg_replace('#[:punct:]#', '', $img_url);
 			$img_url  = preg_replace('#[а-яёєїіЁЄЇІ]#iu', '', $img_url);
 			$img_url  = str_replace([ ' +', ' ' ], [ '_', '' ], $img_url);
 		}
@@ -176,7 +176,7 @@ class Image
 		if($_error === true)
 		{
 			$error_image = implode($error_image);
-			$url         = $error_image === '' ? $this->path . '/' . $this->img_blank : $error_image;
+			$url         = ($error_image === '' ? $this->path . '/' . $this->img_blank : $error_image);
 		}
 
 		// Image Size
@@ -190,8 +190,7 @@ class Image
 
 		// Path to Folder
 		$subfolder = $img_cache . '/' . $img_size . '/' . $img_name;
-
-		$uri_attr = [];
+		$uri_attr  = [];
 		if(!empty($attr) && is_array($attr))
 		{
 			foreach($attr as $k => $v)
@@ -334,7 +333,6 @@ class Image
 	private function createVideoThumb($url, $video_detect = false)
 	{
 		$urls = parse_url($url);
-
 		if($video_detect === true)
 		{
 			return $urls[ 'host' ] === 'youtu.be' || $urls[ 'host' ] === 'youtube.com' || $urls[ 'host' ] === 'www.youtube.com' || $urls[ 'host' ] === 'vimeo.com';
@@ -414,6 +412,7 @@ class Image
 	private function vimeo($id)
 	{
 		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'));
+
 		if(!empty($vimeo))
 		{
 			return $vimeo[ 0 ]->thumbnail_large;
@@ -452,7 +451,7 @@ class Image
 	 */
 	private function http($url)
 	{
-		$header = get_headers($url);
+		$header = get_headers($url, true);
 
 		return substr($header[ 0 ], 9, 3);
 	}

@@ -3,7 +3,7 @@
          basedir=".">
 
     <property name="VERSION"
-              value="4.5" />
+              value="4.6" />
     <property name="build"
               value="build" />
     <property name="temp"
