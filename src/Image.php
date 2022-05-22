@@ -132,7 +132,7 @@ class Image
 
 			$img_name = pathinfo($url)[ 'filename' ];
 			$img_url  = strtolower($img_name);
-			$img_url  = preg_replace('#[:punct:]#', '', $img_url);
+			$img_url  = preg_replace('#[[:punct:]]#', '', $img_url);
 			$img_url  = preg_replace('#[а-яёєїіЁЄЇІ]#iu', '', $img_url);
 			$img_url  = str_replace([ ' +', ' ' ], [ '_', '' ], $img_url);
 		}
