@@ -74,7 +74,7 @@ class Image
 	/**
 	 * @param $img_path
 	 *
-	 * @return object
+	 * @return object|bool
 	 *
 	 * @since 4.0
 	 */
@@ -82,10 +82,15 @@ class Image
 	{
 		$size = (new FastImageSize)->getImageSize($img_path);
 
-		return (object) [
-			'width'  => $size[ 'width' ],
-			'height' => $size[ 'height' ]
-		];
+		if(isset($size) && $size)
+		{
+			return (object) [
+				'width'  => $size[ 'width' ],
+				'height' => $size[ 'height' ]
+			];
+		}
+
+		return false;
 	}
 
 	/**
