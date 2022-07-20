@@ -296,6 +296,15 @@ class Image
 		$phpThumb->setParameter('aoe', '1');
 		$phpThumb->setParameter('f', 'jpg');
 
+		if(isset($attr[ 'blur_bg' ]))
+		{
+			$loops = ($attr[ 'blur_bg' ] === '1' ? '20' : $attr[ 'blur_bg' ]);
+			for($i = 1; $i <= $loops; $i++)
+			{
+				$phpThumb->setParameter('fltr', 'blur|100');
+			}
+		}
+
 		if(is_array($attr))
 		{
 			foreach($attr as $k => $v)
