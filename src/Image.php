@@ -301,7 +301,7 @@ class Image
 			$loops = ($attr[ 'blur_bg' ] === '1' ? '20' : $attr[ 'blur_bg' ]);
 			for($i = 1; $i <= $loops; $i++)
 			{
-				$phpThumb->setParameter('fltr', 'blur|100');
+				$phpThumb->setParameter('fltr', 'gblr');
 			}
 		}
 
