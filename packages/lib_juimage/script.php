@@ -20,36 +20,9 @@
 class JUImageInstallerScript
 {
 	/**
-	 * @param $type
-	 * @param $parent
-	 *
-	 * @return void
-	 *
-	 * @since 5.0
-	 */
-	public function preflight($type, $parent)
-	{
-
-	}
-
-	/**
-	 * @param $parent
-	 *
-	 *
 	 * @since    5.0
 	 */
-	public function uninstall($parent)
-	{
-
-	}
-
-	/**
-	 * @param $parent
-	 *
-	 *
-	 * @since    5.0
-	 */
-	public function update($parent)
+	public function __construct()
 	{
 
 	}
@@ -96,6 +69,7 @@ class JUImageInstallerScript
 	 * @param $dir
 	 * @param $deleteRootToo
 	 *
+	 * @return bool
 	 * @since    5.0
 	 */
 	public function unlinkRecursive($dir, $deleteRootToo)

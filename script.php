@@ -1,6 +1,6 @@
 <?php
 /**
- * @since          4.0
+ * @since          5.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 class Pkg_JUImageInstallerScript
 {
 	/**
-	 * @since    4.0
+	 * @since    5.0
 	 */
 	public function __construct()
 	{
@@ -23,39 +23,8 @@ class Pkg_JUImageInstallerScript
 	}
 
 	/**
-	 * @param $type
-	 * @param $parent
-	 *
-	 * @since    4.0
-	 */
-	public function preflight($type, $parent)
-	{
-
-	}
-
-	/**
-	 * @param $parent
-	 *
-	 * @since    4.0
-	 */
-	public function uninstall($parent)
-	{
-
-	}
-
-	/**
-	 * @param $parent
-	 *
-	 * @since    4.0
-	 */
-	public function update($parent)
-	{
-
-	}
-
-	/**
 	 * @return bool
-	 * @since    4.0
+	 * @since    5.0
 	 */
 	public function postflight()
 	{
@@ -94,7 +63,7 @@ class Pkg_JUImageInstallerScript
 	 * @param $dir
 	 * @param $deleteRootToo
 	 *
-	 * @since    4.0
+	 * @since    5.0
 	 */
 	public function unlinkRecursive($dir, $deleteRootToo)
 	{

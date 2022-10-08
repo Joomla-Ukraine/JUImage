@@ -1,4 +1,5 @@
 # JUImage
+
 JUImage - library for render thumbs.
 
 Create thumbs for Joomla! extension or stand-alone use.
@@ -57,9 +58,11 @@ echo '<img src="' . $thumb . '" alt="Apple" width="300" height="100">';
 ### Joomla! Integration
 
 #### Install
-Install extention library (lib_juimage_v3.x.x.zip) using Joomla! Extension Manager. 
+
+Install extention library (lib_juimage_v3.x.x.zip) using Joomla! Extension Manager.
 
 #### Code example
+
 Code for use in your extension.
 
 ```php
@@ -93,7 +96,7 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 
 echo '<img src="'. $thumb .'" alt="Apple" width="300">';
 ```
-	 
+
 ### WebP support
 
 ```php
@@ -116,11 +119,13 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 Display as:
 
 ```html
+
 <picture>
 	<source srcset="img/apple.jpg.webp" type="image/webp">
 	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
 </picture>
 ```
+
 Use GD2 lib for webp thumbs:
 
 ```php
@@ -136,13 +141,14 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 ?>
 ```
 
-| WebP command | Type | Default | Description
-| --- | --- | --- | --- |
-| webp | Boolean | false | If `true` add support WebP image. For this option use tag `<picture>`, see in example. |
+| WebP command | Type    | Default | Description                                                                            |
+|--------------|---------|---------|----------------------------------------------------------------------------------------|
+| webp         | Boolean | false   | If `true` add support WebP image. For this option use tag `<picture>`, see in example. |
 
 ### YouTube and Vimeo support
 
 Youtube:
+
 ```php
 $thumb = $juImg->render('https://www.youtube.com/watch?v=xxxxxxxxxxx', [
 	'w'     => '300',
@@ -151,6 +157,7 @@ $thumb = $juImg->render('https://www.youtube.com/watch?v=xxxxxxxxxxx', [
 ```
 
 Vimeo:
+
 ```php
 $thumb = $juImg->render('https://vimeo.com/xxxxxxxxx', [
 	'w'     => '300',
@@ -222,12 +229,15 @@ Add option to this array:
 
 GNU General Public License version 3 or later; see [LICENSE.md](LICENSE.md)
 
-## Software used 
+## Software used
 
-JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich), and [fast-image-size library](https://github.com/marc1706/fast-image-size) (Marc Alexander).
+JUImage is based on the [phpThumb() Class ](https://github.com/JamesHeinrich/phpThumb) (James Heinrich),
+and [fast-image-size library](https://github.com/marc1706/fast-image-size) (Marc Alexander).
 
 ## Sponsors
 
 [![JetBrains](https://avatars0.githubusercontent.com/u/878437?s=200&v=4)](https://www.jetbrains.com/)
 
-Thanks to [JetBrains](https://www.jetbrains.com/) for supporting the project through sponsoring some [All Products Packs](https://www.jetbrains.com/products.html) within their [Free Open Source License](https://www.jetbrains.com/buy/opensource/) program.
+Thanks to [JetBrains](https://www.jetbrains.com/) for supporting the project through sponsoring
+some [All Products Packs](https://www.jetbrains.com/products.html) within
+their [Free Open Source License](https://www.jetbrains.com/buy/opensource/) program.

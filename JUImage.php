@@ -1,6 +1,6 @@
 <?php
 /**
- * @since          4.0
+ * @since          5.0
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
@@ -17,7 +17,7 @@ use JUImage\Image;
 /**
  * JUImage Class for JLoader::register
  *
- * @since  4.0
+ * @since  5.0
  */
 class JUImage extends Image
 {
@@ -30,7 +30,7 @@ class JUImage extends Image
 	 *
 	 * @param array $config
 	 *
-	 * @since  4.0
+	 * @since  5.0
 	 */
 	public function __construct(array $config = [])
 	{
