@@ -15,14 +15,6 @@ defined('_JEXEC') or die;
 class Pkg_JUImageInstallerScript
 {
 	/**
-	 * @since    5.0
-	 */
-	public function __construct()
-	{
-
-	}
-
-	/**
 	 * @return bool
 	 * @since    5.0
 	 */
