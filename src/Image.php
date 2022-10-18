@@ -112,7 +112,6 @@ class Image
 			$url = trim($url);
 			$url = rawurldecode($url);
 
-			$_error = false;
 			if(strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0)
 			{
 				if($this->createVideoThumb($url, true))
@@ -347,7 +346,7 @@ class Image
 	 * @return bool|string
 	 * @since 5.0
 	 */
-	private function createVideoThumb($url, bool $video_detect = false)
+	private function createVideoThumb($url, $video_detect = false)
 	{
 		$urls = parse_url($url);
 		if($video_detect === true)
