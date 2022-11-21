@@ -145,6 +145,41 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 |--------------|---------|---------|----------------------------------------------------------------------------------------|
 | webp         | Boolean | false   | If `true` add support WebP image. For this option use tag `<picture>`, see in example. |
 
+### AVIF support
+
+AVIF image format (requires PHP 8.1.0)
+
+```php
+<?php
+
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
+	'w'     	=> '300',
+	'h'     	=> '100',
+	'q'         => '95',
+	'avif'      => true
+]);
+?>
+
+<picture>
+	<source srcset="<?php echo $thumb->avif; ?>" type="image/avif">
+	<img src="<?php echo $thumb->img; ?>" alt="Apple" width="300" height="100">
+</picture>
+```
+
+Display as:
+
+```html
+
+<picture>
+	<source srcset="img/apple.jpg.avif" type="image/avif">
+	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
+</picture>
+```
+
+| WebP command | Type    | Default | Description                                                             |
+|--------------|---------|---------|-------------------------------------------------------------------------|
+| avif         | Boolean | false   | If `true` add support WebP image. For this option use tag `<picture>`. AVIF image format (requires PHP 8.1.0) |
+
 ### YouTube and Vimeo support
 
 Youtube:

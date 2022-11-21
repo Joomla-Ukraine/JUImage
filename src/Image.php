@@ -68,6 +68,14 @@ class Image
 			];
 		}
 
+		if(isset($attr[ 'avif' ]) === true)
+		{
+			return (object) [
+				'img'  => $img,
+				'avif' => $this->thumb($url, array_merge($attr, [ 'f' => 'avif' ]))
+			];
+		}
+
 		return $img;
 	}
 
