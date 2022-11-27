@@ -113,16 +113,6 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 </picture>
 ```
 
-Display as:
-
-```html
-
-<picture>
-	<source srcset="img/apple.jpg.webp" type="image/webp">
-	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
-</picture>
-```
-
 Use GD2 lib for webp thumbs:
 
 ```php
@@ -163,16 +153,6 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 </picture>
 ```
 
-Display as:
-
-```html
-
-<picture>
-	<source srcset="img/apple.jpg.avif" type="image/avif">
-	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
-</picture>
-```
-
 | WebP command | Type    | Default | Description                                                             |
 |--------------|---------|---------|-------------------------------------------------------------------------|
 | avif         | Boolean | false   | If `true` add support WebP image. For this option use tag `<picture>`. AVIF image format (requires PHP 8.1.0) |
@@ -195,17 +175,6 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	<source srcset="<?php echo $thumb->avif; ?>" type="image/avif">
 	<source srcset="<?php echo $thumb->webp; ?>" type="image/webp">
 	<img src="<?php echo $thumb->img; ?>" alt="Apple" width="300" height="100">
-</picture>
-```
-
-Display as:
-
-```html
-
-<picture>
-	<source srcset="img/apple.avif" type="image/avif">
-	<source srcset="img/apple.webp" type="image/webp">
-	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
 </picture>
 ```
 
