@@ -1,13 +1,13 @@
 # JUImage
 
-JUImage - library for render thumbs.
+JUImage - library for render thumbs with support webp and avif.
 
 Create thumbs for Joomla! extension or stand-alone use.
 
 ## Demo (All thumbs)
 
 * [Sci314.com](https://sci314.com)
-* [Львівська міська рада](http://city-adm.lviv.ua)
+* [Львівська міська рада](https://city-adm.lviv.ua)
 * [Високий замок](https://wz.lviv.ua)
 
 ## Use in Joomla! Extension
@@ -39,7 +39,6 @@ $config['root_path'] = __DIR__;
 $config['img_blank'] = 'images/logos';
 
 $juImg = new JUImage\Image($config);
-
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     => '300',
 	'h'     => '100',
@@ -69,7 +68,6 @@ Code for use in your extension.
 JLoader::register('JUImage',  JPATH_LIBRARIES . '/juimage/JUImage.php');
 
 $juImg = new JUImage();
-
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     => '300',
 	'h'     => '100',
@@ -86,7 +84,6 @@ or
 require_once(JPATH_SITE . '/libraries/juimage/vendor/autoload.php');
 
 $juImg = new JUImage\Image();
-
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 	'w'     => '300',
 	'h'     => '100',
@@ -97,16 +94,16 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 echo '<img src="'. $thumb .'" alt="Apple" width="300">';
 ```
 
-### WebP support
+## WebP support
 
 ```php
 <?php
 
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
-	'w'     	=> '300',
-	'h'     	=> '100',
-	'q'         => '95',
-	'webp'      => true
+	'w'     => '300',
+	'h'     => '100',
+	'q'     => '95',
+	'webp'  => true
 ]);
 ?>
 
@@ -145,7 +142,7 @@ $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
 |--------------|---------|---------|----------------------------------------------------------------------------------------|
 | webp         | Boolean | false   | If `true` add support WebP image. For this option use tag `<picture>`, see in example. |
 
-### AVIF support
+## AVIF support
 
 AVIF image format (requires PHP 8.1.0)
 
@@ -153,10 +150,10 @@ AVIF image format (requires PHP 8.1.0)
 <?php
 
 $thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
-	'w'     	=> '300',
-	'h'     	=> '100',
-	'q'         => '95',
-	'avif'      => true
+	'w'     => '300',
+	'h'     => '100',
+	'q'     => '95',
+	'avif'  => true
 ]);
 ?>
 
@@ -180,14 +177,46 @@ Display as:
 |--------------|---------|---------|-------------------------------------------------------------------------|
 | avif         | Boolean | false   | If `true` add support WebP image. For this option use tag `<picture>`. AVIF image format (requires PHP 8.1.0) |
 
+### How to combine WebP and AVIF?
+
+```php
+<?php
+
+$thumb = $juImg->render('images/sampledata/fruitshop/apple.jpg', [
+	'w'     => '300',
+	'h'     => '100',
+	'q'     => '95',
+	'avif'  => true,
+	'webp'  => true
+]);
+?>
+
+<picture>
+	<source srcset="<?php echo $thumb->avif; ?>" type="image/avif">
+	<source srcset="<?php echo $thumb->webp; ?>" type="image/webp">
+	<img src="<?php echo $thumb->img; ?>" alt="Apple" width="300" height="100">
+</picture>
+```
+
+Display as:
+
+```html
+
+<picture>
+	<source srcset="img/apple.avif" type="image/avif">
+	<source srcset="img/apple.webp" type="image/webp">
+	<img src="img/apple.jpg" alt="Apple" width="300" height="100">
+</picture>
+```
+
 ### YouTube and Vimeo support
 
 Youtube:
 
 ```php
 $thumb = $juImg->render('https://www.youtube.com/watch?v=xxxxxxxxxxx', [
-	'w'     => '300',
-	'h'     => '100',
+	'w' => '300',
+	'h' => '100'
 ]);
 ```
 
@@ -195,8 +224,8 @@ Vimeo:
 
 ```php
 $thumb = $juImg->render('https://vimeo.com/xxxxxxxxx', [
-	'w'     => '300',
-	'h'     => '100',
+	'w' => '300',
+	'h' => '100'
 ]);
 ```
 
@@ -228,37 +257,37 @@ Add option to this array:
 ]
 ```
 
-| Command | Description |
-| --- | --- |
-| cache | folder for thumbnails|
-| error_image | path to default image if image not found or broken|
-|   w | max width of output thumbnail in pixels|
-|   h | max height of output thumbnail in pixels|
-|  wp | max width for portrait images|
-|  hp | max height for portrait images|
-|  wl | max width for landscape images|
-|  hl | max height for landscape images|
-|  ws | max width for square images|
-|  hs | max height for square images|
-|   f | output image format ("jpeg", "png", "gif" or "webp")|
-|   q | JPEG compression (1=worst, 95=best, 75=default)|
-|  sx | left side of source rectangle (default \| 0) (values 0 < sx < 1 represent percentage)|
-|  sy | top side of source rectangle (default \| 0) (values 0 < sy < 1 represent percentage)|
-|  sw | width of source rectangle (default \| fullwidth) (values 0 < sw < 1 represent percentage)|
-|  sh | height of source rectangle (default \| fullheight) (values 0 < sh < 1 represent percentage)|
-|  zc | zoom-crop. Will auto-crop off the larger dimension so that the image will fill the smaller dimension (requires both "w" and "h", overrides "iar", "far"). Set to "1" or "C" to zoom-crop towards the center, or set to "T", "B", "L", "R", "TL", "TR", "BL", "BR" to gravitate towards top/left/bottom/right directions (requies ImageMagick for values other than "C" or "1")|
-|  bg | background hex color (default | FFFFFF)|
-|  bc | border hex color (default | 000000)|
-| xto | EXIF Thumbnail Only - set to only extract EXIF thumbnail and not do any additional processing|
-|  ra | Rotate by Angle: angle of rotation in degrees positive \| counterclockwise, negative \| clockwise|
-|  ar | Auto Rotate: set to "x" to use EXIF orientation stored by camera. Can also be set to "l" or "L" for landscape, or "p" or "P" for portrait. "\l" and "P" rotate the image clockwise, "L" and "p" rotate the image counter-clockwise.|
-| sfn | Source Frame Number - use this frame/page number for multi-frame/multi-page source images (GIF, TIFF, etc)|
-| aoe | Output Allow Enlarging - 1=on, 0=off. "far" and "iar" both override this and allow output larger than input)|
-| iar | Ignore Aspect Ratio - disable proportional resizing and stretch image to fit "h" & "w" (which must both be set).  (1=on, 0=off)  (overrides "far")|
-| far | Force Aspect Ratio - image will be created at size specified by "w" and "h" (which must both be set). Alignment: L=left,R=right,T=top,B=bottom,C=center. BL,BR,TL,TR use the appropriate direction if the image is landscape or portrait.|
-| dpi | Dots Per Inch - input DPI setting when importing from vector image format such as PDF, WMF, etc
-| sia | Save Image As - default filename to save generated image as. Specify the base filename, the extension (eg: ".png") will be automatically added|
-|maxb | MAXimum Byte size - output quality is auto-set to fit thumbnail into "maxb" bytes  (compression quality is adjusted for JPEG, bit depth is adjusted for PNG and GIF)|
+| Command | Description                      |
+| --- |----------------------------------|
+| cache | folder for thumbnails            |
+| error_image | path to default image if image not found or broken |
+|   w | max width of output thumbnail in pixels |
+|   h | max height of output thumbnail in pixels |
+|  wp | max width for portrait images    |
+|  hp | max height for portrait images   |
+|  wl | max width for landscape images   |
+|  hl | max height for landscape images  |
+|  ws | max width for square images      |
+|  hs | max height for square images     |
+|   f | output image format ("jpeg", "png", "gif", "webp" or "avif") |
+|   q | JPEG compression (1=worst, 95=best, 75=default) |
+|  sx | left side of source rectangle (default 0) (values 0 < sx < 1 represent percentage) |
+|  sy | top side of source rectangle (default 0) (values 0 < sy < 1 represent percentage) |
+|  sw | width of source rectangle (default fullwidth) (values 0 < sw < 1 represent percentage) |
+|  sh | height of source rectangle (default fullheight) (values 0 < sh < 1 represent percentage) |
+|  zc | zoom-crop. Will auto-crop off the larger dimension so that the image will fill the smaller dimension (requires both "w" and "h", overrides "iar", "far"). Set to "1" or "C" to zoom-crop towards the center, or set to "T", "B", "L", "R", "TL", "TR", "BL", "BR" to gravitate towards top/left/bottom/right directions (requies ImageMagick for values other than "C" or "1") |
+|  bg | background hex color (default FFFFFF) |
+|  bc | border hex color (default 000000)|
+| xto | EXIF Thumbnail Only - set to only extract EXIF thumbnail and not do any additional processing |
+|  ra | Rotate by Angle: angle of rotation in degrees positive counterclockwise, negative, clockwise|
+|  ar | Auto Rotate: set to "x" to use EXIF orientation stored by camera. Can also be set to "l" or "L" for landscape, or "p" or "P" for portrait. "\l" and "P" rotate the image clockwise, "L" and "p" rotate the image counter-clockwise. |
+| sfn | Source Frame Number - use this frame/page number for multi-frame/multi-page source images (GIF, TIFF, etc) |
+| aoe | Output Allow Enlarging - 1=on, 0=off. "far" and "iar" both override this and allow output larger than input) |
+| iar | Ignore Aspect Ratio - disable proportional resizing and stretch image to fit "h" & "w" (which must both be set).  (1=on, 0=off)  (overrides "far") |
+| far | Force Aspect Ratio - image will be created at size specified by "w" and "h" (which must both be set). Alignment: L=left,R=right,T=top,B=bottom,C=center. BL,BR,TL,TR use the appropriate direction if the image is landscape or portrait. |
+| dpi | Dots Per Inch - input DPI setting when importing from vector image format such as PDF, WMF, etc 
+| sia | Save Image As - default filename to save generated image as. Specify the base filename, the extension (eg: ".png") will be automatically added |
+|maxb | MAXimum Byte size - output quality is auto-set to fit thumbnail into "maxb" bytes  (compression quality is adjusted for JPEG, bit depth is adjusted for PNG and GIF) |
 
 ## License
 

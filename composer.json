@@ -22,7 +22,8 @@
     "tif",
     "tiff",
     "pdf",
-    "webp"
+    "webp",
+    "avif"
   ],
   "homepage": "https://joomla-ua.org",
   "type": "library",

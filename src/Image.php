@@ -60,20 +60,25 @@ class Image
 	{
 		$img = $this->thumb($url, $attr);
 
-		if(isset($attr[ 'webp' ]) === true)
+		$img_webp = [];
+		if(isset($attr[ 'webp' ]) && $attr[ 'webp' ] === true)
 		{
-			return (object) [
-				'img'  => $img,
+			$img_webp = [
 				'webp' => $this->thumb($url, array_merge($attr, [ 'f' => 'webp' ]))
 			];
 		}
 
-		if(isset($attr[ 'avif' ]) === true)
+		$img_avif = [];
+		if(isset($attr[ 'avif' ]) && $attr[ 'avif' ] === true)
 		{
-			return (object) [
-				'img'  => $img,
+			$img_avif = [
 				'avif' => $this->thumb($url, array_merge($attr, [ 'f' => 'avif' ]))
 			];
+		}
+
+		if((isset($attr[ 'webp' ]) && $attr[ 'webp' ] === true) || (isset($attr[ 'avif' ]) && $attr[ 'avif' ] === true))
+		{
+			$img = (object) array_merge([ 'img' => $img ], $img_webp, $img_avif);
 		}
 
 		return $img;
@@ -265,7 +270,7 @@ class Image
 		$phpThumb->setParameter('config_http_fopen_timeout', 600);
 
 		$imagemagick = true;
-		if(isset($attr[ 'imagemagick' ]))
+		if(isset($attr[ 'imagemagick' ]) && $attr[ 'imagemagick' ] === true)
 		{
 			$imagemagick = $attr[ 'imagemagick' ];
 		}
