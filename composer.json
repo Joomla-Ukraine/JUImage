@@ -71,12 +71,6 @@
   },
   "require": {
     "php": ">=5.6",
-    "ext-curl": "*",
-    "ext-exif": "*",
-    "ext-gd": "*",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "ext-zlib": "*",
     "marc1706/fast-image-size": "1.*"
   }
 }

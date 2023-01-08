@@ -266,6 +266,7 @@ class Image
 		$phpThumb->setParameter('config_error_die_on_source_failure', true);
 		$phpThumb->setParameter('config_error_bgcolor', 'FAFAFA');
 		$phpThumb->setParameter('config_error_textcolor', '770000');
+		$phpThumb->setParameter('config_disable_debug', false);
 		$phpThumb->setParameter('config_nohotlink_enabled', false);
 		$phpThumb->setParameter('config_http_fopen_timeout', 600);
 
