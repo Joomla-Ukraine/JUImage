@@ -255,7 +255,7 @@ class Image
 		$phpThumb = new phpthumb();
 
 		$phpThumb->resetObject();
-		$phpThumb->setParameter('config_max_source_pixels', round(max(intval(ini_get('memory_limit')), intval(get_cfg_var('memory_limit'))) * 1048576 / 6)); // '0'
+		$phpThumb->setParameter('config_max_source_pixels', round(max((int) ini_get('memory_limit'), (int) get_cfg_var('memory_limit')) * 1048576 / 6)); // '0'
 		$phpThumb->setParameter('config_temp_directory', $this->path . '/' . $img_cache . '/');
 		$phpThumb->setParameter('config_cache_directory', $this->path . '/' . $img_cache . '/');
 		$phpThumb->setCacheDirectory();
@@ -441,7 +441,7 @@ class Image
 	 */
 	private function vimeo($id)
 	{
-		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'));
+		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'), false);
 
 		if(!empty($vimeo))
 		{
