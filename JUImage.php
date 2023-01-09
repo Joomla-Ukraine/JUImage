@@ -4,7 +4,7 @@
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2011-2022 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2011-2023 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
  * @package        JUImage
