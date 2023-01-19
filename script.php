@@ -23,6 +23,7 @@ class Pkg_JUImageInstallerScript
 		$path = JPATH_SITE . '/libraries/juimage/';
 
 		$files = [
+			$path . 'src/classes/phpthumb/phpThumb.php',
 			$path . 'Image.php',
 			$path . 'index.html'
 		];
