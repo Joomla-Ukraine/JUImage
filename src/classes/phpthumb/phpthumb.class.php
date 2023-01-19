@@ -265,7 +265,7 @@ class phpthumb {
 	public $issafemode       = null;
 	public $php_memory_limit = null;
 
-	public $phpthumb_version = '1.7.20-202212091316';
+	public $phpthumb_version = '1.7.20-202301161914';
 
 	//////////////////////////////////////////////////////////////////////
 
@@ -1986,8 +1986,8 @@ if (false) {
 										}
 									}
 									list($nw, $nh) = phpthumb_functions::TranslateWHbyAngle($this->w, $this->h, $this->ra);
-									$nw = ((round($nw) != 0) ? round($nw) : '');
-									$nh = ((round($nh) != 0) ? round($nh) : '');
+									$nw = ((isset($nw) && round($nw) != 0) ? round($nw) : '');
+									$nh = ((isset($nh) && round($nh) != 0) ? round($nh) : '');
 									$commandline .= ' -'.$IMresizeParameter.' '.phpthumb_functions::escapeshellarg_replacement($nw.'x'.$nh);
 								}
 
