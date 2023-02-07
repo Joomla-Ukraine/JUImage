@@ -13,7 +13,6 @@
     <version>@version@</version>
     <packager>Joomla! Ukraine</packager>
     <packagerurl>https://joomla-ua.org</packagerurl>
-    <scriptfile>script.php</scriptfile>
     <files folder="juimage">
         <folder>src</folder>
         <folder>vendor</folder>

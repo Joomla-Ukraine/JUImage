@@ -10,9 +10,13 @@
  * @package        JUImage
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Version;
+
 defined('_JEXEC') or die;
 
-class Pkg_JUImageInstallerScript
+class pkg_juimageInstallerScript
 {
 	/**
 	 * @return bool

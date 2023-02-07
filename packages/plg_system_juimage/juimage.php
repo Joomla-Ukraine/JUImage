@@ -28,6 +28,6 @@ class plgSystemJUImage extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		require_once JPATH_LIBRARIES . '/juimage/JUImage.php';
+		JLoader::registerPrefix('JUImage', JPATH_LIBRARIES . '/juimage/JUImage.php');
 	}
 }
