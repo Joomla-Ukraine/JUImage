@@ -141,7 +141,7 @@ class Image
 			else
 			{
 				$url = $this->path . '/' . $url;
-				if(!file_exists($url))
+				if(!is_file($url))
 				{
 					$_error = true;
 				}
@@ -226,7 +226,7 @@ class Image
 
 		// Image Path for target
 		$target = $subfolder . '/' . $img_url;
-		if(file_exists($this->path . '/' . $target))
+		if(is_file($this->path . '/' . $target))
 		{
 			return $target;
 		}
@@ -255,19 +255,22 @@ class Image
 		$phpThumb = new phpthumb();
 
 		$phpThumb->resetObject();
+
+		$phpThumb->setParameter('config_allow_src_above_docroot', true);
 		$phpThumb->setParameter('config_max_source_pixels', round(max((int) ini_get('memory_limit'), (int) get_cfg_var('memory_limit')) * 1048576 / 6)); // '0'
 		$phpThumb->setParameter('config_temp_directory', $this->path . '/' . $img_cache . '/');
 		$phpThumb->setParameter('config_cache_directory', $this->path . '/' . $img_cache . '/');
+
 		$phpThumb->setCacheDirectory();
+
 		$phpThumb->setParameter('config_cache_maxfiles', null);
 		$phpThumb->setParameter('config_cache_maxsize', null);
 		$phpThumb->setParameter('config_cache_maxage', null);
+		$phpThumb->setParameter('config_cache_source_filemtime_ignore_local', true);
 		$phpThumb->setParameter('config_error_die_on_error', true);
 		$phpThumb->setParameter('config_error_die_on_source_failure', true);
 		$phpThumb->setParameter('config_error_bgcolor', 'FAFAFA');
 		$phpThumb->setParameter('config_error_textcolor', '770000');
-		$phpThumb->setParameter('config_disable_debug', false);
-		$phpThumb->setParameter('config_nohotlink_enabled', false);
 		$phpThumb->setParameter('config_http_fopen_timeout', 600);
 
 		$imagemagick = true;
