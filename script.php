@@ -69,7 +69,7 @@ class pkg_juimageInstallerScript
 			return;
 		}
 
-		while(false !== ($obj = readdir($dh)))
+		while(($obj = readdir($dh)) !== false)
 		{
 			if($obj === '.' || $obj === '..')
 			{

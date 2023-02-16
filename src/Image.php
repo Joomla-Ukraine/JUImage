@@ -280,7 +280,7 @@ class Image
 		}
 
 		$imagemagick_path = '';
-		if(0 === stripos(PHP_OS, 'WIN'))
+		if(stripos(PHP_OS, 'WIN') === 0)
 		{
 			$imagemagick_path = 'C:/ImageMagick/convert.exe';
 		}
@@ -444,7 +444,7 @@ class Image
 	 */
 	private function vimeo($id)
 	{
-		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'), false);
+		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'));
 
 		if(!empty($vimeo))
 		{

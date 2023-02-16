@@ -66,11 +66,12 @@
   },
   "prefer-stable": true,
   "suggest": {
-    "ext-gd": "PHP GD library",
     "ext-imagick": "PHP ImageMagick"
   },
   "require": {
     "php": ">=5.6",
-    "marc1706/fast-image-size": "1.*"
+    "marc1706/fast-image-size": "1.*",
+    "ext-json": "*",
+    "ext-gd": "PHP GD library"
   }
 }
