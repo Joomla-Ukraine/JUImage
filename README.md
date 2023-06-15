@@ -1,4 +1,4 @@
-# JUImage
+# JUImage v6
 
 JUImage - library for render thumbs with support webp and avif.
 
