@@ -46,10 +46,7 @@
   "autoload": {
     "psr-4": {
       "JUImage\\": "src/"
-    },
-    "classmap": [
-      "src/classes/phpthumb"
-    ]
+    }
   },
   "minimum-stability": "stable",
   "config": {
@@ -70,6 +67,7 @@
   },
   "require": {
     "php": ">=5.6",
+    "intervention/image": "^2.7",
     "marc1706/fast-image-size": "1.*",
     "ext-json": "*",
     "ext-gd": "PHP GD library"
