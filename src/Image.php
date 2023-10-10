@@ -132,9 +132,13 @@ class Image
 					$url = $this->createVideoThumb($url);
 				}
 
-				$headers = get_headers($url, true);
-				if(strpos($headers[ 0 ], '200') === false)
-				{
+				// Add a check to ensure $url is not empty before calling get_headers
+				if (!empty($url)) {
+					$headers = get_headers($url, true);
+					if (strpos($headers[0], '200') === false) {
+						$_error = true;
+					}
+				} else {
 					$_error = true;
 				}
 			}
