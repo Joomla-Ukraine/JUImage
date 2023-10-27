@@ -10,6 +10,8 @@
  * @package        JUImage
  */
 
+defined('_JEXEC') or die;
+
 include_once __DIR__ . '/vendor/autoload.php';
 
 use JUImage\Image;

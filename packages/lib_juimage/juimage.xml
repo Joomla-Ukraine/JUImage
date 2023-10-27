@@ -8,11 +8,11 @@
     <author>Denys Nosov</author>
     <authorEmail>denys@joomla-ua.org</authorEmail>
     <authorUrl>https://joomla-ua.org</authorUrl>
-    <license>https://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <license>GNU/GPL Version 2 or later and Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 License</license>
     <copyright>(C) 2006-2023 Joomla! Ukraine. All rights reserved.</copyright>
+    <description>JUImage</description>
     <version>@version@</version>
-    <packager>Joomla! Ukraine</packager>
-    <packagerurl>https://joomla-ua.org</packagerurl>
+
     <files folder="juimage">
         <folder>src</folder>
         <folder>vendor</folder>

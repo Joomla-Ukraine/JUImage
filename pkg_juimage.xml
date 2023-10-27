@@ -7,13 +7,12 @@
     <creationDate>@date@</creationDate>
     <packager>Joomla! Ukraine</packager>
     <copyright>(C) 2016-2023 Denys Nosov, Joomla! Ukraine</copyright>
-    <packageremail>denys@joomla-ua.org</packageremail>
-    <packagerurl>https://joomla-ua.org</packagerurl>
     <author>Denys Nosov, Joomla! Ukraine</author>
     <authorEmail>denys@joomla-ua.org</authorEmail>
     <authorUrl>https://joomla-ua.org</authorUrl>
     <version>@version@</version>
-    <description />
+    <license>GNU/GPL Version 2 or later and Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 License</license>
+    <description>JUImage</description>
     <scriptfile>script.php</scriptfile>
 
     <update>https://joomla-ua.org/update/lib/juimage.xml</update>
@@ -32,10 +31,4 @@
         <file type="library"
               id="juimage">lib_juimage.zip</file>
     </files>
-
-    <compatibility>
-        <version>3</version>
-        <version>4</version>
-        <version>5</version>
-    </compatibility>
 </extension>
