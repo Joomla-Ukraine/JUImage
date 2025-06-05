@@ -46,7 +46,10 @@
   "autoload": {
     "psr-4": {
       "JUImage\\": "src/"
-    }
+    },
+    "classmap": [
+      "src/classes/phpthumb/"
+    ]
   },
   "minimum-stability": "stable",
   "config": {
@@ -58,7 +61,7 @@
     "sort-packages": true,
     "archive-format": "zip",
     "platform": {
-      "php": "5.6"
+      "php": "8.1"
     }
   },
   "prefer-stable": true,
@@ -66,10 +69,8 @@
     "ext-imagick": "PHP ImageMagick"
   },
   "require": {
-    "php": ">=5.6",
-    "intervention/image": "^2.7",
+    "php": ">=8.1",
     "marc1706/fast-image-size": "1.*",
-    "ext-json": "*",
-    "ext-gd": "PHP GD library"
+    "ext-json": "*"
   }
 }
