@@ -4,7 +4,7 @@
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2011-2025 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2011-2026 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
  * @package        JUImage
@@ -26,7 +26,7 @@ class plgSystemJUImage extends CMSPlugin
 	/**
 	 * @since 5.0
 	 */
-	public function onAfterInitialise()
+	public function onAfterInitialise(): void
 	{
 		JLoader::registerPrefix('JUImage', JPATH_LIBRARIES . '/juimage');
 	}

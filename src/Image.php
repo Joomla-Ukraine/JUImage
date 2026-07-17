@@ -4,7 +4,7 @@
  * @subpackage     Class
  *
  * @author         Denys D. Nosov (denys@joomla-ua.org)
- * @copyright (C)  2016-2025 by Denys D. Nosov (https://joomla-ua.org)
+ * @copyright (C)  2016-2026 by Denys D. Nosov (https://joomla-ua.org)
  * @license        GNU General Public License version 2 or later
  *
  * @package        JUImage
@@ -43,8 +43,8 @@ class Image
 	 */
 	public function __construct(array $config = [])
 	{
-		$this->path      = isset($config[ 'root_path' ]) ? $config[ 'root_path' ] : JPATH_BASE;
-		$this->img_blank = isset($config[ 'img_blank' ]) ? $config[ 'img_blank' ] : 'libraries/juimage/noimage.png';
+		$this->path      = $config[ 'root_path' ] ?? JPATH_BASE;
+		$this->img_blank = $config[ 'img_blank' ] ?? 'libraries/juimage/noimage.png';
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Image
 	 *
 	 * @since 5.0
 	 */
-	public function render($url, array $attr = [])
+	public function render($url, array $attr = []): object|string
 	{
 		$img = $this->thumb($url, $attr);
 
@@ -91,7 +91,7 @@ class Image
 	 *
 	 * @since 5.0
 	 */
-	public function size($img_path)
+	public function size($img_path): object|bool
 	{
 		$size = (new FastImageSize)->getImageSize($img_path);
 
@@ -113,7 +113,7 @@ class Image
 	 * @return string
 	 * @since 5.0
 	 */
-	private function thumb($url, array $attr = [])
+	private function thumb($url, array $attr = []): string
 	{
 		$_error   = false;
 		$img_name = implode($attr);
@@ -250,7 +250,7 @@ class Image
 	 *
 	 * @since 5.0
 	 */
-	private function createThumb($url, $img_cache, $target, array $attr = [])
+	private function createThumb($url, $img_cache, $target, array $attr = []): string
 	{
 		$phpThumb = new phpthumb();
 
@@ -357,13 +357,13 @@ class Image
 	/**
 	 * @param      $url
 	 *
-	 * @param bool $video_detect
+	 * @param   bool  $video_detect
 	 *
 	 * @return bool|string
 	 * @return bool|string
 	 * @since 5.0
 	 */
-	private function createVideoThumb($url, $video_detect = false)
+	private function createVideoThumb($url, bool $video_detect = false): bool|string
 	{
 		$urls = parse_url($url);
 		if($video_detect === true)
@@ -418,7 +418,7 @@ class Image
 	 *
 	 * @since 5.0
 	 */
-	private function youtube($id)
+	private function youtube($id): string
 	{
 		$yt_path = 'https://img.youtube.com/vi/' . $id . '/';
 
@@ -442,7 +442,7 @@ class Image
 	 *
 	 * @since 5.0
 	 */
-	private function vimeo($id)
+	private function vimeo($id): bool
 	{
 		$vimeo = json_decode(file_get_contents('https://vimeo.com/api/v2/video/' . $id . '.json'));
 
@@ -460,7 +460,7 @@ class Image
 	 * @return bool
 	 * @since 5.0
 	 */
-	private function makeDir($dir)
+	private function makeDir($dir): bool
 	{
 		if(mkdir($dir, 0777, true) || is_dir($dir))
 		{
@@ -482,7 +482,7 @@ class Image
 	 *
 	 * @since 5.0
 	 */
-	private function http($url)
+	private function http($url): string
 	{
 		$header = get_headers($url, true);
 
