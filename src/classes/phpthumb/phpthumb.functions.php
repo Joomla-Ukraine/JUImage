@@ -509,7 +509,7 @@ class phpthumb_functions {
 			if ($apacheLookupURIobject = @apache_lookup_uri($filename)) {
 				$apacheLookupURIarray = array();
 				foreach ($keys as $key) {
-					$apacheLookupURIarray[$key] = @$apacheLookupURIobject->$key;
+					$apacheLookupURIarray[$key] = ($apacheLookupURIobject->$key ?? '');
 				}
 				return $apacheLookupURIarray;
 			}
@@ -721,7 +721,7 @@ class phpthumb_functions {
 		$queries = explode($queryseperator, (string)$parsed_url['query']);
 		$CleanQueries = array();
 		foreach ($queries as $key => $query) {
-			@list($param, $value) = explode('=', $query);
+			list($param, $value) = array_pad(explode('=', $query), 2, '');
 			$CleanQueries[] = strtr($param, $TranslationMatrix).($value ? '='.strtr($value, $TranslationMatrix) : '');
 		}
 		foreach ($CleanQueries as $key => $value) {
@@ -771,8 +771,8 @@ class phpthumb_functions {
 			$tryagain = false;
 			$rawData = self::URLreadFsock($parsed_url['host'], $parsed_url['path'].'?'.$parsed_url['query'], $errstr, true, $parsed_url['port'], $timeout);
 			if ($followredirects && preg_match('#302 [a-z ]+; Location\\: (http.*)#i', $errstr, $matches)) {
-				$matches[1] = trim(@$matches[1]);
-				if (!@$alreadyLookedAtURLs[$matches[1]]) {
+				$matches[1] = trim($matches[1]);
+				if (empty($alreadyLookedAtURLs[$matches[1]])) {
 					// loop through and examine new URL
 					$error .= 'URL "'.$url.'" redirected to "'.$matches[1].'"';
 
@@ -807,7 +807,9 @@ class phpthumb_functions {
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, (bool) $followredirects);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 			$rawData = curl_exec($ch);
-			curl_close($ch);
+			if (PHP_VERSION_ID < 80000) {
+				curl_close($ch);
+			}
 			if (strlen($rawData) > 0) {
 				$error .= 'CURL succeeded ('.strlen($rawData).' bytes); ';
 				return $rawData;
